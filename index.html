@@ -439,7 +439,8 @@
           status: String(x.status ?? 'Tersedia'),
           rawStatus: String(x.rawStatus ?? (x.status === 'Perlu diperbarui' ? 'PERLU_DIPERBARUI' : 'TERBUAT')).toUpperCase(),
           pdf: String(x.pdf ?? '').trim()
-        })).filter(x=>x.name&&['A','B'].includes(x.kelas)&&x.year&&x.semester);
+        })).filter(x=>x.name&&['A','B'].includes(x.kelas)&&x.year&&x.semester)
+          .sort((a,b)=>a.name.localeCompare(b.name,'id',{sensitivity:'base'})||a.kelas.localeCompare(b.kelas)||b.year.localeCompare(a.year));
 
         lastFetchTime = Date.now();
         setYearOptions();
@@ -532,7 +533,11 @@
         } else if (action === 'generate') {
           showMessage('Permintaan pembaruan transkrip berhasil dikirim. n8n sedang membuat PDF baru...', 'ok');
           // Optimistically update status to Sedang Diproses in local list
-          const target = allTranscripts.find(x => (key && x.key === key) || (id_santri && x.id_santri === id_santri));
+            // Cocokkan baris target: key penuh (ID|semester|tahun) paling akurat;
+            // fallback id_santri WAJIB disaring kelas+semester+tahun (ID bisa sama antar periode!)
+            const cocok = (x) => (key && x.key === key)
+              || (id_santri && x.id_santri === id_santri && x.kelas === kelas && String(x.semester) === String(semester) && x.year === year);
+            const target = allTranscripts.find(cocok);
           if (target) {
             target.rawStatus = 'SEDANG_DIPROSES';
             render();
@@ -541,7 +546,9 @@
           setTimeout(async () => {
             if (bulkProcessActive) return; // saat bulk, laporan akhir milik proses massal
             await loadData(true);
-            const t2 = allTranscripts.find(x => (key && x.key === key) || (id_santri && x.id_santri === id_santri));
+            const cocok2 = (x) => (key && x.key === key)
+              || (id_santri && x.id_santri === id_santri && x.kelas === kelas && String(x.semester) === String(semester) && x.year === year);
+            const t2 = allTranscripts.find(cocok2);
             if (t2 && t2.rawStatus !== 'PERLU_DIPERBARUI') {
               finishProcessBanner('success', '✅ Transkrip berhasil diperbarui', 'PDF ' + (t2.name || '') + ' sudah sesuai nilai rapor terbaru. Notifikasi ini tertutup otomatis.');
               showMessage('✅ Transkrip ' + (t2.name || '') + ' berhasil diperbarui dengan nilai rapor terbaru!', 'ok');

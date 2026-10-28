@@ -86,6 +86,15 @@
     </aside>
     <main class="main">
       <header class="topbar"><div><div class="eyebrow" id="topEyebrow">PAUDQu Nurul Mubin Cibinong / Dokumen Akademik</div><h1 id="topTitle">Cari Transkrip Santri</h1></div><span class="tag">PDF TERARSIP</span></header>
+      <!-- Banner proses & pesan GLOBAL: tampil di semua halaman dashboard -->
+      <div id="bannerProcess" class="alert-banner processing" hidden style="margin:16px 22px 0">
+        <div>
+          <strong id="processTitle">Sedang memproses...</strong>
+          <span id="processDetail"> Sistem sedang membuat PDF. Halaman akan diperbarui otomatis.</span>
+          <div class="banner-progress"><span class="bar"></span></div>
+        </div>
+      </div>
+      <div id="message" class="message" role="status" style="margin:14px 22px 0" hidden></div>
       <section class="content page-view" id="page-input" hidden>
         <div class="intro"><div><h2>Input Nilai Santri</h2><p>Gunakan formulir input nilai yang sudah disiapkan di n8n. Setelah formulir dikirim, workflow akan memvalidasi dan memproses nilai sesuai periode yang dipilih.</p></div><div class="update">Formulir n8n</div></div>
         <div class="action-panel">
@@ -142,14 +151,6 @@
               <button class="btn-sm btn-sm-primary" id="btnUpdateAllInView" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 17 5.8L20 12M4 12l3 6.2A7 7 0 0 0 18.5 15"/></svg>Perbarui Semua yang Perlu Update</button>
             </div>
           </div>
-          <div id="bannerProcess" class="alert-banner processing" hidden>
-            <div>
-              <strong id="processTitle">Sedang memproses...</strong>
-              <span id="processDetail">Sistem sedang membuat PDF. Halaman ini akan diperbarui otomatis.</span>
-              <div class="banner-progress"><span class="bar"></span></div>
-            </div>
-          </div>
-          <div id="message" class="message" role="status">Memuat data dari sistem PAUDQu...</div>
           <div class="table-wrap"><table><thead><tr><th>No.</th><th>Santri</th><th>Kelas</th><th>Semester</th><th>Tahun Pelajaran</th><th>Status</th><th>Aksi Dokumen</th></tr></thead><tbody id="transcriptRows"></tbody></table><div class="empty" id="emptyState"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3.5h8l4 4V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5v5h5M8 13h8M8 16.5h6"/></svg><strong>Belum ada daftar transkrip</strong><p>Daftar dokumen akan muncul setelah dashboard terhubung ke WF-05 dan data transkrip tersedia di Google Sheets.</p></div></div>
           <div class="footnote">Catatan: status “Perlu diperbarui” muncul otomatis ketika penilaian santri diedit di WF-01/WF-02. Memilih “Tunda” mempertahankan PDF lama dengan penanda status belum diperbarui.</div>
         </section>
@@ -205,6 +206,7 @@
     let allTranscripts = [];
     let isActionInProgress = false;
     let bulkProcessActive = false;
+    let keepProcessBanner = false; // true saat polling rekap berjalan (banner jangan disembunyikan triggerAction)
     let lastFetchTime = 0;
     const CACHE_TTL_MS = 15000; // Cache 15 detik untuk meminimalkan beban Google Sheets API
 
@@ -512,17 +514,13 @@
             showMessage('Transkrip berhasil diperbarui dengan nilai rapor terbaru!', 'ok');
           }, 6500);
         } else if (action === 'generate_rekap') {
-          showMessage('Permintaan pembaruan rekap peringkat berhasil dikirim. n8n sedang membuat PDF rekap...', 'ok');
-          setTimeout(async () => {
-            await loadRanking();
-            showMessage('PDF rekap peringkat berhasil diperbarui!', 'ok');
-          }, 6500);
+          // Pesan sukses/disclaimer ditangani handler tombol (dengan polling deteksi PDF baru)
         }
       } catch (err) {
         showMessage('Aksi gagal: ' + err.message, 'error');
       } finally {
         isActionInProgress = false;
-        if (!bulkProcessActive) hideProcessBanner();
+        if (!bulkProcessActive && !keepProcessBanner) hideProcessBanner();
         render();
       }
     }
@@ -585,7 +583,55 @@
         showMessage('Pilih Kelas A atau B terlebih dahulu untuk membuat rekap peringkat.', 'error');
         return;
       }
-      await triggerAction('generate_rekap', '', '', kelas, sem, year);
+
+      // Simpan nama file rekap lama (signature) untuk deteksi perubahan daftar nanti
+      const oldSig = rankingData.map(x => x.name).join('|');
+
+      // Banner proses GLOBAL (terlihat di halaman Rekap Peringkat)
+      showProcessBanner(
+        `⏳ Membuat ulang PDF rekap peringkat kelas ${kelas}...`,
+        ' Perkiraan 60-90 detik. Halaman diperbarui otomatis setelah PDF siap.', 75
+      );
+      showMessage('Permintaan pembaruan rekap peringkat berhasil dikirim. Sistem sedang membuat PDF rekap...', '');
+
+      try {
+        keepProcessBanner = true;
+        await triggerAction('generate_rekap', '', '', kelas, sem, year);
+
+        // Polling: cek tiap 10 detik apakah PDF rekap baru sudah muncul (maks 3 menit)
+        let selesai = false;
+        for (let attempt = 0; attempt < 18 && !selesai; attempt++) {
+          await new Promise(r => setTimeout(r, 10000));
+          try {
+            const u = new URL(RANKING_API_URL);
+            u.searchParams.set('kelas', kelas);
+            u.searchParams.set('tahun_pelajaran', year);
+            u.searchParams.set('semester', sem);
+            u.searchParams.set('_t', Date.now());
+            const r = await fetch(u.toString(), { headers: { Accept: 'application/json' }, cache: 'no-store' });
+            if (!r.ok) continue;
+            const j = await r.json();
+            if (j.success !== true || !Array.isArray(j.data)) continue;
+            const list = j.data.map(x => String(x.name ?? x.fileName ?? ''));
+            // PDF baru = signature daftar berubah (nama baru ATAU urutan/jumlah berubah)
+            const newSig = list.join('|');
+            if (newSig && newSig !== oldSig) selesai = true;
+          } catch (e) { /* coba lagi di iterasi berikutnya */ }
+        }
+
+        keepProcessBanner = false;
+        hideProcessBanner();
+        await loadRanking();
+        if (selesai) {
+          showMessage('✅ PDF rekap peringkat kelas ' + kelas + ' berhasil diperbarui dengan data terbaru! Silakan buka dokumennya.', 'ok');
+        } else {
+          showMessage('⏳ PDF rekap masih diproses di belakang. Coba klik Perbarui (sebelah kiri) beberapa saat lagi untuk melihat hasilnya.', '');
+        }
+      } catch (e) {
+        keepProcessBanner = false;
+        hideProcessBanner();
+        showMessage('Aksi gagal: ' + e.message, 'error');
+      }
     });
 
     // Navigation

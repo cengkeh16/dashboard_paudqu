@@ -194,17 +194,36 @@
     function validDriveUrl(value){try{const u=new URL(value);return u.protocol==='https:'&&u.hostname==='drive.google.com'&&(/^\/file\/d\/[A-Za-z0-9_-]+/.test(u.pathname)||u.pathname==='/open'&&u.searchParams.has('id'));}catch{return false;}}
 
     // ===== Banner status proses =====
-    function showProcessBanner(title, detail) {
-      const b = $('bannerProcess');
-      if (title !== undefined && title !== null) $('processTitle').textContent = title;
-      if (detail !== undefined) $('processDetail').textContent = detail ? ' ' + detail : '';
-      b.hidden = false;
+    let processTicker = null; // interval hitung mundur estimasi
+    function startProcessTicker(baseSeconds) {
+      stopProcessTicker();
+      const start = Date.now();
+      const tick = () => {
+        const elapsed = Math.round((Date.now() - start) / 1000);
+        const remain = Math.max(0, baseSeconds - elapsed);
+        $('processDetail').textContent = remain > 0
+          ? ` Perkiraan selesai dalam ≈ ${remain} detik...`
+          : ' Menunggu konfirmasi akhir dari server... (tetap aman, proses berjalan di belakang)';
+      };
+      tick(); // tampil langsung, tanpa menunggu 1 detik
+      processTicker = setInterval(tick, 1000);
     }
-    function updateProcessBanner(title, detail) {
+    function stopProcessTicker() {
+      if (processTicker) { clearInterval(processTicker); processTicker = null; }
+    }
+    function showProcessBanner(title, detail, baseSeconds) {
       $('processTitle').textContent = title;
-      $('processDetail').textContent = detail ? ' ' + detail : '';
+      $('processDetail').textContent = detail ? ' ' + detail : ' Sedang diproses...';
+      if (baseSeconds) startProcessTicker(baseSeconds); else stopProcessTicker();
+      $('bannerProcess').hidden = false;
+    }
+    function updateProcessBanner(title, detail, baseSeconds) {
+      $('processTitle').textContent = title;
+      if (baseSeconds) { startProcessTicker(baseSeconds); }
+      else if (detail !== undefined) { stopProcessTicker(); $('processDetail').textContent = detail ? ' ' + detail : ' Sedang diproses...'; }
     }
     function hideProcessBanner() {
+      stopProcessTicker();
       $('bannerProcess').hidden = true;
     }
     function showMessage(text,kind=''){const el=$('message');el.textContent=text;el.className='message'+(kind?' '+kind:'');el.hidden=!text;}
@@ -406,14 +425,14 @@
       const actionText = action === 'tunda' ? 'menunda transkrip' : (action === 'generate_rekap' ? 'memperbarui rekap peringkat' : 'membuat transkrip terbaru');
       showMessage(`Sedang memproses ${actionText}... Mohon tunggu.`, '');
 
-      // Tampilkan banner proses biru (dengan spinner & progress bar)
+      // Tampilkan banner proses biru (spinner + hitung mundur estimasi)
       if (action !== 'tunda') {
         const label = action === 'generate_rekap' ? 'Membuat ulang PDF rekap peringkat' : 'Membuat ulang PDF transkrip';
         const target = id_santri ? `untuk ${id_santri}` : `untuk kelas ${kelas || '-'}`;
         if (bulkProcessActive) {
-          updateProcessBanner('⏳ ' + label + ' ' + target + '...', 'PDF.co sedang merender dokumen.');
+          updateProcessBanner('⏳ ' + label + ' ' + target + '...', null, 45);
         } else {
-          showProcessBanner('⏳ ' + label + ' ' + target + '...', 'PDF.co sedang merender dokumen. Estimasi 30-60 detik per dokumen.');
+          showProcessBanner('⏳ ' + label + ' ' + target + '...', null, 60);
         }
       }
 
@@ -427,14 +446,27 @@
           tahun_pelajaran: year
         };
 
-        const res = await fetch(ACTION_API_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
+        const ctrl = new AbortController();
+        const timeoutId = setTimeout(() => ctrl.abort(), 90000); // Timeout 90 detik
+        let res;
+        try {
+          res = await fetch(ACTION_API_URL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify(payload),
+            signal: ctrl.signal
+          });
+        } catch (netErr) {
+          clearTimeout(timeoutId);
+          if (netErr.name === 'AbortError') {
+            throw new Error('Tidak ada respons dari server setelah 90 detik. Kemungkinan sistem sedang sibuk - periksa lagi beberapa saat lagi (perubahan Anda TETAP diproses di belakang).');
+          }
+          throw new Error('Koneksi ke server gagal: ' + netErr.message);
+        }
+        clearTimeout(timeoutId);
 
         if (!res.ok) {
           const errData = await res.json().catch(() => null);
@@ -497,7 +529,7 @@
         const x = needsUpdate[i];
         updateProcessBanner(
           `⏳ Memperbarui dokumen ${i + 1} dari ${total}: ${x.name}...`,
-          'PDF sedang dibuat ulang dengan nilai terbaru.'
+          null, 45
         );
         try {
           await triggerAction('generate', x.key || '', x.id_santri || '', x.kelas, x.semester, x.year);
@@ -508,8 +540,8 @@
         // Jeda antar dokumen (kecuali yang terakhir) agar kuota Sheets tidak jebol
         if (i < needsUpdate.length - 1) {
           updateProcessBanner(
-            `⏳ ${i + 1} dari ${total} dokumen selesai. Menunggu 15 detik...`,
-            'Jeda untuk menjaga kuota Google Sheets.'
+            `⏳ ${i + 1} dari ${total} dokumen selesai. Jeda singkat...`,
+            ' Menjaga kuota Google Sheets — 15 detik.', 15
           );
           await new Promise(r => setTimeout(r, 15000));
         }

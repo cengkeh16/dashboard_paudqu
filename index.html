@@ -44,6 +44,13 @@
     .banner-progress{height:6px;border-radius:99px;background:#d7e9f5;overflow:hidden;margin-top:9px;max-width:360px}
     .banner-progress .bar{display:block;height:100%;width:35%;border-radius:99px;background:linear-gradient(90deg,#2b8cc4,#57b1e4);animation:slide 1.4s ease-in-out infinite}
     @keyframes slide{0%{transform:translateX(-110%)}100%{transform:translateX(320%)}}
+    .alert-banner.success{background:#edf8f1;border-color:#b7e3c8;color:#1c6b45}
+    .alert-banner.success strong{color:#125233}
+    .alert-banner.success .banner-progress{display:none}
+    .alert-banner.error{background:#fdecec;border-color:#f2c4c4;color:#8f2d2d}
+    .alert-banner.error strong{color:#6f2020}
+    .alert-banner.error .banner-progress{display:none}
+    .alert-banner.warn .banner-progress{display:none}
     .alert-banner[hidden]{display:none!important}
 
     /* Progress Input feature */
@@ -217,6 +224,8 @@
 
     // ===== Banner status proses =====
     let processTicker = null; // interval hitung mundur estimasi
+    let bannerTimeout = null; // timer auto-hide banner state akhir
+    let finalBannerShown = false; // true jika banner state akhir (hijau/merah/kuning) sedang tampil
     function startProcessTicker(baseSeconds) {
       stopProcessTicker();
       const start = Date.now();
@@ -234,6 +243,9 @@
       if (processTicker) { clearInterval(processTicker); processTicker = null; }
     }
     function showProcessBanner(title, detail, baseSeconds) {
+      if (bannerTimeout) { clearTimeout(bannerTimeout); bannerTimeout = null; }
+      $('bannerProcess').classList.remove('success', 'error', 'warn');
+      finalBannerShown = false;
       $('processTitle').textContent = title;
       $('processDetail').textContent = detail ? ' ' + detail : ' Sedang diproses...';
       if (baseSeconds) startProcessTicker(baseSeconds); else stopProcessTicker();
@@ -246,7 +258,23 @@
     }
     function hideProcessBanner() {
       stopProcessTicker();
-      $('bannerProcess').hidden = true;
+      const b = $('bannerProcess');
+      b.hidden = true;
+      b.classList.remove('success', 'error', 'warn');
+      finalBannerShown = false;
+    }
+    // State akhir banner: sukses (hijau), gagal (merah), atau masih diproses (kuning) - auto-hide 8 detik
+    function finishProcessBanner(kind, title, detail) {
+      stopProcessTicker();
+      const b = $('bannerProcess');
+      b.classList.remove('success', 'error', 'warn');
+      b.classList.add(kind);
+      $('processTitle').textContent = title;
+      $('processDetail').textContent = detail ? ' ' + detail : '';
+      b.hidden = false;
+      finalBannerShown = true;
+      if (bannerTimeout) clearTimeout(bannerTimeout);
+      bannerTimeout = setTimeout(hideProcessBanner, 8000);
     }
     function showMessage(text,kind=''){const el=$('message');el.textContent=text;el.className='message'+(kind?' '+kind:'');el.hidden=!text;}
 
@@ -498,6 +526,7 @@
         const result = await res.json();
 
         if (action === 'tunda') {
+          finishProcessBanner('success', '✅ Berhasil ditunda', (result.message || 'Dokumen lama tetap tersimpan dengan penanda belum diperbarui.') + ' — notifikasi ini tertutup otomatis.');
           showMessage(result.message || 'Pembuatan transkrip berhasil ditunda. Dokumen lama tetap tersimpan.', 'ok');
           await loadData(true);
         } else if (action === 'generate') {
@@ -508,19 +537,28 @@
             target.rawStatus = 'SEDANG_DIPROSES';
             render();
           }
-          // Poll for completion after 6 seconds
+          // Poll for completion after 6 seconds, lalu beri state akhir yang jelas
           setTimeout(async () => {
+            if (bulkProcessActive) return; // saat bulk, laporan akhir milik proses massal
             await loadData(true);
-            showMessage('Transkrip berhasil diperbarui dengan nilai rapor terbaru!', 'ok');
+            const t2 = allTranscripts.find(x => (key && x.key === key) || (id_santri && x.id_santri === id_santri));
+            if (t2 && t2.rawStatus !== 'PERLU_DIPERBARUI') {
+              finishProcessBanner('success', '✅ Transkrip berhasil diperbarui', 'PDF ' + (t2.name || '') + ' sudah sesuai nilai rapor terbaru. Notifikasi ini tertutup otomatis.');
+              showMessage('✅ Transkrip ' + (t2.name || '') + ' berhasil diperbarui dengan nilai rapor terbaru!', 'ok');
+            } else {
+              finishProcessBanner('warn', '⏳ PDF masih dirender di belakang', 'Nilai sudah tersimpan, PDF sedang dibuat server. Daftar akan tampil terbaru beberapa saat lagi.');
+              showMessage('⏳ PDF masih dirender server. Nilai sudah tersimpan — muat ulang daftar beberapa saat lagi.', '');
+            }
           }, 6500);
         } else if (action === 'generate_rekap') {
           // Pesan sukses/disclaimer ditangani handler tombol (dengan polling deteksi PDF baru)
         }
       } catch (err) {
+        finishProcessBanner('error', '❌ Gagal memproses', err.message + ' — tidak ada data yang rusak, silakan coba lagi.');
         showMessage('Aksi gagal: ' + err.message, 'error');
       } finally {
         isActionInProgress = false;
-        if (!bulkProcessActive && !keepProcessBanner) hideProcessBanner();
+        if (!bulkProcessActive && !keepProcessBanner && !finalBannerShown && action !== 'generate') hideProcessBanner();
         render();
       }
     }
@@ -566,11 +604,12 @@
       }
 
       bulkProcessActive = false;
-      hideProcessBanner();
       await loadData(true);
       if (failCount === 0) {
+        finishProcessBanner('success', `✅ Selesai! ${successCount} transkrip berhasil diperbarui`, 'Semua PDF kini sesuai nilai rapor terbaru. Notifikasi ini tertutup otomatis.');
         showMessage(`✅ Selesai! ${successCount} transkrip berhasil diperbarui dengan nilai terbaru.`, 'ok');
       } else {
+        finishProcessBanner('error', `⚠️ ${successCount} berhasil, ${failCount} gagal`, 'Klik tombol "Perbarui Semua" lagi untuk mengulang hanya dokumen yang gagal.');
         showMessage(`⚠️ Selesai dengan catatan: ${successCount} berhasil, ${failCount} gagal. Klik tombol ini lagi untuk mengulang yang gagal.`, 'error');
       }
     });
@@ -627,20 +666,21 @@
         }
 
         keepProcessBanner = false;
-        hideProcessBanner();
         await loadRanking();
         btnRekap.disabled = false;
         btnRekap.innerHTML = btnRekap.dataset.labelLama;
         if (selesai) {
+          finishProcessBanner('success', '✅ PDF rekap peringkat berhasil diperbarui', 'Daftar sudah menunjuk PDF terbaru dengan data nilai palingupdate. Notifikasi ini tertutup otomatis.');
           showMessage('✅ PDF rekap peringkat kelas ' + kelas + ' berhasil diperbarui dengan data terbaru! Silakan buka dokumennya.', 'ok');
         } else {
+          finishProcessBanner('warn', '⏳ PDF rekap masih dirender di belakang', 'Proses tetap berjalan aman di server. Klik Perbarui beberapa saat lagi untuk melihat hasilnya.');
           showMessage('⏳ PDF rekap masih diproses di belakang. Coba klik Perbarui (sebelah kiri) beberapa saat lagi untuk melihat hasilnya.', '');
         }
       } catch (e) {
         keepProcessBanner = false;
-        hideProcessBanner();
         btnRekap.disabled = false;
         btnRekap.innerHTML = btnRekap.dataset.labelLama;
+        finishProcessBanner('error', '❌ Gagal memperbarui rekap', e.message + ' — coba lagi beberapa saat.');
         showMessage('Aksi gagal: ' + e.message, 'error');
       }
     });

@@ -442,16 +442,23 @@
       }
       
       const total = needsUpdate.length;
-      showMessage(`Menyiapkan pembaruan massal untuk ${total} dokumen... Proses berjalan di belakang, sekitar 30 detik per dokumen.`, '');
+      showMessage(`Memperbarui ${total} dokumen satu per satu (sekitar 45 detik per dokumen, jangan tutup halaman ini)...`, '');
       let successCount = 0, failCount = 0;
 
-      // Generate per santri agar setiap dokumen benar-benar diperbarui
-      for (const x of needsUpdate) {
+      // Generate per santri, berurutan dengan jeda agar kuota Google Sheets aman
+      for (let i = 0; i < needsUpdate.length; i++) {
+        const x = needsUpdate[i];
+        showMessage(`Memperbarui dokumen ${i + 1} dari ${total}: ${x.name}...`, '');
         try {
           await triggerAction('generate', x.key || '', x.id_santri || '', x.kelas, x.semester, x.year);
           successCount++;
         } catch (e) {
           failCount++;
+        }
+        // Jeda antar dokumen (kecuali yang terakhir) agar kuota Sheets tidak jebol
+        if (i < needsUpdate.length - 1) {
+          showMessage(`Menunggu 15 detik sebelum dokumen berikutnya (${i + 1}/${total} selesai)...`, '');
+          await new Promise(r => setTimeout(r, 15000));
         }
       }
 

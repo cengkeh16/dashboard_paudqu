@@ -435,12 +435,32 @@
 
     // Bulk update for all transcripts currently marked as PERLU_DIPERBARUI
     $('btnUpdateAllInView').addEventListener('click', async () => {
-      const needsUpdate = getFiltered().filter(x => x.rawStatus === 'PERLU_DIPERBARUI');
-      if (needsUpdate.length === 0) return;
+      const needsUpdate = allTranscripts.filter(x => x.rawStatus === 'PERLU_DIPERBARUI');
+      if (needsUpdate.length === 0) {
+        showMessage('Tidak ada dokumen berstatus "Perlu diperbarui" saat ini. Semua PDF sudah sesuai nilai terbaru.', 'ok');
+        return;
+      }
       
-      const first = needsUpdate[0];
-      // Trigger bulk generation by passing class and period without specific id_santri
-      await triggerAction('generate', '', '', first.kelas, first.semester, first.year);
+      const total = needsUpdate.length;
+      showMessage(`Menyiapkan pembaruan massal untuk ${total} dokumen... Proses berjalan di belakang, sekitar 30 detik per dokumen.`, '');
+      let successCount = 0, failCount = 0;
+
+      // Generate per santri agar setiap dokumen benar-benar diperbarui
+      for (const x of needsUpdate) {
+        try {
+          await triggerAction('generate', x.key || '', x.id_santri || '', x.kelas, x.semester, x.year);
+          successCount++;
+        } catch (e) {
+          failCount++;
+        }
+      }
+
+      await loadData(true);
+      if (failCount === 0) {
+        showMessage(`Selesai! ${successCount} transkrip berhasil diperbarui dengan nilai terbaru.`, 'ok');
+      } else {
+        showMessage(`Selesai dengan catatan: ${successCount} berhasil, ${failCount} gagal. Klik tombol ini lagi untuk mengulang yang gagal.`, 'error');
+      }
     });
 
     $('btnUpdateRankingPdf').addEventListener('click', async () => {

@@ -584,6 +584,13 @@
         return;
       }
 
+      // Guard: tolak klik ganda selama proses berjalan (cegah rate limit PDF.co)
+      const btnRekap = $('btnUpdateRankingPdf');
+      if (btnRekap.disabled || keepProcessBanner) return;
+      btnRekap.disabled = true;
+      btnRekap.dataset.labelLama = btnRekap.innerHTML;
+      btnRekap.innerHTML = '⏳ Sedang memproses...';
+
       // Simpan nama file rekap lama (signature) untuk deteksi perubahan daftar nanti
       const oldSig = rankingData.map(x => x.name).join('|');
 
@@ -622,6 +629,8 @@
         keepProcessBanner = false;
         hideProcessBanner();
         await loadRanking();
+        btnRekap.disabled = false;
+        btnRekap.innerHTML = btnRekap.dataset.labelLama;
         if (selesai) {
           showMessage('✅ PDF rekap peringkat kelas ' + kelas + ' berhasil diperbarui dengan data terbaru! Silakan buka dokumennya.', 'ok');
         } else {
@@ -630,6 +639,8 @@
       } catch (e) {
         keepProcessBanner = false;
         hideProcessBanner();
+        btnRekap.disabled = false;
+        btnRekap.innerHTML = btnRekap.dataset.labelLama;
         showMessage('Aksi gagal: ' + e.message, 'error');
       }
     });

@@ -32,6 +32,13 @@
     /* Alert Banner for Outdated Transcripts */
     .alert-banner{margin:0 22px 16px;padding:13px 16px;border-radius:12px;background:#fff8e6;border:1px solid #f2db9f;color:#7e5200;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:11px;line-height:1.6}
     .alert-banner-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+    .alert-banner.processing{background:#edf6fd;border-color:#c9e3f5;color:#18537a}
+    .alert-banner.processing strong{color:#0f4468}
+    .spinner{width:15px;height:15px;border:2px solid #c9e3f5;border-top-color:#2b8cc4;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0;margin-top:2px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .banner-progress{height:6px;border-radius:99px;background:#d7e9f5;overflow:hidden;margin-top:9px;max-width:360px}
+    .banner-progress .bar{display:block;height:100%;width:35%;border-radius:99px;background:linear-gradient(90deg,#2b8cc4,#57b1e4);animation:slide 1.4s ease-in-out infinite}
+    @keyframes slide{0%{transform:translateX(-110%)}100%{transform:translateX(320%)}}
 
     /* Progress Input feature */
     .prog-bar{height:10px;border-radius:99px;background:#edf3ef;overflow:hidden;flex:1}
@@ -129,6 +136,13 @@
               <button class="btn-sm btn-sm-primary" id="btnUpdateAllInView" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 17 5.8L20 12M4 12l3 6.2A7 7 0 0 0 18.5 15"/></svg>Perbarui Semua yang Perlu Update</button>
             </div>
           </div>
+          <div id="bannerProcess" class="alert-banner processing" hidden>
+            <div>
+              <strong id="processTitle">Sedang memproses...</strong>
+              <span id="processDetail">Sistem sedang membuat PDF. Halaman ini akan diperbarui otomatis.</span>
+              <div class="banner-progress"><span class="bar"></span></div>
+            </div>
+          </div>
           <div id="message" class="message" role="status">Memuat data dari sistem PAUDQu...</div>
           <div class="table-wrap"><table><thead><tr><th>No.</th><th>Santri</th><th>Kelas</th><th>Semester</th><th>Tahun Pelajaran</th><th>Status</th><th>Aksi Dokumen</th></tr></thead><tbody id="transcriptRows"></tbody></table><div class="empty" id="emptyState"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3.5h8l4 4V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5v5h5M8 13h8M8 16.5h6"/></svg><strong>Belum ada daftar transkrip</strong><p>Daftar dokumen akan muncul setelah dashboard terhubung ke WF-05 dan data transkrip tersedia di Google Sheets.</p></div></div>
           <div class="footnote">Catatan: status “Perlu diperbarui” muncul otomatis ketika penilaian santri diedit di WF-01/WF-02. Memilih “Tunda” mempertahankan PDF lama dengan penanda status belum diperbarui.</div>
@@ -170,6 +184,7 @@
 
     let allTranscripts = [];
     let isActionInProgress = false;
+    let bulkProcessActive = false;
     let lastFetchTime = 0;
     const CACHE_TTL_MS = 15000; // Cache 15 detik untuk meminimalkan beban Google Sheets API
 
@@ -177,6 +192,21 @@
     function esc(value){return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
     function normalizeSemester(value){const s=String(value??'').trim().toLowerCase(); if(s==='1'||s==='ganjil')return 'Ganjil'; if(s==='2'||s==='genap')return 'Genap'; return String(value??'');}
     function validDriveUrl(value){try{const u=new URL(value);return u.protocol==='https:'&&u.hostname==='drive.google.com'&&(/^\/file\/d\/[A-Za-z0-9_-]+/.test(u.pathname)||u.pathname==='/open'&&u.searchParams.has('id'));}catch{return false;}}
+
+    // ===== Banner status proses =====
+    function showProcessBanner(title, detail) {
+      const b = $('bannerProcess');
+      if (title !== undefined && title !== null) $('processTitle').textContent = title;
+      if (detail !== undefined) $('processDetail').textContent = detail ? ' ' + detail : '';
+      b.hidden = false;
+    }
+    function updateProcessBanner(title, detail) {
+      $('processTitle').textContent = title;
+      $('processDetail').textContent = detail ? ' ' + detail : '';
+    }
+    function hideProcessBanner() {
+      $('bannerProcess').hidden = true;
+    }
     function showMessage(text,kind=''){const el=$('message');el.textContent=text;el.className='message'+(kind?' '+kind:'');el.hidden=!text;}
 
     function setYearOptions(){
@@ -376,6 +406,17 @@
       const actionText = action === 'tunda' ? 'menunda transkrip' : (action === 'generate_rekap' ? 'memperbarui rekap peringkat' : 'membuat transkrip terbaru');
       showMessage(`Sedang memproses ${actionText}... Mohon tunggu.`, '');
 
+      // Tampilkan banner proses biru (dengan spinner & progress bar)
+      if (action !== 'tunda') {
+        const label = action === 'generate_rekap' ? 'Membuat ulang PDF rekap peringkat' : 'Membuat ulang PDF transkrip';
+        const target = id_santri ? `untuk ${id_santri}` : `untuk kelas ${kelas || '-'}`;
+        if (bulkProcessActive) {
+          updateProcessBanner('⏳ ' + label + ' ' + target + '...', 'PDF.co sedang merender dokumen.');
+        } else {
+          showProcessBanner('⏳ ' + label + ' ' + target + '...', 'PDF.co sedang merender dokumen. Estimasi 30-60 detik per dokumen.');
+        }
+      }
+
       try {
         const payload = {
           action,
@@ -429,6 +470,7 @@
         showMessage('Aksi gagal: ' + err.message, 'error');
       } finally {
         isActionInProgress = false;
+        if (!bulkProcessActive) hideProcessBanner();
         render();
       }
     }
@@ -440,15 +482,23 @@
         showMessage('Tidak ada dokumen berstatus "Perlu diperbarui" saat ini. Semua PDF sudah sesuai nilai terbaru.', 'ok');
         return;
       }
-      
+
       const total = needsUpdate.length;
-      showMessage(`Memperbarui ${total} dokumen satu per satu (sekitar 45 detik per dokumen, jangan tutup halaman ini)...`, '');
+      bulkProcessActive = true;
       let successCount = 0, failCount = 0;
+
+      showProcessBanner(
+        `⏳ Memperbarui ${total} transkrip secara massal...`,
+        'Sistem bekerja satu per satu agar kuota Google Sheets aman. Jangan tutup halaman ini.'
+      );
 
       // Generate per santri, berurutan dengan jeda agar kuota Google Sheets aman
       for (let i = 0; i < needsUpdate.length; i++) {
         const x = needsUpdate[i];
-        showMessage(`Memperbarui dokumen ${i + 1} dari ${total}: ${x.name}...`, '');
+        updateProcessBanner(
+          `⏳ Memperbarui dokumen ${i + 1} dari ${total}: ${x.name}...`,
+          'PDF sedang dibuat ulang dengan nilai terbaru.'
+        );
         try {
           await triggerAction('generate', x.key || '', x.id_santri || '', x.kelas, x.semester, x.year);
           successCount++;
@@ -457,16 +507,21 @@
         }
         // Jeda antar dokumen (kecuali yang terakhir) agar kuota Sheets tidak jebol
         if (i < needsUpdate.length - 1) {
-          showMessage(`Menunggu 15 detik sebelum dokumen berikutnya (${i + 1}/${total} selesai)...`, '');
+          updateProcessBanner(
+            `⏳ ${i + 1} dari ${total} dokumen selesai. Menunggu 15 detik...`,
+            'Jeda untuk menjaga kuota Google Sheets.'
+          );
           await new Promise(r => setTimeout(r, 15000));
         }
       }
 
+      bulkProcessActive = false;
+      hideProcessBanner();
       await loadData(true);
       if (failCount === 0) {
-        showMessage(`Selesai! ${successCount} transkrip berhasil diperbarui dengan nilai terbaru.`, 'ok');
+        showMessage(`✅ Selesai! ${successCount} transkrip berhasil diperbarui dengan nilai terbaru.`, 'ok');
       } else {
-        showMessage(`Selesai dengan catatan: ${successCount} berhasil, ${failCount} gagal. Klik tombol ini lagi untuk mengulang yang gagal.`, 'error');
+        showMessage(`⚠️ Selesai dengan catatan: ${successCount} berhasil, ${failCount} gagal. Klik tombol ini lagi untuk mengulang yang gagal.`, 'error');
       }
     });
 

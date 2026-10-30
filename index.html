@@ -227,7 +227,7 @@
     const SHEET_API_URL = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/sheet_api";
     const SHEET_API_TOKEN = "paudqu-sheet-2026";
     const SANTRI_TABS = ["Santri_2024_2025", "Santri_2025_2026", "Santri_2026_2027"];
-    const genderById = {};
+    const genderByYear = {}; // { '2024/2025': {S001:'L',...} } - ID santri bisa sama antar tahun/angkatan
     const genderByName = {};
     let genderLoaded = false;
     async function loadGenderMap(){
@@ -235,6 +235,10 @@
       genderLoaded = true; // coba sekali per sesi; jika gagal, tampilan fallback ke inisial
       for (const tab of SANTRI_TABS) {
         try {
+          const ym = /^Santri_(\d{4})_(\d{4})$/.exec(tab);
+          const tahun = ym ? ym[1] + '/' + ym[2] : '';
+          if (!tahun) continue;
+          if (!genderByYear[tahun]) genderByYear[tahun] = {};
           const r = await fetch(SHEET_API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: SHEET_API_TOKEN, action: 'read', tab: tab, range: 'A1:I200' }) });
           if (!r.ok) continue;
           const j = await r.json();
@@ -246,14 +250,15 @@
             const id = String(row[col.id] ?? '').trim();
             const nama = String(row[col.nama] ?? '').trim().toLowerCase();
             const jk = String(row[col.jk] ?? '').trim().toUpperCase().startsWith('P') ? 'P' : 'L';
-            if (id) genderById[id] = jk;
-            if (nama) genderByName[nama] = jk;
+            if (id) genderByYear[tahun][id] = jk;
+            if (nama && !(nama in genderByName)) genderByName[nama] = jk;
           }
         } catch (e) { /* tab gagal dibaca: lewati, fallback inisial */ }
       }
     }
-    function jkOf(id, name){
-      const byId = genderById[String(id ?? '').trim()];
+    function jkOf(id, name, year){
+      const byYear = genderByYear[String(year ?? '').trim()];
+      const byId = byYear && byYear[String(id ?? '').trim()];
       if (byId) return byId;
       return genderByName[String(name ?? '').trim().toLowerCase()] || '';
     }
@@ -414,7 +419,7 @@
           <td>${i+1}</td>
           <td>
             <div class="name-cell">
-              <div class="initial">${avatarSvg(jkOf(x.id_santri,x.name),initials)}</div>
+              <div class="initial">${avatarSvg(jkOf(x.id_santri,x.name,x.year),initials)}</div>
               <div>
                 <div class="student-name">${esc(x.name)}</div>
                 <div class="subtext">Transkrip Nilai Rapor ${idLabel}</div>

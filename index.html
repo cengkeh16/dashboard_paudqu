@@ -174,6 +174,16 @@
     .auth-err{margin-top:12px;padding:10px 12px;border-radius:10px;background:var(--redbg);border:1px solid #f0cdca;color:var(--red);font-size:11.5px;font-weight:600;text-align:left}
     .auth-err[hidden]{display:none!important}
     .auth-hint{margin-top:16px;font-size:10.5px;color:#82928b;line-height:1.5}
+    .auth-class-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+    .auth-class-btn{padding:11px 10px;border:1.5px solid #d5e3db;border-radius:12px;background:#fbfdfb;color:var(--ink);text-align:center;transition:all .15s}
+    .auth-class-btn:hover{border-color:#76ad94;background:#f2f9f5}
+    .auth-class-btn.active{border-color:var(--green);background:#e9f5ee;color:var(--green);box-shadow:0 0 0 3px #dff0e6}
+    .auth-class-btn strong{display:block;font-size:13px;font-weight:800;margin-bottom:2px}
+    .auth-class-btn span{display:block;font-size:10.5px;color:#5e746b;font-weight:600}
+    .auth-class-btn.active span{color:#1f5e4d}
+    .sidebar-class-badge{margin:14px 4px 0;padding:9px 12px;border-radius:11px;background:#ffffff14;border:1px solid #ffffff26;color:#e9f5ef;font-size:11px;font-weight:750;display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .sidebar-class-badge span{background:#e7f4ed;color:#123b35;padding:3px 8px;border-radius:99px;font-size:10px;font-weight:850}
+    select.locked-select{background:#f3f7f5!important;color:#2c4a40!important;font-weight:700;cursor:not-allowed;opacity:.92}
   </style>
 </head>
 <body>
@@ -182,7 +192,20 @@
     <form id="authForm" class="auth-card" novalidate>
       <img class="auth-logo" src="logo-paudqu-removebg-preview.png" alt="Logo PAUDQu Nurul Mubin">
       <h2>PAUDQu Nurul Mubin</h2>
-      <p>Dashboard Layanan Akademik Cibinong.<br>Masukkan kata sandi untuk melanjutkan.</p>
+      <p>Dashboard Layanan Akademik Cibinong.<br>Pilih kelas dan masukkan kata sandi untuk melanjutkan.</p>
+      <div class="auth-field" style="margin-bottom:10px">
+        <label>Pilih Kelas</label>
+        <div class="auth-class-grid" role="radiogroup" aria-label="Pilih kelas">
+          <button type="button" class="auth-class-btn active" data-auth-kelas="A" aria-pressed="true">
+            <strong>Kelas A</strong>
+            <span>18 Mata Pelajaran</span>
+          </button>
+          <button type="button" class="auth-class-btn" data-auth-kelas="B" aria-pressed="false">
+            <strong>Kelas B</strong>
+            <span>19 Mata Pelajaran</span>
+          </button>
+        </div>
+      </div>
       <div class="auth-field">
         <label for="authPassword">Kata Sandi</label>
         <div class="auth-input-wrap">
@@ -203,6 +226,7 @@
     <aside class="sidebar">
       <div class="brand"><div class="logo">
   <img src="logo-paudqu-removebg-preview.png" alt="Logo PAUDQu Nurul Mubin"></div><div><strong>PAUDQu Nurul Mubin</strong><small>Cibinong · Layanan Akademik</small></div></div>
+      <div class="sidebar-class-badge" id="sidebarClassBadge">Aktif <span>KELAS A</span></div>
       <div class="nav-label">MENU UTAMA</div>
       <nav class="nav" aria-label="Menu utama">
         <button class="nav-item" type="button" data-page="input" aria-current="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>Input Nilai</button>
@@ -214,7 +238,7 @@
       <button type="button" class="logout-btn" id="btnLogout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Keluar</button>
     </aside>
     <main class="main">
-      <header class="topbar"><div><div class="eyebrow" id="topEyebrow">PAUDQu Nurul Mubin Cibinong / Dokumen Akademik</div><h1 id="topTitle">Cari Transkrip Santri</h1></div><div class="topbar-right"><span class="tag">PDF TERARSIP</span><button type="button" class="topbar-logout" id="btnLogoutMobile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Keluar</button></div></header>
+      <header class="topbar"><div><div class="eyebrow" id="topEyebrow">PAUDQu Nurul Mubin Cibinong / Dokumen Akademik</div><h1 id="topTitle">Cari Transkrip Santri</h1></div><div class="topbar-right"><span class="tag" id="topClassTag">KELAS A · 18 MAPEL</span><button type="button" class="topbar-logout" id="btnLogoutMobile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Keluar</button></div></header>
       <!-- Banner proses & pesan GLOBAL: tampil di semua halaman dashboard -->
       <div id="bannerProcess" class="alert-banner processing" hidden style="margin:16px 22px 0">
         <div>
@@ -712,6 +736,7 @@
         }
 
         const url=new URL(API_URL);
+        if (activeKelas) url.searchParams.set('kelas', activeKelas);
         url.searchParams.set('_t', now);
         const response=await fetch(url.toString(),{method:'GET',headers:{'Accept':'application/json'},cache:'no-store'});
         
@@ -1662,9 +1687,48 @@
       }
     }
 
-    // ===== Layar Kunci Password (SHA-256 + sessionStorage, otomatis terkunci saat ditutup) =====
+    // ===== Layar Kunci Password + Pilihan Kelas (SHA-256 + sessionStorage, otomatis terkunci saat ditutup) =====
     const AUTH_SESSION_KEY = 'paudqu_auth_ok_v1';
+    const AUTH_KELAS_KEY = 'paudqu_auth_kelas_v1';
     const AUTH_PASS_HASH = 'ab9e74fbf79366757122472863240b72509f3ddbfd12eed469cd87374174e49e';
+    let selectedLoginKelas = 'A';
+    let activeKelas = '';
+
+    document.querySelectorAll('button[data-auth-kelas]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedLoginKelas = btn.dataset.authKelas === 'B' ? 'B' : 'A';
+        document.querySelectorAll('button[data-auth-kelas]').forEach(b => {
+          const isAct = b.dataset.authKelas === selectedLoginKelas;
+          b.classList.toggle('active', isAct);
+          b.setAttribute('aria-pressed', isAct ? 'true' : 'false');
+        });
+        $('authPassword').focus();
+      });
+    });
+
+    function applyActiveKelas(kelas){
+      activeKelas = kelas === 'B' ? 'B' : 'A';
+      const mapelCnt = activeKelas === 'B' ? 19 : 18;
+      $('sidebarClassBadge').innerHTML = `Ruang Kerja <span>KELAS ${activeKelas}</span>`;
+      $('topClassTag').textContent = `KELAS ${activeKelas} · ${mapelCnt} MAPEL`;
+
+      ['inpClass', 'classFilter', 'progClass', 'rankClass'].forEach(id => {
+        const el = $(id);
+        if (!el) return;
+        el.value = activeKelas;
+        el.disabled = true;
+        el.classList.add('locked-select');
+        el.title = `Terkunci di Kelas ${activeKelas}. Klik Keluar untuk berpindah kelas.`;
+      });
+
+      allTranscripts = [];
+      rankingData = [];
+      lastFetchTime = 0;
+      if (inputFormInitialized) {
+        renderScoreFields(false);
+        loadSantriOptions();
+      }
+    }
 
     async function sha256Hex(text){
       const bytes = new TextEncoder().encode(text);
@@ -1672,16 +1736,22 @@
       return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    function unlockDashboard(){
+    function unlockDashboard(kelas){
+      applyActiveKelas(kelas);
       $('authGate').hidden = true;
       $('appLayout').hidden = false;
       $('authPassword').value = '';
       $('authError').hidden = true;
-      if (allTranscripts.length === 0) loadData();
+      showPage('transkrip');
     }
 
     function lockDashboard(){
       sessionStorage.removeItem(AUTH_SESSION_KEY);
+      sessionStorage.removeItem(AUTH_KELAS_KEY);
+      activeKelas = '';
+      allTranscripts = [];
+      rankingData = [];
+      lastFetchTime = 0;
       closeNilaiModal();
       $('appLayout').hidden = true;
       $('authGate').hidden = false;
@@ -1719,7 +1789,8 @@
         const digest = await sha256Hex(raw);
         if (digest === AUTH_PASS_HASH) {
           sessionStorage.setItem(AUTH_SESSION_KEY, '1');
-          unlockDashboard();
+          sessionStorage.setItem(AUTH_KELAS_KEY, selectedLoginKelas);
+          unlockDashboard(selectedLoginKelas);
         } else {
           errBox.textContent = 'Kata sandi salah. Silakan periksa kembali (perhatikan huruf besar/kecil).';
           errBox.hidden = false;
@@ -1736,8 +1807,10 @@
     $('btnLogout').addEventListener('click', lockDashboard);
     $('btnLogoutMobile').addEventListener('click', lockDashboard);
 
-    if (sessionStorage.getItem(AUTH_SESSION_KEY) === '1') {
-      unlockDashboard();
+    const savedAuthKelas = sessionStorage.getItem(AUTH_KELAS_KEY);
+    if (sessionStorage.getItem(AUTH_SESSION_KEY) === '1' && ['A', 'B'].includes(savedAuthKelas)) {
+      selectedLoginKelas = savedAuthKelas;
+      unlockDashboard(savedAuthKelas);
     } else {
       setTimeout(() => $('authPassword').focus(), 40);
     }

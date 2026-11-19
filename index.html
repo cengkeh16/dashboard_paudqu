@@ -73,8 +73,39 @@
     .prog-rank{margin-left:auto;display:inline-grid;place-items:center;min-width:44px;padding:4px 8px;background:#edf6f0;color:#225b46;border-radius:9px;font-weight:850;font-size:10px;white-space:nowrap}
     .prog-nilai{margin-left:auto;font-weight:800;color:#1e5948;font-size:11px;white-space:nowrap}
     .todo-names{display:flex;flex-wrap:wrap;gap:7px}
-    .todo-name{padding:7px 11px;border-radius:9px;background:#fff8e6;border:1px dashed #eeda9e;color:#7a5410;font-size:11px;font-weight:700}
+    .todo-name{padding:7px 11px;border-radius:9px;background:#fff8e6;border:1px dashed #eeda9e;color:#7a5410;font-size:11px;font-weight:700;cursor:pointer;transition:background .15s,border-color .15s}
+    .todo-name:hover{background:#fceec7;border-color:#d8b35a}
     @media(max-width:900px){.prog-cols{grid-template-columns:1fr}.prog-col+.prog-col{border-left:0;border-top:1px solid var(--line)}}
+
+    /* Native Input Nilai Form */
+    .form-body{padding:20px 22px 22px;display:grid;gap:20px}
+    .form-section{border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:#fbfdfb}
+    .form-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid #e7efea}
+    .form-section-head h4{margin:0;font-size:13px;color:var(--green);letter-spacing:-.2px}
+    .form-section-head span{font-size:10px;font-weight:800;color:#5e746b;background:#edf6f0;padding:4px 9px;border-radius:99px}
+    .form-grid-id{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .form-grid-id .span-2{grid-column:span 2}
+    .score-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+    .absensi-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:560px}
+    .form-field label{display:block;font-size:11px;font-weight:750;color:#3d574d;margin:0 0 6px}
+    .form-field input,.form-field select{height:40px;width:100%;border:1px solid #dce7e0;border-radius:10px;background:#fff;color:var(--ink);outline:none;padding:0 12px;font-size:12px}
+    .form-field input:focus,.form-field select:focus{border-color:#76ad94;box-shadow:0 0 0 3px #dff0e6}
+    .form-field input.invalid,.form-field select.invalid{border-color:#d9534f;background:#fff8f8}
+    .score-item{background:#fff;border:1px solid #e5eee9;border-radius:11px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .score-item label{margin:0;font-size:12px;font-weight:700;color:#213a31;line-height:1.3}
+    .score-item small{display:block;font-size:10px;color:#82928b;font-weight:500}
+    .score-item input{width:84px;flex:0 0 84px;height:38px;text-align:center;font-weight:800;font-size:13px;border:1px solid #d5e3db;border-radius:9px;padding:0 8px}
+    .score-item input:focus{border-color:var(--green2);box-shadow:0 0 0 3px #dff0e6}
+    .form-summary{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:15px 18px;background:#edf6f0;border:1px solid #d4e8dc;border-radius:14px}
+    .summary-metrics{display:flex;gap:22px;flex-wrap:wrap}
+    .summary-metric small{display:block;font-size:10px;color:#547165;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+    .summary-metric strong{font-size:18px;color:var(--green);letter-spacing:-.4px}
+    .form-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .btn-submit{height:44px;padding:0 20px;border:0;border-radius:11px;background:var(--green);color:#fff;font-size:12px;font-weight:800;display:inline-flex;align-items:center;gap:8px}
+    .btn-submit:hover{background:var(--green2)}
+    .btn-submit:disabled{opacity:.55;cursor:not-allowed}
+    @media(max-width:1050px){.score-grid,.form-grid-id{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:640px){.form-body{padding:14px}.score-grid,.form-grid-id,.absensi-grid{grid-template-columns:1fr}.form-grid-id .span-2{grid-column:span 1}.form-summary{flex-direction:column;align-items:stretch}.form-actions .btn-submit,.form-actions .btn{width:100%}}
   </style>
 </head>
 <body>
@@ -103,26 +134,113 @@
       </div>
       <div id="message" class="message" role="status" style="margin:14px 22px 0" hidden></div>
       <section class="content page-view" id="page-input" hidden>
-        <div class="intro"><div><h2>Input Nilai Santri</h2><p>Gunakan formulir input nilai yang sudah disiapkan di n8n. Setelah formulir dikirim, workflow akan memvalidasi dan memproses nilai sesuai periode yang dipilih.</p></div><div class="update">Formulir n8n</div></div>
-        <div class="action-panel">
-          <div class="action-card">
-            <div class="count" style="display:inline-flex;margin-bottom:15px">INPUT DATA</div>
-            <img class="form-logo" src="logo-paudqu.jpeg" alt="Logo PAUDQu Nurul Mubin">
-            <h3>Formulir Pengisian Nilai Rapor</h3>
-            <p>Klik tombol di bawah untuk membuka formulir input nilai santri. Pilih semester, tahun pelajaran, kelas, guru, dan santri sesuai petunjuk formulir. Setelah semua data wajib diisi, kirim formulir untuk melanjutkan proses validasi.</p>
-            <a class="primary-link" id="openInputForm" href="https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/form/input-nilai" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3h7v7M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>Buka Form Input Nilai</a>
-            <div class="message" style="margin:18px 0 0">Form akan dibuka di tab baru. Jika muncul pesan formulir tidak tersedia, pastikan WF-01 sudah aktif dan gunakan Production URL terbaru dari node Form Input Nilai.</div>
-          </div>
-          <div class="action-card">
-            <h3>Alur setelah input</h3>
-            <div class="steps">
-              <div class="step"><div class="step-num">1</div><div><strong>Pilih periode dan kelas</strong><span>Tentukan semester, tahun pelajaran, serta kelas santri.</span></div></div>
-              <div class="step"><div class="step-num">2</div><div><strong>Isi nilai santri</strong><span>Lengkapi data sesuai komponen penilaian yang diminta formulir.</span></div></div>
-              <div class="step"><div class="step-num">3</div><div><strong>Validasi dan pengolahan</strong><span>n8n memeriksa data dan meneruskan proses ke workflow pengolahan nilai.</span></div></div>
-              <div class="step"><div class="step-num">4</div><div><strong>Cari hasilnya di dashboard</strong><span>Gunakan menu Cari Transkrip Santri atau Rekap Peringkat per Kelas.</span></div></div>
+        <div class="intro"><div><h2>Input Nilai Santri</h2><p>Isi nilai akhir per mata pelajaran (rentang 0–100) dan rekap ketidakhadiran santri langsung dari dashboard. Setelah disimpan, sistem otomatis menghitung rata-rata, peringkat sementara/final, dan memicu pembuatan transkrip bila satu kelas sudah lengkap.</p></div><div class="update" id="inputModeBadge">Kelompok A · 18 Mapel</div></div>
+        <form id="nilaiForm" class="panel" novalidate>
+          <div class="panel-head">
+            <div>
+              <h3>Formulir Pengisian Nilai Rapor PAUDQu</h3>
+              <p>Pilih tahun pelajaran, semester, kelas, dan nama santri. Daftar santri dimuat otomatis dari Google Sheets.</p>
             </div>
+            <div class="count" id="santriLoadedCount">Memuat santri...</div>
           </div>
-        </div>
+          <div class="form-body">
+            <div class="form-section">
+              <div class="form-section-head">
+                <h4>1. Identitas Santri &amp; Periode Penilaian</h4>
+                <span>Wajib diisi</span>
+              </div>
+              <div class="form-grid-id">
+                <div class="form-field">
+                  <label for="inpYear">Tahun Pelajaran</label>
+                  <select id="inpYear" required>
+                    <option value="2026/2027">2026/2027</option>
+                    <option value="2025/2026" selected>2025/2026</option>
+                    <option value="2024/2025">2024/2025</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="inpSemester">Semester</label>
+                  <select id="inpSemester" required>
+                    <option value="1">1 — Ganjil</option>
+                    <option value="2">2 — Genap</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="inpClass">Kelas / Kelompok</label>
+                  <select id="inpClass" required>
+                    <option value="A">Kelas A (18 Mata Pelajaran)</option>
+                    <option value="B">Kelas B (19 Mata Pelajaran)</option>
+                  </select>
+                </div>
+                <div class="form-field span-2">
+                  <label for="inpSantri">Nama Santri</label>
+                  <select id="inpSantri" required>
+                    <option value="">— Memuat daftar santri... —</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="inpGuru">Diinput Oleh (Nama Guru)</label>
+                  <input id="inpGuru" type="text" placeholder="Contoh: Ibu Siti / Kepala Sekolah" required autocomplete="name">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-head">
+                <h4>2. Kemampuan Pokok</h4>
+                <span>9 Mata Pelajaran · Skala 0–100</span>
+              </div>
+              <div class="score-grid" id="gridPokok"></div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-head">
+                <h4>3. Kemampuan Penunjang</h4>
+                <span id="penunjangCountBadge">9 Mata Pelajaran · Skala 0–100</span>
+              </div>
+              <div class="score-grid" id="gridPenunjang"></div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-head">
+                <h4>4. Rekap Ketidakhadiran (Absensi)</h4>
+                <span>Angka bulat ≥ 0</span>
+              </div>
+              <div class="absensi-grid">
+                <div class="form-field">
+                  <label for="inpSakit">Sakit (hari)</label>
+                  <input id="inpSakit" type="number" min="0" step="1" value="0" required>
+                </div>
+                <div class="form-field">
+                  <label for="inpIzin">Izin (hari)</label>
+                  <input id="inpIzin" type="number" min="0" step="1" value="0" required>
+                </div>
+                <div class="form-field">
+                  <label for="inpAlpa">Alpa / Tanpa Keterangan (hari)</label>
+                  <input id="inpAlpa" type="number" min="0" step="1" value="0" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-summary">
+              <div class="summary-metrics">
+                <div class="summary-metric"><small>Terisi</small><strong id="sumFilled">0 / 18</strong></div>
+                <div class="summary-metric"><small>Jumlah Nilai</small><strong id="sumTotal">0</strong></div>
+                <div class="summary-metric"><small>Rata-rata</small><strong id="sumAvg">0.00</strong></div>
+                <div class="summary-metric"><small>Total Tidak Hadir</small><strong id="sumAbsen">0 hari</strong></div>
+              </div>
+              <div class="form-actions">
+                <button class="btn" id="btnResetForm" type="button">Reset Nilai</button>
+                <button class="btn-submit" id="btnSubmitNilai" type="submit">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                  Simpan &amp; Hitung Nilai
+                </button>
+              </div>
+            </div>
+            <div id="inputStatusBox" class="message" style="margin:0" hidden></div>
+          </div>
+          <div class="footnote">Data dikirim ke <strong>WF-01</strong> (`/webhook/input-nilai`), disimpan ke tab <code>Nilai_A</code>/<code>Nilai_B</code> &amp; <code>Absensi</code>, lalu <strong>WF-02</strong> otomatis menghitung ulang ranking kelas (<em>Cascading Tie-Breaker</em>: Rata-rata → Iqro → Alpa).</div>
+        </form>
       </section>
 
       <section class="content page-view" id="page-ranking" hidden>
@@ -136,7 +254,7 @@
             <button class="btn" id="refreshRanking" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 17 5.8L20 12M4 12l3 6.2A7 7 0 0 0 18.5 15"/></svg>Perbarui</button>
             <button class="btn btn-sm-primary" id="btnUpdateRankingPdf" type="button" style="height:42px;align-self:end"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3h7v7M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>Perbarui Rekap PDF</button>
           </div>
-          <div class="preview-callout" id="rankingMessage">Daftar PDF akan diambil dari Google Drive melalui API WF-05. Pastikan WF-03 sudah membuat PDF rekap pada folder Rekap Peringkat.</div>
+          <div class="preview-callout" id="rankingMessage">Daftar PDF akan diambil dari Google Drive melalui API WF-04. Pastikan WF-03 sudah membuat PDF rekap pada folder Rekap Peringkat.</div>
           <div class="table-wrap"><table style="min-width:760px"><thead><tr><th>No.</th><th>Nama Dokumen</th><th>Kelas</th><th>Semester</th><th>Tahun Pelajaran</th><th>Status PDF</th><th>Dokumen</th></tr></thead><tbody id="rankingRows"></tbody></table><div class="empty" id="rankingEmpty" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v16H4zM8 9h8M8 13h8M8 17h5"/></svg><strong>Belum ada PDF rekap peringkat</strong><p>Pastikan WF-03 sudah membuat PDF rekap untuk kelas, semester, dan tahun pelajaran yang dipilih. Dokumen harus bernama Rekap_Peringkat_Kelas_Smt_Tahun.pdf sesuai format WF-03.</p></div></div>
           <div class="footnote">Daftar ini menampilkan file PDF rekap peringkat kelas dari Google Drive, bukan rincian nama dan nilai setiap santri. Akses untuk membuka PDF tetap mengikuti izin berbagi Google Drive.</div>
         </section>
@@ -159,7 +277,7 @@
               <button class="btn-sm btn-sm-primary" id="btnUpdateAllInView" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 17 5.8L20 12M4 12l3 6.2A7 7 0 0 0 18.5 15"/></svg>Perbarui Semua yang Perlu Update</button>
             </div>
           </div>
-          <div class="table-wrap"><table><thead><tr><th>No.</th><th>Santri</th><th>Kelas</th><th>Semester</th><th>Tahun Pelajaran</th><th>Status</th><th>Aksi Dokumen</th></tr></thead><tbody id="transcriptRows"></tbody></table><div class="empty" id="emptyState"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3.5h8l4 4V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5v5h5M8 13h8M8 16.5h6"/></svg><strong>Belum ada daftar transkrip</strong><p>Daftar dokumen akan muncul setelah dashboard terhubung ke WF-05 dan data transkrip tersedia di Google Sheets.</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>No.</th><th>Santri</th><th>Kelas</th><th>Semester</th><th>Tahun Pelajaran</th><th>Status</th><th>Aksi Dokumen</th></tr></thead><tbody id="transcriptRows"></tbody></table><div class="empty" id="emptyState"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3.5h8l4 4V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5v5h5M8 13h8M8 16.5h6"/></svg><strong>Belum ada daftar transkrip</strong><p>Daftar dokumen akan muncul setelah dashboard terhubung ke WF-04 dan data transkrip tersedia di Google Sheets.</p></div></div>
           <div class="footnote">Catatan: status “Perlu diperbarui” muncul otomatis ketika penilaian santri diedit di WF-01/WF-02. Memilih “Tunda” mempertahankan PDF lama dengan penanda status belum diperbarui.</div>
         </section>
       </section>
@@ -174,7 +292,7 @@
             <div class="field"><label for="progSemester">Semester</label><select id="progSemester"><option value="1">Ganjil</option><option value="2">Genap</option></select></div>
             <button class="btn" id="refreshProgres" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 17 5.8L20 12M4 12l3 6.2A7 7 0 0 0 18.5 15"/></svg>Perbarui</button>
           </div>
-          <div class="preview-callout" id="progMessage">Memuat progres input nilai dari Google Sheets melalui WF-05…</div>
+          <div class="preview-callout" id="progMessage">Memuat progres input nilai dari Google Sheets melalui WF-04…</div>
           <div class="prog-summary"><span class="nums" id="progSummaryText">—</span><div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div><span class="nums" id="progPct">0%</span></div>
           <div class="prog-cols">
             <div class="prog-col">
@@ -192,6 +310,7 @@
     </main>
   </div>
   <script>
+    const INPUT_API_URL = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/input-nilai";
     const API_URL = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/dashboard_paudqu_transkrip";
     const ACTION_API_URL = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/dashboard_paudqu_action";
     const RANKING_API_URL = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/dashboard_paudqu_peringkat";
@@ -244,7 +363,8 @@
           const j = await r.json();
           const rows = (j && (j.result?.values ?? j.values)) || [];
           if (!rows.length) continue;
-          const col = { id: rows[0].indexOf('id_santri'), nama: rows[0].indexOf('nama_santri'), jk: rows[0].indexOf('jenis_kelamin') };
+          const idIdx = rows[0].indexOf('nis') >= 0 ? rows[0].indexOf('nis') : rows[0].indexOf('id_santri');
+          const col = { id: idIdx, nama: rows[0].indexOf('nama_santri'), jk: rows[0].indexOf('jenis_kelamin') };
           if (col.id < 0 || col.jk < 0) continue;
           for (const row of rows.slice(1)) {
             const id = String(row[col.id] ?? '').trim();
@@ -467,13 +587,13 @@
         if (response.status === 429) {
           throw new Error('Batas pembacaan Google Sheets (Quota) terlampaui sementara. Mohon tunggu 1 menit.');
         }
-        if(!response.ok)throw new Error(`Server merespons HTTP ${response.status}. Periksa WF-05.`);
+        if(!response.ok)throw new Error(`Server merespons HTTP ${response.status}. Periksa WF-04.`);
 
         const json=await response.json();
         if(json && json.quotaExceeded) {
           throw new Error(json.message || 'Batas kuota pembacaan Google Sheets tercapai sementara.');
         }
-        if(!json||json.success!==true||!Array.isArray(json.data))throw new Error('Format data dari WF-05 belum sesuai.');
+        if(!json||json.success!==true||!Array.isArray(json.data))throw new Error('Format data dari WF-04 belum sesuai.');
         await loadGenderMap();
 
         allTranscripts=json.data.map(x=>({
@@ -756,6 +876,7 @@
       });
       $('topTitle').textContent=pageMeta[name].title;
       $('topEyebrow').textContent=pageMeta[name].eyebrow;
+      if(name==='input')initInputForm();
       if(name==='transkrip'&&allTranscripts.length===0)loadData();
       if(name==='ranking')loadRanking();
       if(name==='progres')loadProgres();
@@ -806,7 +927,8 @@
         }
 
         const u=new URL(RANKING_API_URL);
-        u.searchParams.set('kelas',$('rankClass').value);
+        const rankKelas=$('rankClass').value;
+        if(rankKelas && rankKelas!=='Semua') u.searchParams.set('kelas',rankKelas);
         u.searchParams.set('tahun_pelajaran',$('rankYear').value);
         u.searchParams.set('semester',$('rankSemester').value);
         u.searchParams.set('_t', Date.now());
@@ -884,12 +1006,15 @@
 
         $('progDoneList').innerHTML=(j.sudah||[]).map(x=>{
           const initials=String(x.name||'S').split(/\s+/).filter(Boolean).slice(0,2).map(s=>s[0]).join('').toUpperCase();
-          return `<div class="prog-row"><div class="initial">${avatarSvg(jkOf('',x.name),initials)}</div><div><div class="student-name">${esc(x.name)}</div><div class="subtext">Nilai akhir ${esc(x.nilai_akhir)}</div></div><span class="prog-rank">Ranking ${esc(x.ranking)}</span></div>`;
+          return `<div class="prog-row"><div class="initial">${avatarSvg(jkOf(x.nis||'',x.name,year),initials)}</div><div><div class="student-name">${esc(x.name)}</div><div class="subtext">Rata-rata ${esc(x.nilai_akhir)} · ${esc(x.status_ranking||'Sementara')}</div></div><span class="prog-rank">Ranking ${esc(x.ranking)}</span></div>`;
         }).join('')||'<div class="empty" style="padding:22px 10px"><strong style="font-size:12px">Belum ada santri yang dinilai</strong></div>';
 
-        $('progTodoList').innerHTML=(j.belum||[]).map(x=>`<span class="todo-name">${esc(x.name)}</span>`).join('')||(total>0?'<span class="subtext">Semua santri sudah dinilai! 🎉</span>':'<span class="subtext">Tidak ada data santri aktif untuk filter ini.</span>');
+        $('progTodoList').innerHTML=(j.belum||[]).map(x=>`<button type="button" class="todo-name" data-input-nis="${esc(x.nis||'')}" title="Klik untuk langsung input nilai ${esc(x.name)}">${esc(x.name)}</button>`).join('')||(total>0?'<span class="subtext">Semua santri sudah dinilai! 🎉</span>':'<span class="subtext">Tidak ada data santri aktif untuk filter ini.</span>');
+        $('progTodoList').querySelectorAll('button[data-input-nis]').forEach(btn=>{
+          btn.addEventListener('click',()=>openInputForSantri(btn.dataset.inputNis, kelas, sem, year));
+        });
 
-        $('progMessage').textContent=`Data progres dimuat langsung dari Google Sheets (gratis, tanpa membuat PDF). Peringkat bersifat sementara dan menyesuaikan setiap input nilai baru.`;
+        $('progMessage').textContent=`Data progres dimuat langsung dari Google Sheets (gratis, tanpa membuat PDF). Klik nama santri di kolom "Belum dinilai" untuk langsung mengisi nilainya.`;
         $('progUpdated').textContent='Data Google Sheets';
       }catch(e){
         $('progMessage').textContent='Gagal memuat progres: '+e.message;
@@ -901,6 +1026,281 @@
     }
     ['progClass','progYear','progSemester'].forEach(id=>$(id).addEventListener('change',loadProgres));
     $('refreshProgres').addEventListener('click',loadProgres);
+
+    // ===== Native Form Input Nilai (WF-01 -> WF-02) =====
+    const MAPEL_POKOK = [
+      ['iqro', 'Iqro'],
+      ['s_pendek', 'Surat Pendek'],
+      ['sholat', 'Sholat'],
+      ['doa', 'Doa Harian'],
+      ['ayat_pilihan', 'Ayat Pilihan'],
+      ['m_hijaiyah', 'Huruf Hijaiyah'],
+      ['hadist', 'Hadist'],
+      ['sejarah_islam', 'Sejarah Islam'],
+      ['praktek_wudhu', 'Praktik Wudhu']
+    ];
+    const MAPEL_PENUNJANG_A = [
+      ['membaca', 'Membaca'],
+      ['menulis', 'Menulis'],
+      ['mewarnai', 'Mewarnai'],
+      ['berhitung', 'Berhitung'],
+      ['bahasa_arab', 'Bahasa Arab'],
+      ['bahasa_inggris', 'Bahasa Inggris'],
+      ['keterampilan', 'Keterampilan'],
+      ['olahraga', 'Olahraga'],
+      ['aqidah', 'Aqidah']
+    ];
+    const MAPEL_PENUNJANG_B = [
+      ['membaca', 'Membaca'],
+      ['menulis', 'Menulis'],
+      ['tegak_bersambung', 'Menulis Tegak Bersambung'],
+      ['mewarnai', 'Mewarnai'],
+      ['berhitung', 'Berhitung'],
+      ['bahasa_arab', 'Bahasa Arab'],
+      ['bahasa_inggris', 'Bahasa Inggris'],
+      ['keterampilan', 'Keterampilan'],
+      ['olahraga', 'Olahraga'],
+      ['aqidah', 'Aqidah']
+    ];
+
+    const santriCacheByYear = {};
+    let inputFormInitialized = false;
+    let isSubmittingNilai = false;
+
+    function activeMapelList(kelas){
+      return kelas === 'B' ? [...MAPEL_POKOK, ...MAPEL_PENUNJANG_B] : [...MAPEL_POKOK, ...MAPEL_PENUNJANG_A];
+    }
+
+    function showInputStatus(text, type=''){
+      const box = $('inputStatusBox');
+      if (!text) { box.hidden = true; return; }
+      box.hidden = false;
+      box.className = 'message' + (type ? ' ' + type : '');
+      box.textContent = text;
+    }
+
+    function renderScoreFields(preserveValues=true){
+      const kelas = $('inpClass').value;
+      const saved = {};
+      if (preserveValues) {
+        document.querySelectorAll('#nilaiForm input[data-mapel]').forEach(el => {
+          saved[el.dataset.mapel] = el.value;
+        });
+      }
+      const makeItem = ([key, label], idx) => {
+        const val = saved[key] !== undefined ? esc(saved[key]) : '';
+        return `<div class="score-item"><label for="m_${key}">${idx + 1}. ${esc(label)}<small>0–100</small></label><input id="m_${key}" data-mapel="${key}" type="number" min="0" max="100" step="1" placeholder="0–100" value="${val}" required></div>`;
+      };
+      $('gridPokok').innerHTML = MAPEL_POKOK.map(makeItem).join('');
+      const penunjang = kelas === 'B' ? MAPEL_PENUNJANG_B : MAPEL_PENUNJANG_A;
+      $('gridPenunjang').innerHTML = penunjang.map(makeItem).join('');
+
+      const totalMapel = MAPEL_POKOK.length + penunjang.length;
+      $('inputModeBadge').textContent = `Kelompok ${kelas} · ${totalMapel} Mapel`;
+      $('penunjangCountBadge').textContent = `${penunjang.length} Mata Pelajaran · Skala 0–100`;
+
+      document.querySelectorAll('#nilaiForm input[data-mapel]').forEach(el => {
+        el.addEventListener('input', updateFormSummary);
+      });
+      updateFormSummary();
+    }
+
+    function updateFormSummary(){
+      const inputs = Array.from(document.querySelectorAll('#nilaiForm input[data-mapel]'));
+      let total = 0, filled = 0;
+      inputs.forEach(el => {
+        el.classList.remove('invalid');
+        const raw = el.value.trim();
+        if (raw !== '') {
+          const num = Number(raw);
+          if (!Number.isNaN(num) && num >= 0 && num <= 100) {
+            total += num;
+            filled++;
+          } else {
+            el.classList.add('invalid');
+          }
+        }
+      });
+      const avg = filled > 0 ? (total / inputs.length).toFixed(2) : '0.00';
+      const s = Math.max(0, parseInt($('inpSakit').value || '0', 10) || 0);
+      const i = Math.max(0, parseInt($('inpIzin').value || '0', 10) || 0);
+      const a = Math.max(0, parseInt($('inpAlpa').value || '0', 10) || 0);
+      $('sumFilled').textContent = `${filled} / ${inputs.length}`;
+      $('sumTotal').textContent = String(Math.round(total * 100) / 100);
+      $('sumAvg').textContent = avg;
+      $('sumAbsen').textContent = `${s + i + a} hari`;
+    }
+
+    async function loadSantriOptions(preselectNis=''){
+      const year = $('inpYear').value;
+      const kelas = $('inpClass').value;
+      const sel = $('inpSantri');
+      const tab = 'Santri_' + year.replace('/', '_');
+      $('santriLoadedCount').textContent = 'Memuat santri...';
+
+      if (!santriCacheByYear[year]) {
+        sel.innerHTML = '<option value="">— Memuat daftar santri... —</option>';
+        try {
+          const r = await fetch(SHEET_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: SHEET_API_TOKEN, action: 'read', tab, range: 'A1:I300' })
+          });
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          const j = await r.json();
+          const rows = (j && (j.result?.values ?? j.values)) || [];
+          if (rows.length > 1) {
+            const head = rows[0].map(h => String(h || '').trim().toLowerCase());
+            const iNis = head.indexOf('nis') >= 0 ? head.indexOf('nis') : head.indexOf('id_santri');
+            const iNama = head.indexOf('nama_santri');
+            const iKelas = head.indexOf('kelas');
+            const iStatus = head.indexOf('status');
+            santriCacheByYear[year] = rows.slice(1).map(row => ({
+              nis: String(row[iNis] ?? '').trim(),
+              nama_santri: String(row[iNama] ?? '').trim(),
+              kelas: String(row[iKelas] ?? '').trim().toUpperCase().replace(/^KELAS\s*/, ''),
+              status: iStatus >= 0 ? String(row[iStatus] ?? '').trim().toUpperCase() : 'AKTIF'
+            })).filter(s => s.nis && s.nama_santri && s.status !== 'TIDAK');
+          } else {
+            santriCacheByYear[year] = [];
+          }
+        } catch (err) {
+          santriCacheByYear[year] = null;
+          sel.innerHTML = '<option value="">Gagal memuat daftar santri — coba ubah filter atau muat ulang</option>';
+          $('santriLoadedCount').textContent = 'Gagal memuat';
+          showInputStatus('Gagal membaca daftar santri dari Google Sheets: ' + err.message, 'error');
+          return;
+        }
+      }
+
+      const list = (santriCacheByYear[year] || []).filter(s => s.kelas === kelas);
+      $('santriLoadedCount').textContent = `${list.length} santri aktif`;
+      if (!list.length) {
+        sel.innerHTML = `<option value="">— Tidak ada santri aktif di Kelas ${esc(kelas)} (${esc(year)}) —</option>`;
+        return;
+      }
+      sel.innerHTML = '<option value="">— Pilih Santri —</option>' +
+        list.map(s => `<option value="${esc(s.nis)}" data-nama="${esc(s.nama_santri)}">${esc(s.nis)} — ${esc(s.nama_santri)}</option>`).join('');
+      if (preselectNis) sel.value = String(preselectNis);
+    }
+
+    function initInputForm(){
+      if (!inputFormInitialized) {
+        inputFormInitialized = true;
+        const savedGuru = localStorage.getItem('paudqu_last_guru') || '';
+        if (savedGuru && !$('inpGuru').value) $('inpGuru').value = savedGuru;
+        renderScoreFields(false);
+        ['inpSakit','inpIzin','inpAlpa'].forEach(id => $(id).addEventListener('input', updateFormSummary));
+        $('inpClass').addEventListener('change', () => { renderScoreFields(true); loadSantriOptions(); });
+        $('inpYear').addEventListener('change', () => loadSantriOptions());
+        $('btnResetForm').addEventListener('click', () => {
+          document.querySelectorAll('#nilaiForm input[data-mapel]').forEach(el => { el.value = ''; el.classList.remove('invalid'); });
+          $('inpSakit').value = '0'; $('inpIzin').value = '0'; $('inpAlpa').value = '0';
+          showInputStatus('');
+          updateFormSummary();
+        });
+        $('nilaiForm').addEventListener('submit', handleSubmitNilai);
+      }
+      loadSantriOptions();
+    }
+
+    async function openInputForSantri(nis, kelas, sem, year){
+      $('inpYear').value = year;
+      $('inpSemester').value = sem;
+      $('inpClass').value = kelas;
+      showPage('input');
+      renderScoreFields(false);
+      await loadSantriOptions(nis);
+      showInputStatus('');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function handleSubmitNilai(ev){
+      ev.preventDefault();
+      if (isSubmittingNilai) return;
+
+      const tahun_pelajaran = $('inpYear').value;
+      const semester = $('inpSemester').value;
+      const kelas = $('inpClass').value;
+      const sel = $('inpSantri');
+      const nis = sel.value.trim();
+      const opt = sel.options[sel.selectedIndex];
+      const nama_santri = opt ? (opt.dataset.nama || '').trim() : '';
+      const diinput_oleh = $('inpGuru').value.trim();
+
+      const errs = [];
+      if (!nis || !nama_santri) errs.push('Pilih nama santri terlebih dahulu.');
+      if (!diinput_oleh) errs.push('Isi nama guru penginput.');
+
+      const nilai = {};
+      for (const [key, label] of activeMapelList(kelas)) {
+        const el = $('m_' + key);
+        const raw = el ? el.value.trim() : '';
+        const num = Number(raw);
+        if (raw === '' || Number.isNaN(num) || num < 0 || num > 100) {
+          errs.push(`Nilai "${label}" harus diisi angka 0–100.`);
+          if (el) el.classList.add('invalid');
+        } else {
+          nilai[key] = num;
+        }
+      }
+
+      const absensi = {
+        sakit: Number($('inpSakit').value),
+        izin: Number($('inpIzin').value),
+        alpa: Number($('inpAlpa').value)
+      };
+      for (const [k, v] of Object.entries(absensi)) {
+        if (!Number.isInteger(v) || v < 0) errs.push(`Absensi "${k}" harus bilangan bulat ≥ 0.`);
+      }
+
+      if (errs.length) {
+        showInputStatus('Periksa kembali isian form: ' + errs.slice(0, 4).join(' '), 'error');
+        return;
+      }
+
+      localStorage.setItem('paudqu_last_guru', diinput_oleh);
+      isSubmittingNilai = true;
+      const btn = $('btnSubmitNilai');
+      btn.disabled = true;
+      btn.textContent = '⏳ Menyimpan & menghitung ranking...';
+      showInputStatus('Mengirim nilai ke WF-01 untuk disimpan ke Google Sheets dan dihitung peringkatnya di WF-02...', '');
+      showProcessBanner(`⏳ Menyimpan nilai ${nama_santri} (Kelas ${kelas})...`, ' WF-01 menyimpan ke Sheets & memicu perhitungan ranking WF-02.', 20);
+
+      try {
+        const ctrl = new AbortController();
+        const tid = setTimeout(() => ctrl.abort(), 45000);
+        const res = await fetch(INPUT_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ nis, nama_santri, kelas, semester, tahun_pelajaran, diinput_oleh, nilai, absensi }),
+          signal: ctrl.signal
+        });
+        clearTimeout(tid);
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.status === 'error') {
+          const msg = Array.isArray(data.errors) ? data.errors.join('; ') : (data.message || `HTTP ${res.status}`);
+          throw new Error(msg);
+        }
+
+        finishProcessBanner('success', `✅ Nilai ${nama_santri} tersimpan!`, `Total: ${data.total_nilai ?? $('sumTotal').textContent} · Rata-rata: ${data.rata_rata ?? $('sumAvg').textContent}. Ranking kelas telah diperbarui oleh WF-02.`);
+        showInputStatus(`✅ Berhasil disimpan! (${nama_santri} · Key: ${data.key || nis}). Anda bisa langsung memilih santri berikutnya atau cek tab Progres Input Nilai.`, 'ok');
+
+        // Kosongkan kolom nilai & pilih santri berikutnya agar guru cepat menginput lagi
+        document.querySelectorAll('#nilaiForm input[data-mapel]').forEach(el => { el.value = ''; el.classList.remove('invalid'); });
+        $('inpSakit').value = '0'; $('inpIzin').value = '0'; $('inpAlpa').value = '0';
+        sel.value = '';
+        updateFormSummary();
+      } catch (err) {
+        const msg = err.name === 'AbortError' ? 'Timeout setelah 45 detik. Periksa koneksi atau cek tab Progres Input Nilai.' : err.message;
+        finishProcessBanner('error', '❌ Gagal menyimpan nilai', msg);
+        showInputStatus('Gagal menyimpan nilai: ' + msg, 'error');
+      } finally {
+        isSubmittingNilai = false;
+        btn.disabled = false;
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Simpan &amp; Hitung Nilai';
+      }
+    }
   </script>
 </body>
 </html>

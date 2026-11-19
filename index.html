@@ -935,7 +935,7 @@
       ranking:{title:'Rekap Peringkat per Kelas',eyebrow:'PAUDQu Nurul Mubin Cibinong / Rekapitulasi'}
     };
 
-    function showPage(name){
+    function showPage(name, opts={}){
       document.querySelectorAll('.page-view').forEach(el=>{el.hidden=el.id!==`page-${name}`;});
       document.querySelectorAll('.nav-item[data-page]').forEach(el=>{
         const active=el.dataset.page===name;
@@ -944,7 +944,7 @@
       });
       $('topTitle').textContent=pageMeta[name].title;
       $('topEyebrow').textContent=pageMeta[name].eyebrow;
-      if(name==='input')initInputForm();
+      if(name==='input')initInputForm(Boolean(opts.skipInputAutoLoad));
       if(name==='transkrip'&&allTranscripts.length===0)loadData();
       if(name==='ranking')loadRanking();
       if(name==='progres')loadProgres();
@@ -1272,15 +1272,24 @@
       $('sumAbsen').textContent = `${s + i + a} hari`;
     }
 
-    async function loadSantriOptions(preselectNis=''){
+    let santriLoadSeq = 0;
+
+    async function loadSantriOptions(preselectNis='', preselectName=''){
+      const seq = ++santriLoadSeq;
       const year = $('inpYear').value;
       const kelas = $('inpClass').value;
       const sel = $('inpSantri');
+      const targetNis = String(preselectNis || '').trim();
+      const targetName = String(preselectName || '').trim().toLowerCase();
       const tab = 'Santri_' + year.replace('/', '_');
       $('santriLoadedCount').textContent = 'Memuat santri...';
 
       if (!santriCacheByYear[year]) {
-        sel.innerHTML = '<option value="">— Memuat daftar santri... —</option>';
+        if (targetNis && preselectName) {
+          sel.innerHTML = `<option value="${esc(targetNis)}" data-nama="${esc(preselectName)}" selected>${esc(targetNis)} — ${esc(preselectName)}</option>`;
+        } else {
+          sel.innerHTML = '<option value="">— Memuat daftar santri... —</option>';
+        }
         try {
           const r = await fetch(SHEET_API_URL, {
             method: 'POST',
@@ -1306,26 +1315,40 @@
             santriCacheByYear[year] = [];
           }
         } catch (err) {
+          if (seq !== santriLoadSeq) return;
           santriCacheByYear[year] = null;
-          sel.innerHTML = '<option value="">Gagal memuat daftar santri — coba ubah filter atau muat ulang</option>';
+          if (!targetNis) {
+            sel.innerHTML = '<option value="">Gagal memuat daftar santri — coba ubah filter atau muat ulang</option>';
+          }
           $('santriLoadedCount').textContent = 'Gagal memuat';
           showInputStatus('Gagal membaca daftar santri dari Google Sheets: ' + err.message, 'error');
           return;
         }
       }
 
+      if (seq !== santriLoadSeq) return;
       const list = (santriCacheByYear[year] || []).filter(s => s.kelas === kelas);
       $('santriLoadedCount').textContent = `${list.length} santri aktif`;
       if (!list.length) {
-        sel.innerHTML = `<option value="">— Tidak ada santri aktif di Kelas ${esc(kelas)} (${esc(year)}) —</option>`;
+        if (targetNis && preselectName) {
+          sel.innerHTML = `<option value="${esc(targetNis)}" data-nama="${esc(preselectName)}" selected>${esc(targetNis)} — ${esc(preselectName)}</option>`;
+        } else {
+          sel.innerHTML = `<option value="">— Tidak ada santri aktif di Kelas ${esc(kelas)} (${esc(year)}) —</option>`;
+        }
         return;
       }
       sel.innerHTML = '<option value="">— Pilih Santri —</option>' +
         list.map(s => `<option value="${esc(s.nis)}" data-nama="${esc(s.nama_santri)}">${esc(s.nis)} — ${esc(s.nama_santri)}</option>`).join('');
-      if (preselectNis) sel.value = String(preselectNis);
+      if (targetNis) {
+        sel.value = targetNis;
+      }
+      if (!sel.value && targetName) {
+        const byName = list.find(s => s.nama_santri.toLowerCase() === targetName);
+        if (byName) sel.value = byName.nis;
+      }
     }
 
-    function initInputForm(){
+    function initInputForm(skipLoad=false){
       if (!inputFormInitialized) {
         inputFormInitialized = true;
         const savedGuru = localStorage.getItem('paudqu_last_guru') || '';
@@ -1342,16 +1365,17 @@
         });
         $('nilaiForm').addEventListener('submit', handleSubmitNilai);
       }
-      loadSantriOptions();
+      if (!skipLoad) loadSantriOptions();
     }
 
     async function openInputForSantri(nis, kelas, sem, year, existing=null){
       $('inpYear').value = year;
       $('inpSemester').value = sem;
       $('inpClass').value = kelas;
-      showPage('input');
+      showPage('input', { skipInputAutoLoad: true });
       renderScoreFields(false);
-      await loadSantriOptions(nis);
+      const targetName = existing ? (existing.name || existing.nama_santri || '') : '';
+      await loadSantriOptions(nis, targetName);
       if (existing) {
         const nilaiObj = existing.nilai || {};
         document.querySelectorAll('#nilaiForm input[data-mapel]').forEach(el => {

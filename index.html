@@ -198,11 +198,9 @@
         <div class="auth-class-grid" role="radiogroup" aria-label="Pilih kelas">
           <button type="button" class="auth-class-btn active" data-auth-kelas="A" aria-pressed="true">
             <strong>Kelas A</strong>
-            <span>18 Mata Pelajaran</span>
           </button>
           <button type="button" class="auth-class-btn" data-auth-kelas="B" aria-pressed="false">
             <strong>Kelas B</strong>
-            <span>19 Mata Pelajaran</span>
           </button>
         </div>
       </div>
@@ -238,7 +236,7 @@
       <button type="button" class="logout-btn" id="btnLogout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Keluar</button>
     </aside>
     <main class="main">
-      <header class="topbar"><div><div class="eyebrow" id="topEyebrow">PAUDQu Nurul Mubin Cibinong / Dokumen Akademik</div><h1 id="topTitle">Cari Transkrip Santri</h1></div><div class="topbar-right"><span class="tag" id="topClassTag">KELAS A · 18 MAPEL</span><button type="button" class="topbar-logout" id="btnLogoutMobile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Keluar</button></div></header>
+      <header class="topbar"><div><div class="eyebrow" id="topEyebrow">PAUDQu Nurul Mubin Cibinong / Dokumen Akademik</div><h1 id="topTitle">Cari Transkrip Santri</h1></div><div class="topbar-right"><span class="tag" id="topClassTag">KELAS A</span><button type="button" class="topbar-logout" id="btnLogoutMobile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Keluar</button></div></header>
       <!-- Banner proses & pesan GLOBAL: tampil di semua halaman dashboard -->
       <div id="bannerProcess" class="alert-banner processing" hidden style="margin:16px 22px 0">
         <div>
@@ -249,7 +247,6 @@
       </div>
       <div id="message" class="message" role="status" style="margin:14px 22px 0" hidden></div>
       <section class="content page-view" id="page-input" hidden>
-        <div class="intro"><div><h2>Input Nilai Santri</h2><p>Isi nilai akhir per mata pelajaran (rentang 0–100) dan rekap ketidakhadiran santri langsung dari dashboard. Setelah disimpan, sistem otomatis menghitung rata-rata, peringkat sementara/final, dan memicu pembuatan transkrip bila satu kelas sudah lengkap.</p></div><div class="update" id="inputModeBadge">Kelompok A · 18 Mapel</div></div>
         <form id="nilaiForm" class="panel" novalidate>
           <div class="panel-head">
             <div>
@@ -283,8 +280,8 @@
                 <div class="form-field">
                   <label for="inpClass">Kelas / Kelompok</label>
                   <select id="inpClass" required>
-                    <option value="A">Kelas A (18 Mata Pelajaran)</option>
-                    <option value="B">Kelas B (19 Mata Pelajaran)</option>
+                    <option value="A">Kelas A</option>
+                    <option value="B">Kelas B</option>
                   </select>
                 </div>
                 <div class="form-field span-full">
@@ -1444,9 +1441,6 @@
       $('gridPokok').innerHTML = MAPEL_POKOK.map(makeItem).join('');
       const penunjang = kelas === 'B' ? MAPEL_PENUNJANG_B : MAPEL_PENUNJANG_A;
       $('gridPenunjang').innerHTML = penunjang.map(makeItem).join('');
-
-      const totalMapel = MAPEL_POKOK.length + penunjang.length;
-      $('inputModeBadge').textContent = `Kelompok ${kelas} · ${totalMapel} Mapel`;
       $('penunjangCountBadge').textContent = `${penunjang.length} Mata Pelajaran · Skala 0–100`;
 
       document.querySelectorAll('#nilaiForm input[data-mapel]').forEach(el => {
@@ -1708,9 +1702,8 @@
 
     function applyActiveKelas(kelas){
       activeKelas = kelas === 'B' ? 'B' : 'A';
-      const mapelCnt = activeKelas === 'B' ? 19 : 18;
       $('sidebarClassBadge').innerHTML = `Ruang Kerja <span>KELAS ${activeKelas}</span>`;
-      $('topClassTag').textContent = `KELAS ${activeKelas} · ${mapelCnt} MAPEL`;
+      $('topClassTag').textContent = `KELAS ${activeKelas}`;
 
       ['inpClass', 'classFilter', 'progClass', 'rankClass'].forEach(id => {
         const el = $(id);

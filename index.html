@@ -33,6 +33,11 @@
     .btn-sm-warn:hover{background:#faecc8}
     .btn-sm-outline{background:#fff;color:#5a6e66;border-color:#d5dfd9}
     .btn-sm-outline:hover{background:#f5f7f6;color:var(--ink)}
+    .btn-sm-danger{background:#fff1f0;color:#a53e3e;border-color:#f0cdca}
+    .btn-sm-danger:hover{background:#fde2e0;color:#872828;border-color:#e8b3ae}
+    .btn-danger{height:44px;padding:0 16px;border:1px solid #f0cdca;border-radius:11px;background:#fff1f0;color:#a53e3e;font-size:12px;font-weight:800;display:inline-flex;align-items:center;gap:7px;margin-right:auto}
+    .btn-danger:hover{background:#fde2e0;color:#872828}
+    .btn-danger:disabled{opacity:.55;cursor:not-allowed}
 
     /* Alert Banner for Outdated Transcripts */
     .alert-banner{margin:0 22px 16px;padding:13px 16px;border-radius:12px;background:#fff8e6;border:1px solid #f2db9f;color:#7e5200;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:11px;line-height:1.6}
@@ -422,6 +427,10 @@
         <div class="modal-meta" id="mMetaInfo"></div>
       </div>
       <div class="modal-foot">
+        <button type="button" class="btn-danger" id="btnDeleteFromModal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          Hapus Nilai
+        </button>
         <button type="button" class="btn" id="btnCloseModalFoot">Tutup</button>
         <button type="button" class="btn-submit" id="btnEditFromModal">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
@@ -432,6 +441,7 @@
   </div>
   <script>
     const INPUT_API_URL = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/input-nilai";
+    const CALC_API_URL = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/hitung-paud";
     const API_URL = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/dashboard_paudqu_transkrip";
     const ACTION_API_URL = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/dashboard_paudqu_action";
     const RANKING_API_URL = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/dashboard_paudqu_peringkat";
@@ -1129,7 +1139,7 @@
         $('progDoneList').innerHTML=(j.sudah||[]).map((x,idx)=>{
           const initials=String(x.name||'S').split(/\s+/).filter(Boolean).slice(0,2).map(s=>s[0]).join('').toUpperCase();
           const totTxt = (x.total_nilai !== undefined && x.total_nilai !== '') ? `Total ${esc(x.total_nilai)} · ` : '';
-          return `<div class="prog-row"><div class="initial">${avatarSvg(jkOf(x.nis||'',x.name,year),initials)}</div><div><div class="student-name">${esc(x.name)}</div><div class="subtext">${totTxt}Rata-rata ${esc(x.nilai_akhir)} · ${esc(x.status_ranking||'Sementara')}</div></div><div class="prog-row-right"><span class="prog-rank">Ranking ${esc(x.ranking)}</span><button type="button" class="btn-sm btn-sm-primary" data-view-idx="${idx}">Lihat Nilai</button><button type="button" class="btn-sm btn-sm-outline" data-edit-idx="${idx}">Edit</button></div></div>`;
+          return `<div class="prog-row"><div class="initial">${avatarSvg(jkOf(x.nis||'',x.name,year),initials)}</div><div><div class="student-name">${esc(x.name)}</div><div class="subtext">${totTxt}Rata-rata ${esc(x.nilai_akhir)} · ${esc(x.status_ranking||'Sementara')}</div></div><div class="prog-row-right"><span class="prog-rank">Ranking ${esc(x.ranking)}</span><button type="button" class="btn-sm btn-sm-primary" data-view-idx="${idx}">Lihat Nilai</button><button type="button" class="btn-sm btn-sm-outline" data-edit-idx="${idx}">Edit</button><button type="button" class="btn-sm btn-sm-danger" data-del-idx="${idx}">Hapus</button></div></div>`;
         }).join('')||'<div class="empty" style="padding:22px 10px"><strong style="font-size:12px">Belum ada santri yang dinilai</strong></div>';
 
         $('progDoneList').querySelectorAll('button[data-view-idx]').forEach(b=>{
@@ -1139,6 +1149,12 @@
           b.addEventListener('click',()=>{
             const item = lastProgresCtx.sudah[Number(b.dataset.editIdx)];
             if (item) openInputForSantri(item.nis, lastProgresCtx.kelas, lastProgresCtx.sem, lastProgresCtx.year, item);
+          });
+        });
+        $('progDoneList').querySelectorAll('button[data-del-idx]').forEach(b=>{
+          b.addEventListener('click',()=>{
+            const item = lastProgresCtx.sudah[Number(b.dataset.delIdx)];
+            if (item) deleteSantriNilai(item, lastProgresCtx.kelas, lastProgresCtx.sem, lastProgresCtx.year);
           });
         });
 
@@ -1258,6 +1274,123 @@
       closeNilaiModal();
       openInputForSantri(item.nis, lastProgresCtx.kelas, lastProgresCtx.sem, lastProgresCtx.year, item);
     });
+    $('btnDeleteFromModal').addEventListener('click', () => {
+      if (!activeModalSantri) return;
+      const item = activeModalSantri;
+      closeNilaiModal();
+      deleteSantriNilai(item, lastProgresCtx.kelas, lastProgresCtx.sem, lastProgresCtx.year);
+    });
+
+    // ===== Hapus Nilai Santri (Nilai_A/B + Absensi + Transkrip + Hitung Ulang Ranking WF-02) =====
+    let sheetGidMapCache = null;
+    let isDeletingNilai = false;
+
+    async function callSheetApi(payload){
+      const r = await fetch(SHEET_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ token: SHEET_API_TOKEN, ...payload })
+      });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const j = await r.json();
+      if (j && j.success === false) throw new Error(j.error || j.message || 'Gagal memproses Google Sheets');
+      return j;
+    }
+
+    async function getSheetGidMap(){
+      if (sheetGidMapCache) return sheetGidMapCache;
+      const res = await callSheetApi({ action: 'list_tabs' });
+      const tabs = Array.isArray(res.result) ? res.result : [];
+      const map = {};
+      tabs.forEach(t => { if (t.tab && t.gid !== undefined) map[t.tab] = Number(t.gid); });
+      sheetGidMapCache = map;
+      return map;
+    }
+
+    async function deleteRowsByKey(tabName, gid, targetKey, checkRemainingPeriode=null){
+      const res = await callSheetApi({ action: 'read', tab: tabName, range: 'A1:F600' });
+      const rows = (res.result && res.result.values) || [];
+      if (rows.length <= 1) return { deleted: 0, remainingInPeriode: 0 };
+
+      const matchIndices = [];
+      let remainingInPeriode = 0;
+      for (let i = 1; i < rows.length; i++) {
+        const k = String(rows[i][0] ?? '').trim();
+        if (k === targetKey) {
+          matchIndices.push(i);
+        } else if (checkRemainingPeriode && k) {
+          const rKelas = String(rows[i][3] ?? '').trim().toUpperCase();
+          const rSem = String(rows[i][4] ?? '').trim();
+          const rTahun = String(rows[i][5] ?? '').trim();
+          if (rKelas === checkRemainingPeriode.kelas && rSem === checkRemainingPeriode.sem && rTahun === checkRemainingPeriode.year) {
+            remainingInPeriode++;
+          }
+        }
+      }
+      // Hapus dari indeks terbesar ke terkecil agar indeks baris atas tidak bergeser
+      matchIndices.sort((a, b) => b - a);
+      for (const idx of matchIndices) {
+        await callSheetApi({ action: 'delete_rows', sheet_id: gid, start_index: idx, end_index: idx + 1 });
+      }
+      return { deleted: matchIndices.length, remainingInPeriode };
+    }
+
+    async function deleteSantriNilai(item, kelas, sem, year){
+      if (isDeletingNilai) return;
+      const nis = String(item.nis || '').trim();
+      const nama = item.name || item.nama_santri || nis;
+      const semLabel = sem === '2' ? 'Genap (2)' : 'Ganjil (1)';
+      const key = `${nis}|${sem}|${year}`;
+
+      const ok = confirm(
+        `Hapus seluruh data nilai santri berikut?\n\n` +
+        `• Nama: ${nama} (NIS ${nis})\n` +
+        `• Periode: Kelas ${kelas}, Semester ${semLabel}, Tahun ${year}\n\n` +
+        `Baris di Google Sheets (Nilai_${kelas}, Absensi, dan catatan Transkrip bila ada) akan dihapus permanen dan ranking kelas akan dihitung ulang.`
+      );
+      if (!ok) return;
+
+      isDeletingNilai = true;
+      showProcessBanner(`⏳ Menghapus nilai ${nama}...`, ` Menghapus data di Nilai_${kelas}, Absensi, dan Transkrip lalu merapikan ranking kelas.`, 15);
+      showMessage(`Sedang menghapus data nilai ${nama} dari Google Sheets...`, '');
+
+      try {
+        const gidMap = await getSheetGidMap();
+        const nilaiTab = `Nilai_${kelas}`;
+        if (gidMap[nilaiTab] === undefined) throw new Error(`Tab ${nilaiTab} tidak ditemukan di Google Sheets.`);
+
+        const resNilai = await deleteRowsByKey(nilaiTab, gidMap[nilaiTab], key, { kelas, sem: String(sem), year });
+        let deletedAbs = 0, deletedTr = 0;
+        if (gidMap['Absensi'] !== undefined) {
+          deletedAbs = (await deleteRowsByKey('Absensi', gidMap['Absensi'], key)).deleted;
+        }
+        if (gidMap['Transkrip'] !== undefined) {
+          deletedTr = (await deleteRowsByKey('Transkrip', gidMap['Transkrip'], key)).deleted;
+        }
+
+        // Hitung ulang ranking di WF-02 jika masih ada santri tersisa di kelas & periode yang sama
+        if (resNilai.remainingInPeriode > 0) {
+          await fetch(CALC_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ kelas, semester: String(sem), tahun_pelajaran: year, nis })
+          }).catch(() => {});
+        }
+
+        allTranscripts = [];
+        lastFetchTime = 0;
+        await loadProgres();
+
+        const detailHapus = [`Nilai_${kelas} (${resNilai.deleted})`, `Absensi (${deletedAbs})`, `Transkrip (${deletedTr})`].join(', ');
+        finishProcessBanner('success', `✅ Nilai ${nama} berhasil dihapus`, `Terhapus dari ${detailHapus}. Ranking kelas telah diperbarui.`);
+        showMessage(`✅ Data nilai ${nama} berhasil dihapus dari Google Sheets (${detailHapus}) dan ranking kelas sudah dirapikan.`, 'ok');
+      } catch (err) {
+        finishProcessBanner('error', '❌ Gagal menghapus nilai', err.message);
+        showMessage('Gagal menghapus nilai: ' + err.message, 'error');
+      } finally {
+        isDeletingNilai = false;
+      }
+    }
 
     function activeMapelList(kelas){
       return kelas === 'B' ? [...MAPEL_POKOK, ...MAPEL_PENUNJANG_B] : [...MAPEL_POKOK, ...MAPEL_PENUNJANG_A];

@@ -106,6 +106,35 @@
     .btn-submit:disabled{opacity:.55;cursor:not-allowed}
     @media(max-width:1050px){.score-grid,.form-grid-id{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media(max-width:640px){.form-body{padding:14px}.score-grid,.form-grid-id,.absensi-grid{grid-template-columns:1fr}.form-grid-id .span-2{grid-column:span 1}.form-summary{flex-direction:column;align-items:stretch}.form-actions .btn-submit,.form-actions .btn{width:100%}}
+
+    /* Kartu Sudah Dinilai & Modal Pratinjau Nilai Digital */
+    .prog-row{flex-wrap:wrap}
+    .prog-row-right{margin-left:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+    .prog-row-right .prog-rank{margin-left:0}
+    .modal-backdrop{position:fixed;inset:0;z-index:50;background:rgba(14,36,31,.52);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:18px}
+    .modal-backdrop[hidden]{display:none!important}
+    .modal-card{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 64px rgba(10,34,27,.22);width:100%;max-width:820px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden}
+    .modal-head{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-between;gap:14px;background:#f8fbf9}
+    .modal-head h3{margin:0 0 4px;font-size:17px;color:var(--green);letter-spacing:-.3px}
+    .modal-head p{margin:0;font-size:11px;color:var(--muted)}
+    .modal-close{width:34px;height:34px;border:1px solid #d9e5df;border-radius:10px;background:#fff;color:var(--ink);font-size:18px;line-height:1;display:grid;place-items:center;flex:0 0 34px}
+    .modal-close:hover{background:#eef5f1}
+    .modal-body{padding:18px 22px;overflow-y:auto;display:grid;gap:16px}
+    .modal-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+    .modal-stat{background:#f5faf7;border:1px solid #dcebe2;border-radius:12px;padding:11px 13px}
+    .modal-stat small{display:block;font-size:10px;color:#5a7469;font-weight:750;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+    .modal-stat strong{font-size:16px;color:var(--green);display:block}
+    .modal-stat span{font-size:10px;color:var(--muted)}
+    .modal-tables{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .modal-table-box{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+    .modal-table-box h4{margin:0;padding:10px 13px;background:#edf6f0;color:var(--green);font-size:11px;letter-spacing:.3px;border-bottom:1px solid #d8e9df}
+    .modal-table-box table{min-width:0;width:100%}
+    .modal-table-box thead th{padding:8px 11px;font-size:9px}
+    .modal-table-box tbody td{padding:8px 11px;font-size:11.5px}
+    .modal-table-box td.num,.modal-table-box th.num{text-align:center;width:54px;font-weight:800;color:var(--green)}
+    .modal-meta{font-size:11px;color:var(--muted);padding:10px 13px;background:#fbfdfb;border:1px solid var(--line);border-radius:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+    .modal-foot{padding:14px 22px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:flex-end;gap:10px;background:#fbfdfb}
+    @media(max-width:740px){.modal-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.modal-tables{grid-template-columns:1fr}.modal-body{padding:14px}.modal-head,.modal-foot{padding:14px}}
   </style>
 </head>
 <body>
@@ -308,6 +337,45 @@
         </section>
       </section>
     </main>
+  </div>
+
+  <!-- Modal Pratinjau Nilai Digital Santri -->
+  <div id="nilaiModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalSantriName" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h3 id="modalSantriName">Rincian Nilai Santri</h3>
+          <p id="modalSantriSub">NIS · Kelas · Semester · Tahun Pelajaran</p>
+        </div>
+        <button type="button" class="modal-close" id="btnCloseModal" aria-label="Tutup pratinjau">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-stats">
+          <div class="modal-stat"><small>Jumlah Nilai</small><strong id="mTotal">-</strong><span id="mMapelCount">18 mapel</span></div>
+          <div class="modal-stat"><small>Rata-rata</small><strong id="mAvg">-</strong><span id="mStatus">Sementara</span></div>
+          <div class="modal-stat"><small>Peringkat Kelas</small><strong id="mRank">-</strong><span id="mRankOf">dari - santri</span></div>
+          <div class="modal-stat"><small>Ketidakhadiran</small><strong id="mAbsenTotal">0 hari</strong><span id="mAbsenDetail">S: 0 · I: 0 · A: 0</span></div>
+        </div>
+        <div class="modal-tables">
+          <div class="modal-table-box">
+            <h4>I. Kemampuan Pokok (9 Mapel)</h4>
+            <table><thead><tr><th class="num">No</th><th>Mata Pelajaran</th><th class="num">Nilai</th></tr></thead><tbody id="mPokokRows"></tbody></table>
+          </div>
+          <div class="modal-table-box">
+            <h4 id="mPenunjangTitle">II. Kemampuan Penunjang</h4>
+            <table><thead><tr><th class="num">No</th><th>Mata Pelajaran</th><th class="num">Nilai</th></tr></thead><tbody id="mPenunjangRows"></tbody></table>
+          </div>
+        </div>
+        <div class="modal-meta" id="mMetaInfo"></div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn" id="btnCloseModalFoot">Tutup</button>
+        <button type="button" class="btn-submit" id="btnEditFromModal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+          Edit Nilai Santri Ini
+        </button>
+      </div>
+    </div>
   </div>
   <script>
     const INPUT_API_URL = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/input-nilai";
@@ -1004,17 +1072,30 @@
         $('progDoneCount').textContent=done+' santri';
         $('progTodoCount').textContent=todo+' santri';
 
-        $('progDoneList').innerHTML=(j.sudah||[]).map(x=>{
+        lastProgresCtx = { kelas, sem, year, total, sudah: j.sudah || [] };
+
+        $('progDoneList').innerHTML=(j.sudah||[]).map((x,idx)=>{
           const initials=String(x.name||'S').split(/\s+/).filter(Boolean).slice(0,2).map(s=>s[0]).join('').toUpperCase();
-          return `<div class="prog-row"><div class="initial">${avatarSvg(jkOf(x.nis||'',x.name,year),initials)}</div><div><div class="student-name">${esc(x.name)}</div><div class="subtext">Rata-rata ${esc(x.nilai_akhir)} · ${esc(x.status_ranking||'Sementara')}</div></div><span class="prog-rank">Ranking ${esc(x.ranking)}</span></div>`;
+          const totTxt = (x.total_nilai !== undefined && x.total_nilai !== '') ? `Total ${esc(x.total_nilai)} · ` : '';
+          return `<div class="prog-row"><div class="initial">${avatarSvg(jkOf(x.nis||'',x.name,year),initials)}</div><div><div class="student-name">${esc(x.name)}</div><div class="subtext">${totTxt}Rata-rata ${esc(x.nilai_akhir)} · ${esc(x.status_ranking||'Sementara')}</div></div><div class="prog-row-right"><span class="prog-rank">Ranking ${esc(x.ranking)}</span><button type="button" class="btn-sm btn-sm-primary" data-view-idx="${idx}">Lihat Nilai</button><button type="button" class="btn-sm btn-sm-outline" data-edit-idx="${idx}">Edit</button></div></div>`;
         }).join('')||'<div class="empty" style="padding:22px 10px"><strong style="font-size:12px">Belum ada santri yang dinilai</strong></div>';
+
+        $('progDoneList').querySelectorAll('button[data-view-idx]').forEach(b=>{
+          b.addEventListener('click',()=>openNilaiModal(Number(b.dataset.viewIdx)));
+        });
+        $('progDoneList').querySelectorAll('button[data-edit-idx]').forEach(b=>{
+          b.addEventListener('click',()=>{
+            const item = lastProgresCtx.sudah[Number(b.dataset.editIdx)];
+            if (item) openInputForSantri(item.nis, lastProgresCtx.kelas, lastProgresCtx.sem, lastProgresCtx.year, item);
+          });
+        });
 
         $('progTodoList').innerHTML=(j.belum||[]).map(x=>`<button type="button" class="todo-name" data-input-nis="${esc(x.nis||'')}" title="Klik untuk langsung input nilai ${esc(x.name)}">${esc(x.name)}</button>`).join('')||(total>0?'<span class="subtext">Semua santri sudah dinilai! 🎉</span>':'<span class="subtext">Tidak ada data santri aktif untuk filter ini.</span>');
         $('progTodoList').querySelectorAll('button[data-input-nis]').forEach(btn=>{
           btn.addEventListener('click',()=>openInputForSantri(btn.dataset.inputNis, kelas, sem, year));
         });
 
-        $('progMessage').textContent=`Data progres dimuat langsung dari Google Sheets (gratis, tanpa membuat PDF). Klik nama santri di kolom "Belum dinilai" untuk langsung mengisi nilainya.`;
+        $('progMessage').textContent=`Data progres dimuat langsung dari Google Sheets (gratis, tanpa membuat PDF). Klik "Lihat Nilai" untuk pratinjau rincian 18/19 mapel, atau klik nama santri di "Belum dinilai" untuk mengisi nilainya.`;
         $('progUpdated').textContent='Data Google Sheets';
       }catch(e){
         $('progMessage').textContent='Gagal memuat progres: '+e.message;
@@ -1064,8 +1145,68 @@
     ];
 
     const santriCacheByYear = {};
+    let lastProgresCtx = { kelas: 'A', sem: '1', year: '2025/2026', total: 0, sudah: [] };
+    let activeModalSantri = null;
     let inputFormInitialized = false;
     let isSubmittingNilai = false;
+
+    function formatWaktuId(iso){
+      if (!iso) return '—';
+      const d = new Date(iso);
+      return Number.isNaN(d.getTime()) ? String(iso) : d.toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' });
+    }
+
+    function openNilaiModal(idx){
+      const x = lastProgresCtx.sudah[idx];
+      if (!x) return;
+      activeModalSantri = x;
+      const { kelas, sem, year, total } = lastProgresCtx;
+      const semLabel = sem === '2' ? 'Genap (2)' : 'Ganjil (1)';
+      const penunjang = kelas === 'B' ? MAPEL_PENUNJANG_B : MAPEL_PENUNJANG_A;
+      const totalMapel = MAPEL_POKOK.length + penunjang.length;
+      const nilaiObj = x.nilai || {};
+      const abs = x.absensi || { sakit: 0, izin: 0, alpa: 0, total_tidak_hadir: 0 };
+
+      $('modalSantriName').textContent = x.name || x.nama_santri || 'Santri';
+      $('modalSantriSub').textContent = `NIS ${x.nis || '-'} · Kelas ${kelas} · Semester ${semLabel} · Tahun Pelajaran ${year}`;
+      $('mTotal').textContent = x.total_nilai ?? '-';
+      $('mMapelCount').textContent = `${totalMapel} mata pelajaran`;
+      $('mAvg').textContent = x.rata_rata ?? x.nilai_akhir ?? '-';
+      $('mStatus').textContent = `Status: ${x.status_ranking || 'Sementara'}`;
+      $('mRank').textContent = x.ranking !== undefined && x.ranking !== '-' ? `#${x.ranking}` : '-';
+      $('mRankOf').textContent = `dari ${total} santri aktif`;
+      $('mAbsenTotal').textContent = `${abs.total_tidak_hadir ?? 0} hari`;
+      $('mAbsenDetail').textContent = `Sakit: ${abs.sakit ?? 0} · Izin: ${abs.izin ?? 0} · Alpa: ${abs.alpa ?? 0}`;
+
+      $('mPenunjangTitle').textContent = `II. Kemampuan Penunjang (${penunjang.length} Mapel)`;
+      const makeRows = (list) => list.map(([k, label], i) => {
+        const v = nilaiObj[k];
+        const show = (v === undefined || v === null || v === '') ? '—' : esc(v);
+        return `<tr><td class="num">${i + 1}</td><td>${esc(label)}</td><td class="num">${show}</td></tr>`;
+      }).join('');
+      $('mPokokRows').innerHTML = makeRows(MAPEL_POKOK);
+      $('mPenunjangRows').innerHTML = makeRows(penunjang);
+
+      const penginput = x.diinput_oleh ? esc(x.diinput_oleh) : '—';
+      const waktu = formatWaktuId(x.diperbarui_pada || x.diinput_pada);
+      $('mMetaInfo').innerHTML = `<span>Diinput oleh: <strong>${penginput}</strong></span><span>Terakhir diperbarui: <strong>${esc(waktu)}</strong></span>`;
+      $('nilaiModal').hidden = false;
+    }
+
+    function closeNilaiModal(){
+      $('nilaiModal').hidden = true;
+      activeModalSantri = null;
+    }
+    $('btnCloseModal').addEventListener('click', closeNilaiModal);
+    $('btnCloseModalFoot').addEventListener('click', closeNilaiModal);
+    $('nilaiModal').addEventListener('click', (e) => { if (e.target === $('nilaiModal')) closeNilaiModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('nilaiModal').hidden) closeNilaiModal(); });
+    $('btnEditFromModal').addEventListener('click', () => {
+      if (!activeModalSantri) return;
+      const item = activeModalSantri;
+      closeNilaiModal();
+      openInputForSantri(item.nis, lastProgresCtx.kelas, lastProgresCtx.sem, lastProgresCtx.year, item);
+    });
 
     function activeMapelList(kelas){
       return kelas === 'B' ? [...MAPEL_POKOK, ...MAPEL_PENUNJANG_B] : [...MAPEL_POKOK, ...MAPEL_PENUNJANG_A];
@@ -1204,14 +1345,31 @@
       loadSantriOptions();
     }
 
-    async function openInputForSantri(nis, kelas, sem, year){
+    async function openInputForSantri(nis, kelas, sem, year, existing=null){
       $('inpYear').value = year;
       $('inpSemester').value = sem;
       $('inpClass').value = kelas;
       showPage('input');
       renderScoreFields(false);
       await loadSantriOptions(nis);
-      showInputStatus('');
+      if (existing) {
+        const nilaiObj = existing.nilai || {};
+        document.querySelectorAll('#nilaiForm input[data-mapel]').forEach(el => {
+          const v = nilaiObj[el.dataset.mapel];
+          el.value = (v !== undefined && v !== null && v !== '') ? String(v) : '';
+        });
+        const abs = existing.absensi || {};
+        $('inpSakit').value = String(abs.sakit ?? 0);
+        $('inpIzin').value = String(abs.izin ?? 0);
+        $('inpAlpa').value = String(abs.alpa ?? 0);
+        if (existing.diinput_oleh) $('inpGuru').value = existing.diinput_oleh;
+        updateFormSummary();
+        showInputStatus(`Mode Edit Nilai: seluruh nilai & absensi ${existing.name || existing.nama_santri} sudah dimuat. Ubah angka yang diperlukan lalu klik "Simpan & Hitung Nilai".`, '');
+      } else {
+        $('inpSakit').value = '0'; $('inpIzin').value = '0'; $('inpAlpa').value = '0';
+        updateFormSummary();
+        showInputStatus('');
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 

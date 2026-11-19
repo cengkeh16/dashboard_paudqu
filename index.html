@@ -1156,12 +1156,15 @@
         $('progDoneCount').textContent=done+' santri';
         $('progTodoCount').textContent=todo+' santri';
 
-        lastProgresCtx = { kelas, sem, year, total, sudah: j.sudah || [] };
+        const isKelasFinal = String(j.status_ranking || '').trim().toLowerCase() === 'final';
+        lastProgresCtx = { kelas, sem, year, total, status_ranking: j.status_ranking || 'Sementara', sudah: j.sudah || [] };
 
         $('progDoneList').innerHTML=(j.sudah||[]).map((x,idx)=>{
           const initials=String(x.name||'S').split(/\s+/).filter(Boolean).slice(0,2).map(s=>s[0]).join('').toUpperCase();
           const totTxt = (x.total_nilai !== undefined && x.total_nilai !== '') ? `Total ${esc(x.total_nilai)} · ` : '';
-          return `<div class="prog-row"><div class="initial">${avatarSvg(jkOf(x.nis||'',x.name,year),initials)}</div><div><div class="student-name">${esc(x.name)}</div><div class="subtext">${totTxt}Rata-rata ${esc(x.nilai_akhir)} · ${esc(x.status_ranking||'Sementara')}</div></div><div class="prog-row-right"><span class="prog-rank">Ranking ${esc(x.ranking)}</span><button type="button" class="btn-sm btn-sm-primary" data-view-idx="${idx}">Lihat Nilai</button><button type="button" class="btn-sm btn-sm-outline" data-edit-idx="${idx}">Edit</button><button type="button" class="btn-sm btn-sm-danger" data-del-idx="${idx}">Hapus</button></div></div>`;
+          const itemFinal = isKelasFinal || String(x.status_ranking || '').trim().toLowerCase() === 'final';
+          const delBtn = itemFinal ? '' : `<button type="button" class="btn-sm btn-sm-danger" data-del-idx="${idx}">Hapus</button>`;
+          return `<div class="prog-row"><div class="initial">${avatarSvg(jkOf(x.nis||'',x.name,year),initials)}</div><div><div class="student-name">${esc(x.name)}</div><div class="subtext">${totTxt}Rata-rata ${esc(x.nilai_akhir)} · ${esc(x.status_ranking||'Sementara')}</div></div><div class="prog-row-right"><span class="prog-rank">Ranking ${esc(x.ranking)}</span><button type="button" class="btn-sm btn-sm-primary" data-view-idx="${idx}">Lihat Nilai</button><button type="button" class="btn-sm btn-sm-outline" data-edit-idx="${idx}">Edit</button>${delBtn}</div></div>`;
         }).join('')||'<div class="empty" style="padding:22px 10px"><strong style="font-size:12px">Belum ada santri yang dinilai</strong></div>';
 
         $('progDoneList').querySelectorAll('button[data-view-idx]').forEach(b=>{
@@ -1185,7 +1188,9 @@
           btn.addEventListener('click',()=>openInputForSantri(btn.dataset.inputNis, kelas, sem, year));
         });
 
-        $('progMessage').textContent=`Data progres dimuat langsung dari Google Sheets (gratis, tanpa membuat PDF). Klik "Lihat Nilai" untuk pratinjau rincian 18/19 mapel, atau klik nama santri di "Belum dinilai" untuk mengisi nilainya.`;
+        $('progMessage').textContent = isKelasFinal
+          ? `Status kelas sudah Final (${done}/${total} santri lengkap). Tombol Hapus dikunci demi keamanan arsip — gunakan tombol Edit jika perlu koreksi nilai, lalu perbarui transkrip yang terdampak di menu Cari Transkrip Santri.`
+          : `Data progres dimuat langsung dari Google Sheets (gratis, tanpa membuat PDF). Klik "Lihat Nilai" untuk pratinjau rincian nilai, atau klik nama santri di "Belum dinilai" untuk mengisi nilainya.`;
         $('progUpdated').textContent='Data Google Sheets';
       }catch(e){
         $('progMessage').textContent='Gagal memuat progres: '+e.message;
@@ -1279,6 +1284,8 @@
 
       const waktu = formatWaktuId(x.diperbarui_pada || x.diinput_pada);
       $('mMetaInfo').innerHTML = `<span>Terakhir diperbarui: <strong>${esc(waktu)}</strong></span>`;
+      const isFinalModal = String(lastProgresCtx.status_ranking || '').toLowerCase() === 'final' || String(x.status_ranking || '').toLowerCase() === 'final';
+      $('btnDeleteFromModal').hidden = isFinalModal;
       $('nilaiModal').hidden = false;
     }
 
@@ -1359,6 +1366,10 @@
 
     async function deleteSantriNilai(item, kelas, sem, year){
       if (isDeletingNilai) return;
+      if (String(lastProgresCtx.status_ranking || '').toLowerCase() === 'final' || String(item.status_ranking || '').toLowerCase() === 'final') {
+        showMessage('Data kelas sudah berstatus Final — penghapusan dikunci demi keamanan arsip. Gunakan tombol Edit untuk koreksi nilai.', 'error');
+        return;
+      }
       const nis = String(item.nis || '').trim();
       const nama = item.name || item.nama_santri || nis;
       const semLabel = sem === '2' ? 'Genap (2)' : 'Ganjil (1)';

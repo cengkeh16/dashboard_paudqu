@@ -11,6 +11,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=3">
   <link rel="shortcut icon" href="favicon.ico?v=3">
   <style>
+    [hidden]{display:none!important}
     :root{
       --ink:#18352f;--muted:#687b74;--line:#e2ebe6;--paper:#ffffff;--canvas:#f4f8f5;
       --green:#17483f;--green2:#246b5c;--soft:#e9f5ee;--gold:#8a5a12;--goldbg:#fff7e7;
@@ -21,32 +22,27 @@
     html,body{height:100%;margin:0;background:var(--canvas);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);font-size:13px}
     button,input,select{font:inherit}button{cursor:pointer}a{color:inherit}
 
-    /* ===== Single-Viewport App Layout (100vh, no page scroll on desktop) ===== */
+    /* ===== Single-Viewport Layout (100vh, no page scroll) ===== */
     .layout{display:flex;height:100vh;overflow:hidden}
-    .sidebar{width:232px;flex:0 0 232px;background:#123b35;color:#e9f5ef;padding:18px 14px;display:flex;flex-direction:column;gap:10px;z-index:4}
+    .sidebar{width:232px;flex:0 0 232px;background:#123b35;color:#e9f5ef;padding:18px 14px;display:flex;flex-direction:column;gap:12px;z-index:4}
     .brand{display:flex;align-items:center;gap:10px;padding:0 4px 14px;border-bottom:1px solid #ffffff20}
     .logo{height:40px;width:40px;flex:0 0 40px;display:grid;place-items:center}
     .logo img{width:100%;height:100%;object-fit:contain;display:block}
     .brand strong{font-size:13px;display:block;line-height:1.2}
     .brand small{display:block;color:#a4c5b7;font-size:10px;margin-top:3px}
     .sidebar-class-switch{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:4px;border-radius:10px;background:#ffffff14;border:1px solid #ffffff22}
-    .class-sw-btn{border:0;border-radius:7px;padding:7px 6px;background:transparent;color:#cbe0d6;font-size:11px;font-weight:750;transition:background .15s,color .15s}
+    .class-sw-btn{border:0;border-radius:7px;padding:7px 6px;background:transparent;color:#cbe0d6;font-size:11.5px;font-weight:750;transition:background .15s,color .15s}
     .class-sw-btn:hover{background:#ffffff18;color:#fff}
     .class-sw-btn.active{background:#e7f4ed;color:#123b35;font-weight:850}
-    .nav-label{margin:6px 8px 2px;font-size:9px;letter-spacing:1.4px;color:#8cb5a4;font-weight:800}
-    .nav{display:flex;flex-direction:column;gap:4px}
-    .nav-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 11px;border:0;background:transparent;color:#c4d8cf;border-radius:10px;font-weight:700;font-size:12px;text-align:left;transition:background .15s,color .15s}
+    .nav-label{margin:4px 8px 0;font-size:9px;letter-spacing:1.4px;color:#8cb5a4;font-weight:800}
+    .nav{display:flex;flex-direction:column;gap:5px}
+    .nav-item{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border:0;background:transparent;color:#c4d8cf;border-radius:10px;font-weight:700;font-size:12.5px;text-align:left;transition:background .15s,color .15s}
     .nav-item:hover{background:#ffffff14;color:#fff}
     .nav-item.active{background:#e7f4ed;color:#123b35;font-weight:800}
     .nav-item svg{width:17px;height:17px;flex:0 0 17px}
-    .nav-badge{margin-left:auto;background:#e05252;color:#fff;font-size:10px;font-weight:850;padding:2px 7px;border-radius:99px;min-width:20px;text-align:center}
-    .nav-item.active .nav-badge{background:#17483f;color:#fff}
-    .sidebar-note{margin-top:auto;border:1px solid #ffffff20;background:#ffffff0b;border-radius:11px;padding:11px;color:#b7d0c5;font-size:10.5px;line-height:1.55}
+    .sidebar-note{margin-top:auto;border:1px solid #ffffff20;background:#ffffff0b;border-radius:11px;padding:12px;color:#b7d0c5;font-size:10.5px;line-height:1.55}
     .sidebar-note a{color:#7ee0c6;font-weight:750;text-decoration:none}
     .sidebar-note a:hover{text-decoration:underline}
-    .logout-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:10px 12px;border:1px solid #ffffff2b;background:#ffffff10;color:#f3faf6;border-radius:10px;font-size:12px;font-weight:750;transition:background .15s}
-    .logout-btn:hover{background:#ffffff24}
-    .logout-btn svg{width:15px;height:15px}
 
     .main{flex:1;min-width:0;display:flex;flex-direction:column;height:100vh;overflow:hidden}
     .topbar{height:58px;flex:0 0 58px;background:#ffffffeb;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 20px;backdrop-filter:blur(10px)}
@@ -56,33 +52,27 @@
     .tag{padding:5px 10px;border-radius:99px;background:var(--soft);color:var(--green);font-weight:800;font-size:10px;white-space:nowrap}
     .tg-link-btn{height:30px;padding:0 11px;border-radius:8px;background:#e6f4fb;color:#0b5d8a;border:1px solid #bce0f5;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
     .tg-link-btn:hover{background:#d4ecfa}
-    .topbar-logout{display:none;align-items:center;gap:5px;padding:5px 10px;border-radius:8px;border:1px solid #dce7e0;background:#fff;color:var(--green);font-size:11px;font-weight:750}
 
-    /* Compact Global Status Strip */
     .global-strip{padding:0 16px;flex:0 0 auto}
-    .alert-banner{margin-top:8px;padding:8px 12px;border-radius:10px;background:#edf6fd;border:1px solid #c9e3f5;color:#18537a;font-size:11px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .alert-banner{margin-top:8px;padding:8px 12px;border-radius:10px;background:#edf6fd;border:1px solid #c9e3f5;color:#18537a;font-size:11.5px;display:flex;align-items:center;justify-content:space-between;gap:10px}
     .alert-banner.ok{background:#edf8f1;border-color:#c6e8d2;color:#1d6442}
     .alert-banner.error{background:var(--redbg);border-color:#f0cdca;color:var(--red)}
     .alert-banner.warn{background:var(--goldbg);border-color:#fae1a2;color:var(--gold)}
     .banner-progress{margin-top:5px;height:4px;border-radius:99px;background:#d6eaf8;overflow:hidden;width:220px}
     .banner-progress .bar{display:block;height:100%;width:40%;background:#2b8cc4;border-radius:99px;animation:slideBar 1.2s ease-in-out infinite}
     @keyframes slideBar{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
-    .toast-bar{margin-top:8px;padding:8px 12px;border-radius:10px;border:1px solid #f0dfb9;background:var(--goldbg);color:var(--gold);font-size:11px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .toast-bar{margin-top:8px;padding:8px 12px;border-radius:10px;border:1px solid #f0dfb9;background:var(--goldbg);color:var(--gold);font-size:11.5px;display:flex;align-items:center;justify-content:space-between;gap:10px}
     .toast-bar.ok{border-color:#c6e8d2;background:#eff8f1;color:#226646}
     .toast-bar.error{border-color:#f0cdca;background:var(--redbg);color:var(--red)}
-    .toast-close{border:0;background:transparent;font-size:15px;line-height:1;color:inherit;opacity:.7;padding:0 4px}
+    .toast-close{border:0;background:transparent;font-size:16px;line-height:1;color:inherit;opacity:.7;padding:0 4px}
     .toast-close:hover{opacity:1}
 
-    /* Pages fill remaining height exactly (no vertical page scroll) */
     .page-view{flex:1;min-height:0;padding:12px 16px 14px;display:flex;flex-direction:column;gap:10px;overflow:hidden}
-    .page-view[hidden]{display:none!important}
-
     .panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden}
     .toolbar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);background:#fafdfb;flex-wrap:wrap;flex:0 0 auto}
     .toolbar-right{margin-left:auto;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
     .t-select,.t-input{height:34px;border:1px solid #d7e3dc;border-radius:9px;background:#fff;color:var(--ink);padding:0 10px;font-size:12px;outline:none}
     .t-select:focus,.t-input:focus{border-color:#5fa184;box-shadow:0 0 0 3px #e1f2e8}
-    .locked-select{background:#f2f7f4!important;color:#35564b!important;cursor:not-allowed!important;font-weight:750}
     .btn{height:34px;padding:0 12px;border:1px solid #d7e3dc;background:#fff;border-radius:9px;color:var(--green);font-size:11.5px;font-weight:750;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;text-decoration:none;transition:background .15s}
     .btn:hover{background:#f3f9f5}
     .btn:disabled{opacity:.5;cursor:not-allowed}
@@ -91,41 +81,24 @@
     .btn-primary:hover{background:var(--green2)}
     .btn-danger{background:#fff;border-color:#ecc8c5;color:var(--red)}
     .btn-danger:hover{background:var(--redbg)}
-    .btn-warn{background:#fff8e6;border-color:#f3d284;color:#8a5300}
-    .btn-warn:hover{background:#ffefc7}
     .btn-xs{height:28px;padding:0 9px;border-radius:7px;font-size:10.5px;font-weight:750}
     .chip{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:99px;font-size:10.5px;font-weight:800;white-space:nowrap}
     .chip-green{background:#edf8f1;color:#1f6845;border:1px solid #cdebd7}
     .chip-warn{background:#fff8e6;color:#8a5300;border:1px solid #f7dc94}
-    .chip-blue{background:#edf6fd;color:#18537a;border:1px solid #c9e3f5}
     .chip-muted{background:#f1f5f3;color:#556b63;border:1px solid #dfe8e3}
 
-    /* ===== Tab 1: Verifikasi Foto Split-Screen (50/50) ===== */
-    .split-wrap{display:grid;grid-template-columns:46% 54%;flex:1;min-height:0;overflow:hidden}
-    .split-pane{display:flex;flex-direction:column;min-height:0;overflow:hidden}
-    .split-pane:first-child{border-right:1px solid var(--line)}
-    .pane-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);background:#f8fbf9;flex:0 0 auto;font-size:11.5px;font-weight:750;color:#2c4a41}
+    .pane-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line);background:#f8fbf9;flex:0 0 auto;font-size:11.5px;font-weight:750;color:#2c4a41}
     .pane-head small{font-weight:600;color:var(--muted);font-size:10.5px}
-    .photo-stage{flex:1;min-height:0;background:#10221e;overflow:auto;display:flex;align-items:center;justify-content:center;padding:12px;position:relative}
-    .photo-stage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px;box-shadow:0 10px 28px rgba(0,0,0,.45);transition:transform .2s ease;transform-origin:center center}
     .table-scroll{flex:1;min-height:0;overflow:auto}
     table{border-collapse:collapse;width:100%}
-    thead th{position:sticky;top:0;z-index:2;text-align:left;padding:9px 10px;background:#f5faf7;color:#5e746b;font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:800;border-bottom:1px solid var(--line);white-space:nowrap}
-    tbody td{padding:7px 10px;border-bottom:1px solid #edf2ee;font-size:11.5px;vertical-align:middle}
+    thead th{position:sticky;top:0;z-index:2;text-align:left;padding:10px 12px;background:#f5faf7;color:#5e746b;font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:800;border-bottom:1px solid var(--line);white-space:nowrap}
+    tbody td{padding:9px 12px;border-bottom:1px solid #edf2ee;font-size:12px;vertical-align:middle}
     tbody tr:hover{background:#f9fcfa}
-    .ocr-score-inp{width:54px;height:28px;border:1px solid #d5e2db;border-radius:6px;text-align:center;font-weight:750;font-size:12px;color:var(--ink);background:#fff;padding:0 4px}
-    .ocr-score-inp:focus{border-color:#287765;outline:none;box-shadow:0 0 0 2px #d8f0e4}
-    .ocr-score-inp.is-ragu{background:#fff5cc;border-color:#e09312;color:#7a4400}
-    .ocr-score-inp.is-invalid{background:#fff0f0;border-color:#cf4646;color:#991b1b}
-    .ocr-santri-sel{width:100%;min-width:155px;max-width:210px;height:28px;border:1px solid #d5e2db;border-radius:6px;font-size:11px;padding:0 6px;background:#fff;color:var(--ink)}
-    .ocr-santri-sel.unmatched{border-color:#e09312;background:#fffaf0}
-    .ocr-name-sub{font-size:9.5px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:205px}
-    .empty-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px;gap:10px;color:var(--muted)}
-    .empty-center h3{margin:0;font-size:16px;color:var(--ink)}
-    .empty-center p{margin:0;max-width:460px;font-size:12px;line-height:1.6}
-    .empty-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+    .empty-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;gap:8px;color:var(--muted)}
+    .empty-center h3{margin:0;font-size:15px;color:var(--ink)}
+    .empty-center p{margin:0;max-width:440px;font-size:12px;line-height:1.6}
 
-    /* ===== Tab 2: Progres Kelas (1 Screen, 2 Scrollable Columns) ===== */
+    /* Tab 1: Progres Kelas */
     .prog-bar-row{display:flex;align-items:center;gap:12px;padding:9px 14px;border-bottom:1px solid var(--line);background:#f8fbf9;flex:0 0 auto;font-size:11.5px;font-weight:750}
     .prog-track{flex:1;height:8px;border-radius:99px;background:#e3ece7;overflow:hidden}
     .prog-fill{height:100%;background:linear-gradient(90deg,#17483f,#2ea07b);border-radius:99px;transition:width .25s ease}
@@ -144,7 +117,7 @@
     .todo-chip{padding:6px 10px;border-radius:8px;border:1px solid #dce7e0;background:#fff;color:var(--ink);font-size:11px;font-weight:700}
     .todo-chip:hover{background:#edf8f1;border-color:#93c8ad;color:var(--green)}
 
-    /* ===== Tab 3: Arsip PDF (Combined Transkrip & Rekap Toggle) ===== */
+    /* Tab 2: Arsip PDF */
     .seg-toggle{display:inline-flex;background:#eaf1ed;padding:3px;border-radius:10px;gap:3px}
     .seg-btn{height:28px;padding:0 12px;border:0;border-radius:7px;background:transparent;color:#4f665e;font-size:11.5px;font-weight:750}
     .seg-btn.active{background:#fff;color:var(--green);box-shadow:0 2px 6px rgba(18,59,53,.1)}
@@ -154,11 +127,9 @@
     .status-ok{color:#26704f;background:#edf8f1;border:1px solid #d8efdf}.status-ok:before{background:#36a46d}
     .status-warn{color:#8a5300;background:#fff8e6;border:1px solid #fae1a2}.status-warn:before{background:#e09312}
     .status-postponed{color:#7a4422;background:#fef3eb;border:1px solid #f6d1bc}.status-postponed:before{background:#c86932}
-    .status-process{color:#18537a;background:#edf6fd;border:1px solid #c9e3f5}.status-process:before{background:#2b8cc4}
 
-    /* ===== Modals (Pratinjau Nilai & Edit Nilai/Absensi Cepat) ===== */
+    /* Modals */
     .modal-backdrop{position:fixed;inset:0;z-index:100;background:rgba(13,37,32,.52);backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px}
-    .modal-backdrop[hidden]{display:none!important}
     .modal-card{width:100%;max-width:780px;max-height:90vh;background:#fff;border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,.28);display:flex;flex-direction:column;overflow:hidden}
     .modal-head{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;background:#f8fbf9}
     .modal-head h3{margin:0;font-size:15px}
@@ -181,28 +152,25 @@
     .edit-item input{height:32px;border:1px solid #d5e2db;border-radius:8px;padding:0 8px;font-size:12px}
     .edit-abs-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-top:8px;border-top:1px dashed var(--line)}
 
-    @media(max-width:900px){
+    @media(max-width:860px){
       .layout{flex-direction:column;height:auto;min-height:100vh;overflow:visible}
       .sidebar{width:100%;flex:0 0 auto;padding:12px 14px}
-      .nav{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-      .nav-item{flex-direction:column;justify-content:center;text-align:center;gap:4px;padding:8px 6px;font-size:10.5px}
-      .sidebar-note,.logout-btn,.nav-label{display:none}
-      .topbar-logout{display:inline-flex}
+      .nav{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+      .nav-item{justify-content:center;padding:9px 8px;font-size:11.5px}
+      .sidebar-note,.nav-label{display:none}
       .main{height:auto;overflow:visible}
       .page-view{overflow:visible;min-height:70vh}
-      .split-wrap,.prog-cols,.modal-tables,.modal-stats,.edit-grid{grid-template-columns:1fr}
-      .split-pane:first-child,.prog-col:first-child{border-right:0;border-bottom:1px solid var(--line)}
-      .photo-stage{min-height:280px}
+      .prog-cols,.modal-tables,.modal-stats,.edit-grid{grid-template-columns:1fr}
+      .prog-col:first-child{border-right:0;border-bottom:1px solid var(--line)}
     }
   </style>
 </head>
 <body>
-  <!-- Aplikasi Utama 1 Layar (100vh) -->
   <div class="layout" id="appLayout">
     <aside class="sidebar">
       <div class="brand">
         <div class="logo"><img src="logo-paudqu-removebg-preview.png" alt="Logo PAUDQu"></div>
-        <div><strong>PAUDQu Nurul Mubin</strong><small>Verifikasi AI &amp; Arsip Rapor</small></div>
+        <div><strong>PAUDQu Nurul Mubin</strong><small>Cibinong · Layanan Rapor</small></div>
       </div>
       <div class="sidebar-class-switch" role="group" aria-label="Pilih kelas aktif">
         <button type="button" class="class-sw-btn" data-sw-kelas="A">Kelas A</button>
@@ -210,12 +178,7 @@
       </div>
       <div class="nav-label">MENU UTAMA</div>
       <nav class="nav" aria-label="Menu utama">
-        <button class="nav-item active" type="button" data-page="verifikasi" aria-current="page">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-4 4-2-2-5 5"/></svg>
-          <span>Verifikasi Foto</span>
-          <span class="nav-badge" id="verifyBadge" hidden>0</span>
-        </button>
-        <button class="nav-item" type="button" data-page="progres" aria-current="false">
+        <button class="nav-item active" type="button" data-page="progres" aria-current="page">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 3v18h18"/><path d="M7 15v3M12 10v8M17 6v12"/></svg>
           <span>Progres Kelas</span>
         </button>
@@ -225,23 +188,21 @@
         </button>
       </nav>
       <div class="sidebar-note">
-        <strong>Alur n8n + Gemini AI:</strong><br>
-        1. Kirim foto buku nilai ke <a href="https://t.me/paudqu_nurulmubin_bot" target="_blank" rel="noopener noreferrer">@paudqu_nurulmubin_bot</a><br>
-        2. Cek &amp; konfirmasi di <em>Verifikasi Foto</em><br>
-        3. n8n otomatis gabung nilai, hitung ranking &amp; cetak PDF ke Drive.
+        <strong>Input Nilai via Telegram:</strong><br>
+        Kirim foto lembar nilai ke <a href="https://t.me/paudqu_nurulmubin_bot" target="_blank" rel="noopener noreferrer">@paudqu_nurulmubin_bot</a>. n8n + Gemini AI otomatis membaca, menggabungkan lintas lembar, menghitung ranking &amp; menerbitkan PDF ke Drive.
       </div>
     </aside>
 
     <main class="main">
       <header class="topbar">
         <div>
-          <div class="eyebrow" id="topEyebrow">PAUDQu Nurul Mubin · n8n AI Workflow</div>
-          <h1 id="topTitle">Verifikasi Foto Nilai AI</h1>
+          <div class="eyebrow" id="topEyebrow">PAUDQu Nurul Mubin · Monitoring Penilaian</div>
+          <h1 id="topTitle">Progres Kelengkapan Nilai</h1>
         </div>
         <div class="topbar-right">
-          <a class="tg-link-btn" href="https://t.me/paudqu_nurulmubin_bot" target="_blank" rel="noopener noreferrer" title="Buka Bot Telegram untuk kirim foto buku nilai">
+          <a class="tg-link-btn" href="https://t.me/paudqu_nurulmubin_bot" target="_blank" rel="noopener noreferrer">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-            Bot Telegram
+            Kirim Foto via Telegram
           </a>
           <span class="tag" id="topClassTag">KELAS B</span>
         </div>
@@ -261,82 +222,11 @@
         </div>
       </div>
 
-      <!-- TAB 1: VERIFIKASI FOTO AI (DEFAULT, 1 LAYAR PENUH 50/50) -->
-      <section class="page-view" id="page-verifikasi">
+      <!-- TAB 1: PROGRES KELAS (HALAMAN UTAMA, 1 LAYAR PENUH) -->
+      <section class="page-view" id="page-progres">
         <div class="panel">
           <div class="toolbar">
-            <select id="draftSelect" class="t-select" style="min-width:250px;max-width:340px" aria-label="Pilih antrean foto">
-              <option value="">Memuat antrean foto dari Telegram...</option>
-            </select>
-            <select id="draftStatusFilter" class="t-select" style="width:140px" aria-label="Filter status draft">
-              <option value="MENUNGGU_VERIFIKASI">Menunggu Cek</option>
-              <option value="ALL">Semua Riwayat</option>
-            </select>
-            <input type="file" id="uploadFotoInput" accept="image/*" hidden>
-            <button type="button" class="btn" id="btnUploadFoto" title="Cadangan: upload foto tabel nilai langsung dari perangkat">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-              Upload Foto
-            </button>
-            <button type="button" class="btn" id="btnRefreshDrafts" title="Muat ulang antrean foto">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 17 5.8L20 12M4 12l3 6.2A7 7 0 0 0 18.5 15"/></svg>
-              Muat Ulang
-            </button>
-            <div class="toolbar-right" id="verifyActionBar" hidden>
-              <span class="chip chip-blue" id="verifyMetaChip">0 santri</span>
-              <button type="button" class="btn btn-danger" id="btnRejectDraft">Tolak</button>
-              <button type="button" class="btn btn-primary" id="btnConfirmMerge">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
-                Konfirmasi &amp; Gabungkan
-              </button>
-            </div>
-          </div>
-
-          <div id="verifyEmpty" class="empty-center">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#6d8f82" stroke-width="1.5" style="width:44px;height:44px"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-4 4-2-2-5 5"/></svg>
-            <h3>Belum ada foto nilai menunggu verifikasi</h3>
-            <p>Kirimkan foto lembar tabel nilai tulisan tangan ke Bot Telegram <strong>@paudqu_nurulmubin_bot</strong> (boleh miring, boleh per lembar mapel), lalu klik <strong>Muat Ulang</strong> — atau gunakan tombol <strong>Upload Foto</strong> langsung di sini.</p>
-            <div class="empty-actions">
-              <a class="btn btn-primary" href="https://t.me/paudqu_nurulmubin_bot" target="_blank" rel="noopener noreferrer">Buka Bot Telegram</a>
-              <button type="button" class="btn" id="btnUploadFotoEmpty">Upload Foto dari Perangkat</button>
-            </div>
-          </div>
-
-          <div id="verifySplit" class="split-wrap" hidden>
-            <div class="split-pane">
-              <div class="pane-head">
-                <span id="photoTitle">Foto Asli Lembar Nilai</span>
-                <div style="display:flex;gap:5px;align-items:center">
-                  <button type="button" class="btn btn-xs" id="btnRotateFoto" title="Putar foto 90 derajat">↺ Putar 90°</button>
-                  <button type="button" class="btn btn-xs" id="btnZoomOut" title="Perkecil">−</button>
-                  <button type="button" class="btn btn-xs" id="btnZoomIn" title="Perbesar">+</button>
-                  <a class="btn btn-xs" id="btnOpenFotoDrive" href="#" target="_blank" rel="noopener noreferrer">Drive ↗</a>
-                </div>
-              </div>
-              <div class="photo-stage">
-                <img id="verifyPhotoImg" src="" alt="Foto lembar nilai asli">
-              </div>
-            </div>
-            <div class="split-pane">
-              <div class="pane-head">
-                <span>Hasil Ekstraksi Gemini AI <small>(klik angka untuk koreksi)</small></span>
-                <span id="ocrNoteRight" style="font-size:10.5px;color:#8a5300"></span>
-              </div>
-              <div class="table-scroll">
-                <table id="ocrTable">
-                  <thead id="ocrThead"></thead>
-                  <tbody id="ocrTbody"></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- TAB 2: PROGRES KELAS (1 LAYAR PENUH) -->
-      <section class="page-view" id="page-progres" hidden>
-        <div class="panel">
-          <div class="toolbar">
-            <select id="progClass" class="t-select" style="width:105px"><option value="A">Kelas A</option><option value="B">Kelas B</option></select>
+            <select id="progClass" class="t-select" style="width:105px"><option value="A">Kelas A</option><option value="B" selected>Kelas B</option></select>
             <select id="progYear" class="t-select" style="width:118px"><option value="2026/2027" selected>2026/2027</option><option value="2025/2026">2025/2026</option><option value="2024/2025">2024/2025</option></select>
             <select id="progSemester" class="t-select" style="width:105px"><option value="1">Ganjil</option><option value="2">Genap</option></select>
             <button type="button" class="btn" id="refreshProgres">
@@ -345,7 +235,7 @@
             </button>
             <div class="toolbar-right">
               <span class="chip chip-muted" id="progStatusChip">Status: Sementara</span>
-              <span class="chip chip-green" id="progCount">0 / 0 santri</span>
+              <span class="chip chip-green" id="progCount">0 / 0 lengkap</span>
             </div>
           </div>
           <div class="prog-bar-row">
@@ -355,7 +245,7 @@
           </div>
           <div class="prog-cols">
             <div class="prog-col">
-              <div class="pane-head"><span>✓ Sudah Ada Nilai (Gabungan Lintas Lembar)</span><small id="progDoneCount">0 santri</small></div>
+              <div class="pane-head"><span>✓ Sudah Ada Nilai (Hasil Foto Telegram &amp; Koreksi)</span><small id="progDoneCount">0 santri</small></div>
               <div class="prog-list" id="progDoneList"></div>
             </div>
             <div class="prog-col">
@@ -366,16 +256,16 @@
         </div>
       </section>
 
-      <!-- TAB 3: ARSIP PDF (GABUNGAN TRANSKRIP & REKAP DALAM 1 LAYAR) -->
+      <!-- TAB 2: ARSIP PDF (TRANSKRIP & REKAP DALAM 1 LAYAR) -->
       <section class="page-view" id="page-arsip" hidden>
         <div class="panel">
           <div class="toolbar">
             <div class="seg-toggle" role="tablist">
-              <button type="button" class="seg-btn active" id="segTranskrip" data-arsip-mode="transkrip">Transkrip Santri</button>
-              <button type="button" class="seg-btn" id="segRekap" data-arsip-mode="rekap">Rekap Peringkat</button>
+              <button type="button" class="seg-btn active" id="segTranskrip">Transkrip Santri</button>
+              <button type="button" class="seg-btn" id="segRekap">Rekap Peringkat</button>
             </div>
             <input id="arsipSearch" class="t-input" type="search" placeholder="Cari nama / NIS santri..." style="width:190px">
-            <select id="arsipClass" class="t-select" style="width:105px"><option value="A">Kelas A</option><option value="B">Kelas B</option></select>
+            <select id="arsipClass" class="t-select" style="width:105px"><option value="A">Kelas A</option><option value="B" selected>Kelas B</option></select>
             <select id="arsipYear" class="t-select" style="width:118px"><option value="2026/2027" selected>2026/2027</option><option value="2025/2026">2025/2026</option><option value="2024/2025">2024/2025</option></select>
             <select id="arsipSemester" class="t-select" style="width:105px"><option value="1">Ganjil</option><option value="2">Genap</option></select>
             <button type="button" class="btn" id="btnRefreshArsip">Muat Ulang</button>
@@ -392,7 +282,7 @@
             </table>
             <div class="empty-center" id="transcriptEmpty" hidden>
               <h3>Belum ada arsip transkrip PDF</h3>
-              <p>PDF transkrip dibuat otomatis oleh WF-03 saat seluruh santri kelas selesai diverifikasi (Final) atau saat diperbarui manual.</p>
+              <p>PDF transkrip dibuat otomatis oleh WF-03 saat seluruh santri kelas selesai dinilai (Final) atau saat diperbarui manual.</p>
             </div>
           </div>
           <div class="table-scroll" id="arsipRekapWrap" hidden>
@@ -446,7 +336,7 @@
     </div>
   </div>
 
-  <!-- Modal Edit / Input Nilai & Absensi Cepat -->
+  <!-- Modal Edit / Koreksi Nilai & Absensi Cepat -->
   <div id="editModal" class="modal-backdrop" role="dialog" aria-modal="true" hidden>
     <form id="editForm" class="modal-card" novalidate>
       <div class="modal-head">
@@ -472,8 +362,6 @@
   </div>
 
   <script>
-    // ===== API Endpoints (n8n Production) =====
-    const SCAN_API_URL     = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/scan-foto-nilai";
     const INPUT_API_URL    = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/input-nilai";
     const CALC_API_URL     = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/hitung-paud";
     const TRANSKRIP_URL    = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/dashboard_paudqu_transkrip";
@@ -498,7 +386,6 @@
       ['mewarnai', 'Mewarnai'], ['berhitung', 'Berhitung'], ['bahasa_arab', 'B. Arab'],
       ['bahasa_inggris', 'B. Inggris'], ['keterampilan', 'Keterampilan'], ['olahraga', 'Olahraga'], ['aqidah', 'Aqidah']
     ];
-    const MAPEL_LABEL = Object.fromEntries([...MAPEL_POKOK, ...MAPEL_PENUNJANG_B]);
     const activeMapelList = (k) => k === 'B' ? [...MAPEL_POKOK, ...MAPEL_PENUNJANG_B] : [...MAPEL_POKOK, ...MAPEL_PENUNJANG_A];
 
     const $ = (id) => document.getElementById(id);
@@ -514,7 +401,6 @@
       return m2 ? m2[1] : '';
     }
 
-    // ===== Global Banner & Toast =====
     let bannerHideTimer = null;
     function showProcessBanner(title, detail = '', mode = 'processing') {
       clearTimeout(bannerHideTimer);
@@ -524,11 +410,8 @@
       $('processDetail').textContent = detail ? ' — ' + detail : '';
       $('processBarWrap').hidden = mode !== 'processing';
       el.hidden = false;
-      if (mode !== 'processing') {
-        bannerHideTimer = setTimeout(() => { el.hidden = true; }, 7000);
-      }
+      if (mode !== 'processing') bannerHideTimer = setTimeout(() => { el.hidden = true; }, 6500);
     }
-    function hideProcessBanner() { $('bannerProcess').hidden = true; }
     function showMessage(text, type = '') {
       const box = $('message');
       if (!text) { box.hidden = true; return; }
@@ -538,7 +421,6 @@
     }
     $('btnCloseMsg').addEventListener('click', () => { $('message').hidden = true; });
 
-    // ===== Sheet API & Drive Helpers =====
     let sheetGidMapCache = null;
     const santriCacheByYear = {};
     async function callSheetApi(payload) {
@@ -572,8 +454,7 @@
       const range = collectColIdx >= 6 ? 'A1:N600' : 'A1:F600';
       const res = await callSheetApi({ action: 'read', tab: tabName, range });
       const rows = (res.result && res.result.values) || [];
-      const idxs = [];
-      const urls = [];
+      const idxs = [], urls = [];
       for (let i = 1; i < rows.length; i++) {
         if (String(rows[i][0] ?? '').trim() === targetKey) {
           idxs.push(i);
@@ -588,24 +469,19 @@
     }
     async function loadMasterSantri(year) {
       if (santriCacheByYear[year]) return santriCacheByYear[year];
-      const tab = 'Santri_' + year.replace('/', '_');
       try {
-        const res = await callSheetApi({ action: 'read', tab, range: 'A1:I200' });
+        const res = await callSheetApi({ action: 'read', tab: 'Santri_' + year.replace('/', '_'), range: 'A1:I200' });
         const rows = (res.result && res.result.values) || [];
         if (rows.length <= 1) { santriCacheByYear[year] = []; return []; }
         const h = rows[0].map(x => String(x || '').trim().toLowerCase());
         const iNis = h.indexOf('nis') >= 0 ? h.indexOf('nis') : h.indexOf('id_santri');
         const iNama = h.indexOf('nama_santri');
-        const iKelas = h.indexOf('kelas');
         const iJk = h.indexOf('jenis_kelamin');
-        const iStatus = h.indexOf('status');
         santriCacheByYear[year] = rows.slice(1).map(r => ({
           nis: String(r[iNis] ?? '').trim(),
           nama_santri: String(r[iNama] ?? '').trim(),
-          kelas: String(r[iKelas] ?? '').trim().toUpperCase().replace(/^KELAS\s*/, ''),
-          jk: iJk >= 0 && String(r[iJk] ?? '').trim().toUpperCase().startsWith('P') ? 'P' : 'L',
-          status: iStatus >= 0 ? String(r[iStatus] ?? '').trim().toUpperCase() : 'AKTIF'
-        })).filter(s => s.nis && s.nama_santri && s.status !== 'TIDAK');
+          jk: iJk >= 0 && String(r[iJk] ?? '').trim().toUpperCase().startsWith('P') ? 'P' : 'L'
+        })).filter(s => s.nis);
       } catch {
         santriCacheByYear[year] = [];
       }
@@ -617,13 +493,14 @@
       return esc(initials);
     }
 
-    // ===== Navigation (3 Tabs) =====
+    // ===== Navigation (2 Simple Tabs) =====
     const pageMeta = {
-      verifikasi: { title: 'Verifikasi Foto Nilai AI', eyebrow: 'PAUDQu Nurul Mubin · Telegram + n8n + Gemini OCR' },
-      progres:    { title: 'Progres Kelengkapan Nilai', eyebrow: 'PAUDQu Nurul Mubin · Penggabungan Lintas Lembar' },
-      arsip:      { title: 'Arsip PDF Transkrip & Rekap', eyebrow: 'PAUDQu Nurul Mubin · Google Drive Terpusat' }
+      progres: { title: 'Progres Kelengkapan Nilai', eyebrow: 'PAUDQu Nurul Mubin · Hasil Otomasi Telegram + n8n' },
+      arsip:   { title: 'Arsip PDF Transkrip & Rekap', eyebrow: 'PAUDQu Nurul Mubin · Google Drive Terpusat' }
     };
-    let currentPage = 'verifikasi';
+    let currentPage = 'progres';
+    let activeKelas = 'B';
+
     function showPage(name) {
       currentPage = name;
       document.querySelectorAll('.page-view').forEach(el => { el.hidden = el.id !== `page-${name}`; });
@@ -634,310 +511,27 @@
       });
       $('topTitle').textContent = pageMeta[name].title;
       $('topEyebrow').textContent = pageMeta[name].eyebrow;
-      if (name === 'verifikasi') loadDrafts();
       if (name === 'progres') loadProgres();
       if (name === 'arsip') loadArsip();
     }
     document.querySelectorAll('.nav-item[data-page]').forEach(el => el.addEventListener('click', () => showPage(el.dataset.page)));
 
-    // ===== TAB 1: VERIFIKASI FOTO AI (Draft_OCR) =====
-    const urlParams = new URLSearchParams(location.search);
-    let pendingVerifyBatchId = urlParams.get('verify') || '';
-    let allDrafts = [];
-    let activeDraft = null;
-    let photoRotation = 0;
-    let photoZoom = 1;
-
-    async function loadDrafts(selectBatchId = '') {
-      const btn = $('btnRefreshDrafts');
-      btn.disabled = true;
-      try {
-        const res = await callSheetApi({ action: 'read', tab: 'Draft_OCR', range: 'A1:N200' });
-        const rows = (res.result && res.result.values) || [];
-        if (rows.length <= 1) {
-          allDrafts = [];
-        } else {
-          allDrafts = rows.slice(1).map(r => {
-            let parsed = { judul_lembar: 'Lembar Nilai', orientasi_derajat: 0, mapel_terbaca: [], kolom_diabaikan: [], santri: [] };
-            try { parsed = JSON.parse(r[13] || '{}'); } catch {}
-            return {
-              batch_id: String(r[0] || '').trim(),
-              waktu: String(r[1] || '').trim(),
-              kelas: String(r[2] || '').trim().toUpperCase(),
-              semester: String(r[3] || '1').trim(),
-              tahun_pelajaran: String(r[4] || '2026/2027').trim(),
-              sumber: String(r[5] || '').trim(),
-              chat_id: String(r[6] || '').trim(),
-              foto_file_id: String(r[7] || '').trim(),
-              foto_url: String(r[8] || '').trim(),
-              mapel_terbaca: String(r[9] || '').split(',').filter(Boolean),
-              jumlah_santri: Number(r[10] || 0),
-              jumlah_ragu: Number(r[11] || 0),
-              status: String(r[12] || 'MENUNGGU_VERIFIKASI').trim().toUpperCase(),
-              parsed
-            };
-          }).filter(d => d.batch_id).reverse();
-        }
-        // Badge count of pending drafts for active class
-        const pendingForClass = allDrafts.filter(d => d.status === 'MENUNGGU_VERIFIKASI' && (!activeKelas || d.kelas === activeKelas));
-        const badge = $('verifyBadge');
-        badge.textContent = String(pendingForClass.length);
-        badge.hidden = pendingForClass.length === 0;
-
-        renderDraftDropdown(selectBatchId || pendingVerifyBatchId);
-        pendingVerifyBatchId = '';
-      } catch (err) {
-        showMessage('Gagal memuat antrean foto OCR: ' + err.message, 'error');
-      } finally {
-        btn.disabled = false;
+    function applyActiveKelas(kelas, reload = true) {
+      activeKelas = kelas === 'A' ? 'A' : 'B';
+      $('topClassTag').textContent = `KELAS ${activeKelas}`;
+      document.querySelectorAll('button[data-sw-kelas]').forEach(b => b.classList.toggle('active', b.dataset.swKelas === activeKelas));
+      $('progClass').value = activeKelas;
+      $('arsipClass').value = activeKelas;
+      if (reload) {
+        if (currentPage === 'progres') loadProgres();
+        else loadArsip();
       }
     }
+    document.querySelectorAll('button[data-sw-kelas]').forEach(btn => btn.addEventListener('click', () => applyActiveKelas(btn.dataset.swKelas, true)));
+    ['progClass', 'arsipClass'].forEach(id => $(id).addEventListener('change', () => applyActiveKelas($(id).value, true)));
 
-    function filteredDrafts() {
-      const st = $('draftStatusFilter').value;
-      return allDrafts.filter(d => (!activeKelas || d.kelas === activeKelas) && (st === 'ALL' || d.status === st));
-    }
-
-    async function renderDraftDropdown(preferId = '') {
-      const list = filteredDrafts();
-      const sel = $('draftSelect');
-      if (!list.length) {
-        sel.innerHTML = `<option value="">— Tidak ada foto untuk Kelas ${esc(activeKelas)} —</option>`;
-        activeDraft = null;
-        $('verifyEmpty').hidden = false;
-        $('verifySplit').hidden = true;
-        $('verifyActionBar').hidden = true;
-        return;
-      }
-      sel.innerHTML = list.map(d => {
-        const dt = d.waktu ? new Date(d.waktu).toLocaleString('id-ID', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
-        const stTag = d.status === 'TERVERIFIKASI' ? '✓ ' : (d.jumlah_ragu > 0 ? '⚠️ ' : '● ');
-        return `<option value="${esc(d.batch_id)}">${stTag}${esc(d.parsed.judul_lembar || 'Lembar Nilai')} (${d.jumlah_santri} santri · ${dt})</option>`;
-      }).join('');
-      const chosen = list.find(d => d.batch_id === preferId) || list[0];
-      sel.value = chosen.batch_id;
-      await renderActiveDraft(chosen);
-    }
-
-    async function renderActiveDraft(draft) {
-      activeDraft = draft;
-      if (!draft) {
-        $('verifyEmpty').hidden = false;
-        $('verifySplit').hidden = true;
-        $('verifyActionBar').hidden = true;
-        return;
-      }
-      $('verifyEmpty').hidden = true;
-      $('verifySplit').hidden = false;
-      $('verifyActionBar').hidden = false;
-
-      const p = draft.parsed || {};
-      const mapels = Array.isArray(p.mapel_terbaca) && p.mapel_terbaca.length ? p.mapel_terbaca : draft.mapel_terbaca;
-      const rows = Array.isArray(p.santri) ? p.santri : [];
-      const masterAll = await loadMasterSantri(draft.tahun_pelajaran);
-      const masterKelas = masterAll.filter(s => s.kelas === draft.kelas);
-
-      photoRotation = [0, 90, 180, 270].includes(Number(p.orientasi_derajat)) ? Number(p.orientasi_derajat) : 0;
-      photoZoom = 1;
-      applyPhotoTransform();
-      $('verifyPhotoImg').src = draft.foto_url || (draft.foto_file_id ? `https://drive.google.com/thumbnail?id=${draft.foto_file_id}&sz=w1600` : '');
-      $('btnOpenFotoDrive').href = draft.foto_file_id ? `https://drive.google.com/file/d/${draft.foto_file_id}/view` : '#';
-      $('photoTitle').textContent = `${p.judul_lembar || 'Foto Lembar Nilai'} · Kelas ${draft.kelas} · S${draft.semester} ${draft.tahun_pelajaran}`;
-
-      const raguTxt = draft.jumlah_ragu > 0 ? ` · ⚠️ ${draft.jumlah_ragu} ragu` : ' · ✓ Jelas';
-      $('verifyMetaChip').textContent = `${rows.length} santri · ${mapels.length} mapel${raguTxt}`;
-      $('verifyMetaChip').className = 'chip ' + (draft.jumlah_ragu > 0 ? 'chip-warn' : 'chip-blue');
-
-      const notes = [];
-      if (Array.isArray(p.kolom_diabaikan) && p.kolom_diabaikan.length) notes.push(`Diabaikan: ${p.kolom_diabaikan.join(', ')}`);
-      const unm = rows.filter(r => !r.nis).length;
-      if (unm > 0) notes.push(`${unm} nama perlu dipasangkan ke Master Santri`);
-      $('ocrNoteRight').textContent = notes.join(' · ');
-
-      $('btnConfirmMerge').disabled = draft.status === 'TERVERIFIKASI';
-      $('btnConfirmMerge').innerHTML = draft.status === 'TERVERIFIKASI'
-        ? '✓ Sudah Digabungkan'
-        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>Konfirmasi &amp; Gabungkan';
-
-      $('ocrThead').innerHTML = `<tr><th style="width:32px">#</th><th style="min-width:170px">Santri (Master ${esc(draft.tahun_pelajaran)})</th>${mapels.map(m => `<th>${esc(MAPEL_LABEL[m] || m)}</th>`).join('')}</tr>`;
-
-      const masterOpts = '<option value="">— Lewati / Belum cocok —</option>' +
-        masterKelas.map(m => `<option value="${esc(m.nis)}" data-nama="${esc(m.nama_santri)}">${esc(m.nis)} — ${esc(m.nama_santri)}</option>`).join('');
-
-      $('ocrTbody').innerHTML = rows.map((r, rIdx) => {
-        const raguMap = {};
-        (r.ragu || []).forEach(x => { raguMap[x.mapel] = x.alasan || 'Perlu dicek'; });
-        const selCls = r.nis ? 'ocr-santri-sel' : 'ocr-santri-sel unmatched';
-        const cells = mapels.map(m => {
-          const val = r.nilai && r.nilai[m] !== undefined && r.nilai[m] !== null ? r.nilai[m] : '';
-          const raguAlasan = raguMap[m];
-          const cls = raguAlasan ? 'ocr-score-inp is-ragu' : 'ocr-score-inp';
-          const title = raguAlasan ? `⚠️ AI ragu: ${raguAlasan}` : `${MAPEL_LABEL[m] || m}`;
-          return `<td><input type="number" min="0" max="100" step="0.5" class="${cls}" data-row="${rIdx}" data-mapel="${esc(m)}" value="${esc(val)}" title="${esc(title)}"></td>`;
-        }).join('');
-        return `<tr>
-          <td>${esc(r.no_urut || (rIdx + 1))}</td>
-          <td>
-            <select class="${selCls}" data-santri-row="${rIdx}">${masterOpts}</select>
-            <div class="ocr-name-sub" title="${esc(r.nama_di_foto)}">Foto: ${esc(r.nama_di_foto || r.nama_santri)}</div>
-          </td>
-          ${cells}
-        </tr>`;
-      }).join('');
-
-      rows.forEach((r, rIdx) => {
-        const sEl = $('ocrTbody').querySelector(`select[data-santri-row="${rIdx}"]`);
-        if (sEl && r.nis) sEl.value = r.nis;
-        if (sEl) {
-          sEl.addEventListener('change', () => {
-            sEl.classList.toggle('unmatched', !sEl.value);
-          });
-        }
-      });
-    }
-
-    function applyPhotoTransform() {
-      $('verifyPhotoImg').style.transform = `rotate(${photoRotation}deg) scale(${photoZoom})`;
-    }
-    $('btnRotateFoto').addEventListener('click', () => { photoRotation = (photoRotation + 90) % 360; applyPhotoTransform(); });
-    $('btnZoomIn').addEventListener('click', () => { photoZoom = Math.min(2.4, Math.round((photoZoom + 0.25) * 100) / 100); applyPhotoTransform(); });
-    $('btnZoomOut').addEventListener('click', () => { photoZoom = Math.max(0.6, Math.round((photoZoom - 0.25) * 100) / 100); applyPhotoTransform(); });
-    $('draftSelect').addEventListener('change', () => {
-      const d = allDrafts.find(x => x.batch_id === $('draftSelect').value);
-      renderActiveDraft(d || null);
-    });
-    $('draftStatusFilter').addEventListener('change', () => renderDraftDropdown());
-    $('btnRefreshDrafts').addEventListener('click', () => loadDrafts(activeDraft?.batch_id || ''));
-
-    // Upload Foto Cadangan langsung dari Dashboard -> WF-00 Webhook
-    function openUploadFoto() { $('uploadFotoInput').value = ''; $('uploadFotoInput').click(); }
-    $('btnUploadFoto').addEventListener('click', openUploadFoto);
-    $('btnUploadFotoEmpty').addEventListener('click', openUploadFoto);
-    $('uploadFotoInput').addEventListener('change', async (e) => {
-      const file = e.target.files && e.target.files[0];
-      if (!file) return;
-      showProcessBanner('⏳ Membaca foto tabel nilai dengan Gemini AI...', 'Foto diunggah ke Drive lalu diekstrak oleh WF-00 (±15–25 detik).', 'processing');
-      $('btnUploadFoto').disabled = true;
-      try {
-        const b64 = await new Promise((resolve, reject) => {
-          const fr = new FileReader();
-          fr.onload = () => resolve(fr.result);
-          fr.onerror = reject;
-          fr.readAsDataURL(file);
-        });
-        const res = await fetch(SCAN_API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            kelas: activeKelas || 'B',
-            semester: $('progSemester').value || '1',
-            tahun_pelajaran: $('progYear').value || '2026/2027',
-            filename: file.name,
-            mime_type: file.type || 'image/jpeg',
-            image_base64: b64
-          })
-        });
-        const j = await res.json().catch(() => ({}));
-        if (!res.ok || !j.success) throw new Error(j.message || j.error || 'HTTP ' + res.status);
-        showProcessBanner('✅ Foto berhasil dibaca AI!', `${j.jumlah_santri} santri siap diverifikasi.`, 'ok');
-        $('draftStatusFilter').value = 'MENUNGGU_VERIFIKASI';
-        await loadDrafts(j.batch_id);
-      } catch (err) {
-        showProcessBanner('❌ Gagal membaca foto', err.message, 'error');
-      } finally {
-        $('btnUploadFoto').disabled = false;
-      }
-    });
-
-    // Konfirmasi & Gabungkan (Partial Merge ke WF-01)
-    $('btnConfirmMerge').addEventListener('click', async () => {
-      if (!activeDraft || activeDraft.status === 'TERVERIFIKASI') return;
-      const santriPayload = [];
-      const rowSelects = $('ocrTbody').querySelectorAll('select[data-santri-row]');
-      let invalidCount = 0;
-      rowSelects.forEach(sel => {
-        const rIdx = Number(sel.dataset.santriRow);
-        const nis = sel.value.trim();
-        if (!nis) return;
-        const opt = sel.options[sel.selectedIndex];
-        const nama_santri = opt ? (opt.dataset.nama || opt.textContent).trim() : '';
-        const nilai = {};
-        $('ocrTbody').querySelectorAll(`input[data-row="${rIdx}"]`).forEach(inp => {
-          inp.classList.remove('is-invalid');
-          const raw = inp.value.trim();
-          if (raw === '') return;
-          const num = Number(raw);
-          if (Number.isNaN(num) || num < 0 || num > 100) {
-            inp.classList.add('is-invalid');
-            invalidCount++;
-          } else {
-            nilai[inp.dataset.mapel] = num;
-          }
-        });
-        if (Object.keys(nilai).length > 0) santriPayload.push({ nis, nama_santri, nilai });
-      });
-
-      if (invalidCount > 0) {
-        showMessage('Ada nilai di luar rentang 0–100 (ditandai merah). Perbaiki dulu sebelum menyimpan.', 'error');
-        return;
-      }
-      if (!santriPayload.length) {
-        showMessage('Pilih minimal 1 santri Master pada kolom Santri sebelum menggabungkan nilai.', 'error');
-        return;
-      }
-      if (!confirm(`Gabungkan nilai ${santriPayload.length} santri ini ke Kelas ${activeDraft.kelas} (Semester ${activeDraft.semester}, ${activeDraft.tahun_pelajaran})?\n\nKolom mapel dari lembar foto lain tetap aman dan tidak tertimpa.`)) return;
-
-      const btn = $('btnConfirmMerge');
-      btn.disabled = true;
-      showProcessBanner(`⏳ Menggabungkan nilai ${santriPayload.length} santri...`, 'WF-01 melakukan partial merge ke Google Sheets & WF-02 memperbarui ranking.', 'processing');
-      try {
-        const res = await fetch(INPUT_API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            mode: 'merge_batch',
-            batch_id: activeDraft.batch_id,
-            kelas: activeDraft.kelas,
-            semester: activeDraft.semester,
-            tahun_pelajaran: activeDraft.tahun_pelajaran,
-            chat_id: activeDraft.chat_id || '',
-            santri: santriPayload
-          })
-        });
-        const j = await res.json().catch(() => ({}));
-        if (!res.ok || j.status === 'error') throw new Error(j.message || j.error || 'HTTP ' + res.status);
-        showProcessBanner('✅ Nilai berhasil digabungkan!', j.message || `${santriPayload.length} santri diperbarui.`, 'ok');
-        await loadDrafts();
-      } catch (err) {
-        showProcessBanner('❌ Gagal menggabungkan nilai', err.message, 'error');
-        btn.disabled = false;
-      }
-    });
-
-    // Tolak & Hapus Draft OCR
-    $('btnRejectDraft').addEventListener('click', async () => {
-      if (!activeDraft) return;
-      if (!confirm(`Tolak dan hapus foto antrean "${activeDraft.parsed?.judul_lembar || activeDraft.batch_id}"?\n\nFoto asli di Google Drive akan dipindahkan ke Sampah dan baris antrean dihapus.`)) return;
-      const btn = $('btnRejectDraft');
-      btn.disabled = true;
-      showProcessBanner('⏳ Menghapus draft foto...', '', 'processing');
-      try {
-        if (activeDraft.foto_file_id) await deleteDriveFileById(activeDraft.foto_file_id);
-        const gidMap = await getSheetGidMap();
-        if (gidMap['Draft_OCR'] !== undefined) {
-          await deleteRowsByKey('Draft_OCR', gidMap['Draft_OCR'], activeDraft.batch_id);
-        }
-        showProcessBanner('✅ Draft foto berhasil ditolak & dibersihkan', '', 'ok');
-        await loadDrafts();
-      } catch (err) {
-        showProcessBanner('❌ Gagal menghapus draft', err.message, 'error');
-      } finally {
-        btn.disabled = false;
-      }
-    });
-
-    // ===== TAB 2: PROGRES KELAS =====
-    let lastProgresCtx = { kelas: 'A', sem: '1', year: '2026/2027', total: 0, status_ranking: 'Sementara', sudah: [] };
+    // ===== TAB 1: PROGRES KELAS =====
+    let lastProgresCtx = { kelas: 'B', sem: '1', year: '2026/2027', total: 0, status_ranking: 'Sementara', sudah: [] };
     let activeModalSantri = null;
     let editModalTarget = null;
 
@@ -960,7 +554,6 @@
 
         const master = await loadMasterSantri(year);
         const jkByNis = Object.fromEntries(master.map(m => [m.nis, m.jk]));
-
         const total = j.total_santri ?? 0;
         const done = j.sudah_dinilai ?? 0;
         const lengkap = j.sudah_lengkap ?? done;
@@ -999,7 +592,7 @@
               ${delBtn}
             </div>
           </div>`;
-        }).join('') || '<div class="empty-center"><p>Belum ada santri yang memiliki nilai pada periode ini.</p></div>';
+        }).join('') || '<div class="empty-center"><h3>Belum ada nilai masuk</h3><p>Kirim foto lembar nilai lewat Bot Telegram <strong>@paudqu_nurulmubin_bot</strong>, lalu klik Perbarui.</p></div>';
 
         $('progDoneList').querySelectorAll('button[data-view-idx]').forEach(b => b.addEventListener('click', () => openNilaiModal(Number(b.dataset.viewIdx))));
         $('progDoneList').querySelectorAll('button[data-edit-idx]').forEach(b => b.addEventListener('click', () => {
@@ -1062,7 +655,7 @@
     function openEditModal(item, isNew) {
       editModalTarget = { ...item, kelas: lastProgresCtx.kelas, sem: lastProgresCtx.sem, year: lastProgresCtx.year };
       $('editModalTitle').textContent = `${isNew ? 'Input' : 'Edit'} Nilai & Absensi — ${item.name}`;
-      $('editModalSub').textContent = `NIS ${item.nis} · Kelas ${lastProgresCtx.kelas} · Semester ${lastProgresCtx.sem === '2' ? 'Genap' : 'Ganjil'} · ${lastProgresCtx.year} (boleh isi sebagian atau lengkap)`;
+      $('editModalSub').textContent = `NIS ${item.nis} · Kelas ${lastProgresCtx.kelas} · Semester ${lastProgresCtx.sem === '2' ? 'Genap' : 'Ganjil'} · ${lastProgresCtx.year}`;
       const mapels = activeMapelList(lastProgresCtx.kelas);
       const nObj = item.nilai || {};
       $('editMapelGrid').innerHTML = mapels.map(([k, lbl]) => {
@@ -1091,10 +684,7 @@
         const raw = $('ed_' + k).value.trim();
         if (raw === '') continue;
         const num = Number(raw);
-        if (Number.isNaN(num) || num < 0 || num > 100) {
-          showMessage(`Nilai ${lbl} harus antara 0–100.`, 'error');
-          return;
-        }
+        if (Number.isNaN(num) || num < 0 || num > 100) { showMessage(`Nilai ${lbl} harus antara 0–100.`, 'error'); return; }
         nilai[k] = num;
         filled++;
       }
@@ -1109,19 +699,16 @@
       btn.disabled = true;
       showProcessBanner(`⏳ Menyimpan nilai ${name}...`, '', 'processing');
       try {
-        // Jika semua 18/19 mapel terisi, pakai mode satuan WF-01 (sekalian simpan Absensi); jika parsial, pakai mode merge_batch + update Absensi
         if (filled === mapels.length) {
           const r = await fetch(INPUT_API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nis, nama_santri: name, kelas, semester: sem, tahun_pelajaran: year, nilai, absensi })
           });
           const j = await r.json().catch(() => ({}));
           if (!r.ok || j.status === 'error') throw new Error(Array.isArray(j.errors) ? j.errors.join('; ') : (j.message || 'HTTP ' + r.status));
         } else {
           const r = await fetch(INPUT_API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ mode: 'merge_batch', batch_id: '', kelas, semester: sem, tahun_pelajaran: year, santri: [{ nis, nama_santri: name, nilai }] })
           });
           const j = await r.json().catch(() => ({}));
@@ -1147,14 +734,10 @@
         if (gidMap['Absensi'] !== undefined) await deleteRowsByKey('Absensi', gidMap['Absensi'], key);
         if (gidMap['Transkrip'] !== undefined) {
           const resTr = await deleteRowsByKey('Transkrip', gidMap['Transkrip'], key, 6);
-          for (const u of resTr.urls) {
-            const fid = extractDriveFileId(u);
-            if (fid) await deleteDriveFileById(fid);
-          }
+          for (const u of resTr.urls) { const fid = extractDriveFileId(u); if (fid) await deleteDriveFileById(fid); }
         }
         await fetch(CALC_API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ kelas, semester: String(sem), tahun_pelajaran: year, nis: item.nis })
         }).catch(() => {});
         showProcessBanner(`✅ Nilai ${item.name} berhasil dihapus`, '', 'ok');
@@ -1164,7 +747,7 @@
       }
     }
 
-    // ===== TAB 3: ARSIP PDF (TRANSKRIP & REKAP) =====
+    // ===== TAB 2: ARSIP PDF =====
     let arsipMode = 'transkrip';
     let allTranscripts = [];
     let rankingData = [];
@@ -1194,7 +777,7 @@
       $('btnRefreshArsip').disabled = true;
       try {
         const u = new URL(TRANSKRIP_URL);
-        if (activeKelas) u.searchParams.set('kelas', activeKelas);
+        u.searchParams.set('kelas', activeKelas);
         u.searchParams.set('_t', Date.now());
         const r = await fetch(u.toString(), { headers: { Accept: 'application/json' }, cache: 'no-store' });
         if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -1219,12 +802,7 @@
       const q = $('arsipSearch').value.trim().toLowerCase();
       const y = $('arsipYear').value;
       const sem = $('arsipSemester').value === '2' ? 'Genap' : 'Ganjil';
-      const rows = allTranscripts.filter(x =>
-        (!activeKelas || x.kelas === activeKelas) &&
-        (!y || x.year === y) &&
-        x.semester === sem &&
-        (!q || x.name.toLowerCase().includes(q) || x.id_santri.includes(q))
-      );
+      const rows = allTranscripts.filter(x => x.kelas === activeKelas && (!y || x.year === y) && x.semester === sem && (!q || x.name.toLowerCase().includes(q) || x.id_santri.includes(q)));
       const needsCount = rows.filter(x => x.rawStatus === 'PERLU_DIPERBARUI').length;
       $('btnUpdateAllTr').hidden = needsCount === 0;
       $('btnUpdateAllTr').textContent = `Perbarui Semua (${needsCount})`;
@@ -1240,12 +818,7 @@
           <td>${esc(x.semester)}</td>
           <td>${esc(x.year)}</td>
           <td><span class="status ${badgeCls}">${esc(x.status)}</span></td>
-          <td>
-            <div class="action-group">
-              ${hasPdf ? `<a class="btn btn-xs btn-primary" href="${esc(x.pdf)}" target="_blank" rel="noopener noreferrer">Buka PDF</a>` : ''}
-              <button type="button" class="btn btn-xs" data-regen-tr="${i}">Perbarui</button>
-            </div>
-          </td>
+          <td><div class="action-group">${hasPdf ? `<a class="btn btn-xs btn-primary" href="${esc(x.pdf)}" target="_blank" rel="noopener noreferrer">Buka PDF</a>` : ''}<button type="button" class="btn btn-xs" data-regen-tr="${i}">Perbarui</button></div></td>
         </tr>`;
       }).join('');
       $('transcriptRows').querySelectorAll('button[data-regen-tr]').forEach(b => b.addEventListener('click', () => {
@@ -1259,7 +832,7 @@
       $('btnRefreshArsip').disabled = true;
       try {
         const u = new URL(RANKING_API_URL);
-        if (activeKelas) u.searchParams.set('kelas', activeKelas);
+        u.searchParams.set('kelas', activeKelas);
         u.searchParams.set('tahun_pelajaran', $('arsipYear').value);
         u.searchParams.set('semester', $('arsipSemester').value);
         u.searchParams.set('_t', Date.now());
@@ -1289,12 +862,7 @@
         <td>${esc(x.semester)}</td>
         <td>${esc(x.year)}</td>
         <td><span class="status status-ok">${esc(x.status)}</span></td>
-        <td>
-          <div class="action-group">
-            <a class="btn btn-xs btn-primary" href="${esc(x.pdf)}" target="_blank" rel="noopener noreferrer">Buka PDF</a>
-            <button type="button" class="btn btn-xs btn-danger" data-del-rekap="${i}">Hapus</button>
-          </div>
-        </td>
+        <td><div class="action-group"><a class="btn btn-xs btn-primary" href="${esc(x.pdf)}" target="_blank" rel="noopener noreferrer">Buka PDF</a><button type="button" class="btn btn-xs btn-danger" data-del-rekap="${i}">Hapus</button></div></td>
       </tr>`).join('');
       $('rankingRows').querySelectorAll('button[data-del-rekap]').forEach(b => b.addEventListener('click', () => {
         const x = rankingData[Number(b.dataset.delRekap)];
@@ -1307,12 +875,9 @@
       showProcessBanner(action === 'generate_rekap' ? '⏳ Membuat ulang PDF Rekap Peringkat...' : `⏳ Memperbarui PDF Transkrip ${item.name}...`, 'WF-03 merender template resmi & mengganti file lama di Drive.', 'processing');
       try {
         const r = await fetch(ACTION_API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            action,
-            key: item.key || '',
-            id_santri: item.id_santri || '',
+            action, key: item.key || '', id_santri: item.id_santri || '',
             kelas: item.kelas || activeKelas,
             semester: semToNum(item.semester || $('arsipSemester').value),
             tahun_pelajaran: item.year || $('arsipYear').value
@@ -1327,7 +892,7 @@
             const newSig = rankingData.map(x => `${x.name}::${x.pdf}`).join('|');
             if (newSig && newSig !== oldSig) break;
           }
-          showProcessBanner('✅ PDF Rekap Peringkat berhasil diperbarui!', 'Versi lama di Google Drive otomatis dipindahkan ke Sampah.', 'ok');
+          showProcessBanner('✅ PDF Rekap Peringkat berhasil diperbarui!', 'Versi lama di Drive otomatis dipindahkan ke Sampah.', 'ok');
         } else {
           setTimeout(async () => { await loadTranscripts(); showProcessBanner(`✅ Transkrip ${item.name} diperbarui!`, '', 'ok'); }, 9000);
         }
@@ -1357,7 +922,7 @@
     async function deleteRekapPdf(item) {
       const semNum = semToNum(item.semester);
       const key = `${item.kelas}|${semNum}|${item.year}`;
-      if (!confirm(`Hapus PDF Rekap ${item.fileName || item.name}?\n\nFile di Google Drive dipindahkan ke Sampah dan riwayat Rekap dihapus (nilai santri tetap aman).`)) return;
+      if (!confirm(`Hapus PDF Rekap ${item.fileName || item.name}?\n\nFile di Google Drive dipindahkan ke Sampah dan riwayat Rekap dihapus.`)) return;
       showProcessBanner('⏳ Menghapus PDF Rekap...', '', 'processing');
       try {
         const fid = extractDriveFileId(item.pdf);
@@ -1371,51 +936,9 @@
       }
     }
 
-    // ===== Switcher Kelas Cepat (Tanpa Login) =====
-    let activeKelas = 'B';
-
-    function applyActiveKelas(kelas, reload = true) {
-      activeKelas = kelas === 'A' ? 'A' : 'B';
-      $('topClassTag').textContent = `KELAS ${activeKelas}`;
-      document.querySelectorAll('button[data-sw-kelas]').forEach(b => {
-        b.classList.toggle('active', b.dataset.swKelas === activeKelas);
-      });
-      ['progClass', 'arsipClass'].forEach(id => {
-        const el = $(id);
-        if (el) el.value = activeKelas;
-      });
-      if (reload) {
-        if (currentPage === 'verifikasi') renderDraftDropdown();
-        else if (currentPage === 'progres') loadProgres();
-        else if (currentPage === 'arsip') loadArsip();
-      }
-    }
-
-    document.querySelectorAll('button[data-sw-kelas]').forEach(btn => {
-      btn.addEventListener('click', () => applyActiveKelas(btn.dataset.swKelas, true));
-    });
-    ['progClass', 'arsipClass'].forEach(id => {
-      $(id).addEventListener('change', () => applyActiveKelas($(id).value, true));
-    });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') { closeNilaiModal(); closeEditModal(); }
-    });
-
-    // Jika dibuka dari tombol Telegram (?verify=OCR-...), otomatis sesuaikan kelas sesuai batch tersebut
-    (async function boot() {
-      applyActiveKelas('B', false);
-      if (pendingVerifyBatchId) {
-        try {
-          const res = await callSheetApi({ action: 'read', tab: 'Draft_OCR', range: 'A1:C200' });
-          const rows = (res.result && res.result.values) || [];
-          const hit = rows.slice(1).find(r => String(r[0] || '').trim() === pendingVerifyBatchId);
-          if (hit && ['A', 'B'].includes(String(hit[2] || '').trim().toUpperCase())) {
-            applyActiveKelas(String(hit[2]).trim().toUpperCase(), false);
-          }
-        } catch {}
-      }
-      showPage('verifikasi');
-    })();
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeNilaiModal(); closeEditModal(); } });
+    applyActiveKelas('B', false);
+    showPage('progres');
   </script>
 </body>
 </html>

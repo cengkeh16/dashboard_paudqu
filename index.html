@@ -29,8 +29,10 @@
     .logo img{width:100%;height:100%;object-fit:contain;display:block}
     .brand strong{font-size:13px;display:block;line-height:1.2}
     .brand small{display:block;color:#a4c5b7;font-size:10px;margin-top:3px}
-    .sidebar-class-badge{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:10px;background:#ffffff14;border:1px solid #ffffff22;color:#e9f5ef;font-size:11px;font-weight:750}
-    .sidebar-class-badge span{background:#e7f4ed;color:#123b35;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:850}
+    .sidebar-class-switch{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:4px;border-radius:10px;background:#ffffff14;border:1px solid #ffffff22}
+    .class-sw-btn{border:0;border-radius:7px;padding:7px 6px;background:transparent;color:#cbe0d6;font-size:11px;font-weight:750;transition:background .15s,color .15s}
+    .class-sw-btn:hover{background:#ffffff18;color:#fff}
+    .class-sw-btn.active{background:#e7f4ed;color:#123b35;font-weight:850}
     .nav-label{margin:6px 8px 2px;font-size:9px;letter-spacing:1.4px;color:#8cb5a4;font-weight:800}
     .nav{display:flex;flex-direction:column;gap:4px}
     .nav-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 11px;border:0;background:transparent;color:#c4d8cf;border-radius:10px;font-weight:700;font-size:12px;text-align:left;transition:background .15s,color .15s}
@@ -154,29 +156,6 @@
     .status-postponed{color:#7a4422;background:#fef3eb;border:1px solid #f6d1bc}.status-postponed:before{background:#c86932}
     .status-process{color:#18537a;background:#edf6fd;border:1px solid #c9e3f5}.status-process:before{background:#2b8cc4}
 
-    /* ===== Auth Gate ===== */
-    .auth-gate{position:fixed;inset:0;z-index:999;background:radial-gradient(circle at top,#1c5a4f 0%,#0f332d 70%);display:grid;place-items:center;padding:18px}
-    .auth-gate[hidden]{display:none!important}
-    .auth-card{width:100%;max-width:390px;background:#fff;border-radius:20px;padding:28px 24px 24px;box-shadow:0 24px 60px rgba(0,0,0,.3);text-align:center}
-    .auth-logo{width:68px;height:68px;object-fit:contain;margin:0 auto 10px;display:block}
-    .auth-card h2{margin:0 0 4px;font-size:18px;color:var(--ink)}
-    .auth-card p{margin:0 0 16px;font-size:11.5px;color:var(--muted);line-height:1.5}
-    .auth-field{text-align:left;margin-bottom:12px}
-    .auth-field label{display:block;font-size:10.5px;font-weight:800;color:#4f665e;margin-bottom:5px}
-    .auth-class-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .auth-class-btn{padding:10px;border:1.5px solid #dce7e0;border-radius:11px;background:#fafdfb;color:var(--ink);font-weight:800;font-size:12.5px}
-    .auth-class-btn.active{border-color:var(--green);background:#e9f5ee;color:var(--green)}
-    .auth-input-wrap{position:relative}
-    .auth-input-wrap input{width:100%;height:42px;border:1.5px solid #dce7e0;border-radius:11px;padding:0 42px 0 12px;font-size:13px;outline:none}
-    .auth-input-wrap input:focus{border-color:var(--green);box-shadow:0 0 0 3px #dff0e6}
-    .auth-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;width:30px;height:30px;display:grid;place-items:center;color:#627971}
-    .auth-eye svg{width:18px;height:18px}
-    .is-hidden{display:none!important}
-    .auth-btn{width:100%;height:42px;border:0;border-radius:11px;background:var(--green);color:#fff;font-weight:800;font-size:13px;margin-top:4px}
-    .auth-btn:hover{background:var(--green2)}
-    .auth-err{margin-top:10px;padding:8px 10px;border-radius:9px;background:var(--redbg);border:1px solid #f0cdca;color:var(--red);font-size:11px;text-align:left}
-    .auth-hint{margin-top:12px;font-size:10px;color:#83948d}
-
     /* ===== Modals (Pratinjau Nilai & Edit Nilai/Absensi Cepat) ===== */
     .modal-backdrop{position:fixed;inset:0;z-index:100;background:rgba(13,37,32,.52);backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px}
     .modal-backdrop[hidden]{display:none!important}
@@ -218,43 +197,17 @@
   </style>
 </head>
 <body>
-  <!-- Layar Kunci Password + Pilih Kelas -->
-  <div id="authGate" class="auth-gate" role="dialog" aria-modal="true" aria-labelledby="authTitle">
-    <form id="authForm" class="auth-card" novalidate>
-      <img class="auth-logo" src="logo-paudqu-removebg-preview.png" alt="Logo PAUDQu Nurul Mubin">
-      <h2 id="authTitle">PAUDQu Nurul Mubin</h2>
-      <p>Portal Verifikasi Nilai AI &amp; Arsip Rapor.<br>Pilih kelas dan masukkan kata sandi untuk melanjutkan.</p>
-      <div class="auth-field">
-        <label>Pilih Kelas</label>
-        <div class="auth-class-grid" role="radiogroup" aria-label="Pilih kelas">
-          <button type="button" class="auth-class-btn active" data-auth-kelas="A" aria-pressed="true">Kelas A</button>
-          <button type="button" class="auth-class-btn" data-auth-kelas="B" aria-pressed="false">Kelas B</button>
-        </div>
-      </div>
-      <div class="auth-field">
-        <label for="authPassword">Kata Sandi</label>
-        <div class="auth-input-wrap">
-          <input id="authPassword" type="password" placeholder="Masukkan kata sandi..." autocomplete="current-password" required>
-          <button type="button" class="auth-eye" id="toggleAuthEye" aria-label="Tampilkan kata sandi" title="Tampilkan kata sandi">
-            <svg id="eyeIconShow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
-            <svg id="eyeIconHide" class="is-hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.77 21.77 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a21.8 21.8 0 0 1-3.17 4.49"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-          </button>
-        </div>
-      </div>
-      <button type="submit" class="auth-btn" id="btnAuthSubmit">Masuk ke Dashboard</button>
-      <div id="authError" class="auth-err" hidden></div>
-      <div class="auth-hint">Sesi otomatis terkunci saat tab atau browser ditutup.</div>
-    </form>
-  </div>
-
   <!-- Aplikasi Utama 1 Layar (100vh) -->
-  <div class="layout" id="appLayout" hidden>
+  <div class="layout" id="appLayout">
     <aside class="sidebar">
       <div class="brand">
         <div class="logo"><img src="logo-paudqu-removebg-preview.png" alt="Logo PAUDQu"></div>
         <div><strong>PAUDQu Nurul Mubin</strong><small>Verifikasi AI &amp; Arsip Rapor</small></div>
       </div>
-      <div class="sidebar-class-badge" id="sidebarClassBadge">Ruang Kerja <span>KELAS A</span></div>
+      <div class="sidebar-class-switch" role="group" aria-label="Pilih kelas aktif">
+        <button type="button" class="class-sw-btn" data-sw-kelas="A">Kelas A</button>
+        <button type="button" class="class-sw-btn active" data-sw-kelas="B">Kelas B</button>
+      </div>
       <div class="nav-label">MENU UTAMA</div>
       <nav class="nav" aria-label="Menu utama">
         <button class="nav-item active" type="button" data-page="verifikasi" aria-current="page">
@@ -277,10 +230,6 @@
         2. Cek &amp; konfirmasi di <em>Verifikasi Foto</em><br>
         3. n8n otomatis gabung nilai, hitung ranking &amp; cetak PDF ke Drive.
       </div>
-      <button type="button" class="logout-btn" id="btnLogout">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Keluar
-      </button>
     </aside>
 
     <main class="main">
@@ -294,8 +243,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
             Bot Telegram
           </a>
-          <span class="tag" id="topClassTag">KELAS A</span>
-          <button type="button" class="topbar-logout" id="btnLogoutMobile">Keluar</button>
+          <span class="tag" id="topClassTag">KELAS B</span>
         </div>
       </header>
 
@@ -1075,7 +1023,7 @@
         btn.disabled = false;
       }
     }
-    ['progClass', 'progYear', 'progSemester'].forEach(id => $(id).addEventListener('change', loadProgres));
+    ['progYear', 'progSemester'].forEach(id => $(id).addEventListener('change', loadProgres));
     $('refreshProgres').addEventListener('click', loadProgres);
 
     function openNilaiModal(idx) {
@@ -1423,116 +1371,51 @@
       }
     }
 
-    // ===== Auth & Class Workspace Lock =====
-    const AUTH_SESSION_KEY = 'paudqu_auth_ok_v1';
-    const AUTH_KELAS_KEY   = 'paudqu_auth_kelas_v1';
-    const AUTH_PASS_HASH   = 'ab9e74fbf79366757122472863240b72509f3ddbfd12eed469cd87374174e49e';
-    let selectedLoginKelas = 'B';
-    let activeKelas = '';
+    // ===== Switcher Kelas Cepat (Tanpa Login) =====
+    let activeKelas = 'B';
 
-    document.querySelectorAll('button[data-auth-kelas]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        selectedLoginKelas = btn.dataset.authKelas === 'B' ? 'B' : 'A';
-        document.querySelectorAll('button[data-auth-kelas]').forEach(b => {
-          const act = b.dataset.authKelas === selectedLoginKelas;
-          b.classList.toggle('active', act);
-          b.setAttribute('aria-pressed', act ? 'true' : 'false');
-        });
-        $('authPassword').focus();
-      });
-    });
-
-    function applyActiveKelas(kelas) {
-      activeKelas = kelas === 'B' ? 'B' : 'A';
-      $('sidebarClassBadge').innerHTML = `Ruang Kerja <span>KELAS ${activeKelas}</span>`;
+    function applyActiveKelas(kelas, reload = true) {
+      activeKelas = kelas === 'A' ? 'A' : 'B';
       $('topClassTag').textContent = `KELAS ${activeKelas}`;
+      document.querySelectorAll('button[data-sw-kelas]').forEach(b => {
+        b.classList.toggle('active', b.dataset.swKelas === activeKelas);
+      });
       ['progClass', 'arsipClass'].forEach(id => {
         const el = $(id);
-        if (!el) return;
-        el.value = activeKelas;
-        el.disabled = true;
-        el.classList.add('locked-select');
+        if (el) el.value = activeKelas;
       });
-    }
-
-    async function sha256Hex(text) {
-      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
-      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    function unlockDashboard(kelas) {
-      applyActiveKelas(kelas);
-      $('authGate').hidden = true;
-      $('appLayout').hidden = false;
-      $('authPassword').value = '';
-      $('authError').hidden = true;
-      showPage('verifikasi');
-    }
-
-    function lockDashboard() {
-      sessionStorage.removeItem(AUTH_SESSION_KEY);
-      sessionStorage.removeItem(AUTH_KELAS_KEY);
-      activeKelas = '';
-      closeNilaiModal();
-      closeEditModal();
-      $('appLayout').hidden = true;
-      $('authGate').hidden = false;
-      $('authPassword').value = '';
-      $('authPassword').type = 'password';
-      $('eyeIconShow').classList.remove('is-hidden');
-      $('eyeIconHide').classList.add('is-hidden');
-      setTimeout(() => $('authPassword').focus(), 40);
-    }
-
-    $('toggleAuthEye').addEventListener('click', () => {
-      const inp = $('authPassword');
-      const show = inp.type === 'password';
-      inp.type = show ? 'text' : 'password';
-      $('eyeIconShow').classList.toggle('is-hidden', show);
-      $('eyeIconHide').classList.toggle('is-hidden', !show);
-      inp.focus();
-    });
-
-    $('authForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const raw = $('authPassword').value;
-      if (!raw) { $('authError').textContent = 'Masukkan kata sandi terlebih dahulu.'; $('authError').hidden = false; return; }
-      $('btnAuthSubmit').disabled = true;
-      try {
-        if ((await sha256Hex(raw)) === AUTH_PASS_HASH) {
-          sessionStorage.setItem(AUTH_SESSION_KEY, '1');
-          sessionStorage.setItem(AUTH_KELAS_KEY, selectedLoginKelas);
-          unlockDashboard(selectedLoginKelas);
-        } else {
-          $('authError').textContent = 'Kata sandi salah. Periksa kembali huruf besar/kecilnya.';
-          $('authError').hidden = false;
-          $('authPassword').select();
-        }
-      } finally {
-        $('btnAuthSubmit').disabled = false;
+      if (reload) {
+        if (currentPage === 'verifikasi') renderDraftDropdown();
+        else if (currentPage === 'progres') loadProgres();
+        else if (currentPage === 'arsip') loadArsip();
       }
-    });
+    }
 
-    $('btnLogout').addEventListener('click', lockDashboard);
-    $('btnLogoutMobile').addEventListener('click', lockDashboard);
+    document.querySelectorAll('button[data-sw-kelas]').forEach(btn => {
+      btn.addEventListener('click', () => applyActiveKelas(btn.dataset.swKelas, true));
+    });
+    ['progClass', 'arsipClass'].forEach(id => {
+      $(id).addEventListener('change', () => applyActiveKelas($(id).value, true));
+    });
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') { closeNilaiModal(); closeEditModal(); }
     });
 
-    // Init default selected class button UI
-    document.querySelectorAll('button[data-auth-kelas]').forEach(b => {
-      const act = b.dataset.authKelas === selectedLoginKelas;
-      b.classList.toggle('active', act);
-      b.setAttribute('aria-pressed', act ? 'true' : 'false');
-    });
-
-    const savedAuthKelas = sessionStorage.getItem(AUTH_KELAS_KEY);
-    if (sessionStorage.getItem(AUTH_SESSION_KEY) === '1' && ['A', 'B'].includes(savedAuthKelas)) {
-      selectedLoginKelas = savedAuthKelas;
-      unlockDashboard(savedAuthKelas);
-    } else {
-      setTimeout(() => $('authPassword').focus(), 40);
-    }
+    // Jika dibuka dari tombol Telegram (?verify=OCR-...), otomatis sesuaikan kelas sesuai batch tersebut
+    (async function boot() {
+      applyActiveKelas('B', false);
+      if (pendingVerifyBatchId) {
+        try {
+          const res = await callSheetApi({ action: 'read', tab: 'Draft_OCR', range: 'A1:C200' });
+          const rows = (res.result && res.result.values) || [];
+          const hit = rows.slice(1).find(r => String(r[0] || '').trim() === pendingVerifyBatchId);
+          if (hit && ['A', 'B'].includes(String(hit[2] || '').trim().toUpperCase())) {
+            applyActiveKelas(String(hit[2]).trim().toUpperCase(), false);
+          }
+        } catch {}
+      }
+      showPage('verifikasi');
+    })();
   </script>
 </body>
 </html>

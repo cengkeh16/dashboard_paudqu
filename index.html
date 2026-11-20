@@ -957,13 +957,13 @@
       btnRekap.dataset.labelLama = btnRekap.innerHTML;
       btnRekap.innerHTML = '⏳ Sedang memproses...';
 
-      // Simpan nama file rekap lama (signature) untuk deteksi perubahan daftar nanti
-      const oldSig = rankingData.map(x => x.name).join('|');
+      // Simpan signature file rekap lama (nama + URL Drive) agar perubahan file ID langsung terdeteksi
+      const oldSig = rankingData.map(x => `${x.name}::${x.pdf}`).join('|');
 
       // Banner proses GLOBAL (terlihat di halaman Rekap Peringkat)
       showProcessBanner(
         `⏳ Membuat ulang PDF rekap peringkat kelas ${kelas}...`,
-        ' Perkiraan 60-90 detik. Halaman diperbarui otomatis setelah PDF siap.', 75
+        ' Perkiraan 30-60 detik. Halaman diperbarui otomatis setelah PDF siap.', 60
       );
       showMessage('Permintaan pembaruan rekap peringkat berhasil dikirim. Sistem sedang membuat PDF rekap...', '');
 
@@ -971,10 +971,10 @@
         keepProcessBanner = true;
         await triggerAction('generate_rekap', '', '', kelas, sem, year);
 
-        // Polling: cek tiap 10 detik apakah PDF rekap baru sudah muncul (maks 3 menit)
+        // Polling: cek tiap 8 detik apakah PDF rekap baru sudah muncul (maks ~2.5 menit)
         let selesai = false;
         for (let attempt = 0; attempt < 18 && !selesai; attempt++) {
-          await new Promise(r => setTimeout(r, 10000));
+          await new Promise(r => setTimeout(r, 8000));
           try {
             const u = new URL(RANKING_API_URL);
             u.searchParams.set('kelas', kelas);
@@ -985,8 +985,8 @@
             if (!r.ok) continue;
             const j = await r.json();
             if (j.success !== true || !Array.isArray(j.data)) continue;
-            const list = j.data.map(x => String(x.name ?? x.fileName ?? ''));
-            // PDF baru = signature daftar berubah (nama baru ATAU urutan/jumlah berubah)
+            const list = j.data.map(x => `${String(x.name ?? x.fileName ?? '')}::${String(x.pdf ?? x.link_pdf ?? '').trim()}`);
+            // PDF baru = signature daftar berubah (file ID Drive berubah ATAU jumlah berubah)
             const newSig = list.join('|');
             if (newSig && newSig !== oldSig) selesai = true;
           } catch (e) { /* coba lagi di iterasi berikutnya */ }
@@ -1046,11 +1046,76 @@
       return rankingData.filter(x=>(kelas==='Semua'||String(x.kelas).replace(/^Kelas\s*/i,'')===kelas)&&String(x.year)===year&&normalizeSemester(x.semester)===semester).sort((a,b)=>String(a.kelas).localeCompare(String(b.kelas))||String(a.name).localeCompare(String(b.name)));
     }
 
+    function extractDriveFileId(url){
+      const s = String(url || '').trim();
+      const m1 = s.match(/\/file\/d\/([A-Za-z0-9_-]{10,})/);
+      if (m1) return m1[1];
+      const m2 = s.match(/[?&]id=([A-Za-z0-9_-]{10,})/);
+      return m2 ? m2[1] : '';
+    }
+
+    async function deleteDriveFileByUrl(url){
+      const fileId = extractDriveFileId(url);
+      if (!fileId) return { ok: false, skipped: true };
+      const res = await fetch(ACTION_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ action: 'delete_drive_file', file_id: fileId })
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => null);
+        throw new Error(err?.message || `Gagal menghapus file Drive (HTTP ${res.status})`);
+      }
+      return await res.json().catch(() => ({ success: true, file_id: fileId }));
+    }
+
+    let isDeletingRekap = false;
+    async function deleteRekapPdf(item){
+      if (isDeletingRekap || !item) return;
+      const kelas = String(item.kelas || '').replace(/^Kelas\s*/i, '').trim().toUpperCase();
+      const semNum = (normalizeSemester(item.semester) === 'Genap' || String(item.semester) === '2') ? '2' : '1';
+      const semLabel = semNum === '2' ? 'Genap (2)' : 'Ganjil (1)';
+      const year = String(item.year || '').trim();
+      const key = `${kelas}|${semNum}|${year}`;
+      const docName = item.fileName || item.name || `Rekap Peringkat Kelas ${kelas}`;
+
+      const ok = confirm(
+        `Hapus dokumen rekap peringkat berikut?\n\n` +
+        `• Dokumen: ${docName}\n` +
+        `• Periode: Kelas ${kelas}, Semester ${semLabel}, Tahun ${year}\n\n` +
+        `File PDF di Google Drive akan dipindahkan ke Sampah (Trash) dan riwayatnya di tab Rekap akan dihapus. Nilai santri TIDAK terhapus — Anda bisa membuat ulang PDF kapan saja dengan tombol "Perbarui Rekap PDF".`
+      );
+      if (!ok) return;
+
+      isDeletingRekap = true;
+      showProcessBanner(`⏳ Menghapus PDF rekap kelas ${kelas}...`, ' Memindahkan file PDF ke Sampah Google Drive dan membersihkan catatan Rekap.', 15);
+      showMessage(`Sedang menghapus dokumen ${docName} dari Google Drive...`, '');
+
+      try {
+        if (item.pdf) {
+          await deleteDriveFileByUrl(item.pdf);
+        }
+        const gidMap = await getSheetGidMap();
+        if (gidMap['Rekap'] !== undefined) {
+          await deleteRowsByKey('Rekap', gidMap['Rekap'], key);
+        }
+        await loadRanking();
+        finishProcessBanner('success', `✅ Rekap kelas ${kelas} berhasil dihapus`, `File PDF dipindahkan ke Sampah Google Drive dan daftar rekap sudah diperbarui.`);
+        showMessage(`✅ Dokumen ${docName} berhasil dihapus dari Google Drive dan daftar rekap.`, 'ok');
+      } catch (err) {
+        finishProcessBanner('error', '❌ Gagal menghapus PDF rekap', err.message);
+        showMessage('Gagal menghapus PDF rekap: ' + err.message, 'error');
+      } finally {
+        isDeletingRekap = false;
+      }
+    }
+
     function renderRanking(){
       const rows=rankFiltered();
       $('rankingRows').innerHTML=rows.map((x,i)=>{
         const pdf=String(x.pdf??'').trim();
-        const link=validDriveUrl(pdf)?`<a class="open-btn" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Buka PDF ${esc(x.name)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3h7v7M10 14 2 22M14 3h-5a4 4 0 0 0-4 4v5"/><path d="M14 3v7h7"/></svg>Buka PDF</a>`:'<span class="subtext">Tautan tidak tersedia</span>';
+        const link=validDriveUrl(pdf)?`<a class="open-btn" href="${esc(pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Buka PDF ${esc(x.name)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3h7v7M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>Buka PDF</a>`:'<span class="subtext">Tautan tidak tersedia</span>';
+        const delBtn = `<button type="button" class="btn-sm btn-sm-danger" data-del-rekap-idx="${i}" title="Hapus file PDF di Google Drive dan riwayat rekap ini">Hapus</button>`;
         return `<tr>
           <td><span class="rank-no">${i+1}</span></td>
           <td><div class="student-name">${esc(x.name||`Rekap Peringkat Kelas ${x.kelas}`)}</div><div class="subtext">${esc(x.fileName||'PDF rekap kelas')}</div></td>
@@ -1058,9 +1123,15 @@
           <td>${esc(normalizeSemester(x.semester))}</td>
           <td>${esc(x.year)}</td>
           <td><span class="status status-ok">${esc(x.status||'PDF tersedia')}</span></td>
-          <td>${link}</td>
+          <td><div class="action-group">${link}${delBtn}</div></td>
         </tr>`;
       }).join('');
+      $('rankingRows').querySelectorAll('button[data-del-rekap-idx]').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const item = rows[Number(btn.dataset.delRekapIdx)];
+          if (item) deleteRekapPdf(item);
+        });
+      });
       $('rankingEmpty').hidden=rows.length>0;
       $('rankingCount').textContent=`${rows.length} dokumen`;
     }
@@ -1336,17 +1407,23 @@
       return map;
     }
 
-    async function deleteRowsByKey(tabName, gid, targetKey, checkRemainingPeriode=null){
-      const res = await callSheetApi({ action: 'read', tab: tabName, range: 'A1:F600' });
+    async function deleteRowsByKey(tabName, gid, targetKey, checkRemainingPeriode=null, collectDriveColIdx=-1){
+      const readRange = collectDriveColIdx >= 6 ? 'A1:I600' : 'A1:F600';
+      const res = await callSheetApi({ action: 'read', tab: tabName, range: readRange });
       const rows = (res.result && res.result.values) || [];
-      if (rows.length <= 1) return { deleted: 0, remainingInPeriode: 0 };
+      if (rows.length <= 1) return { deleted: 0, remainingInPeriode: 0, driveUrls: [] };
 
       const matchIndices = [];
+      const driveUrls = [];
       let remainingInPeriode = 0;
       for (let i = 1; i < rows.length; i++) {
         const k = String(rows[i][0] ?? '').trim();
         if (k === targetKey) {
           matchIndices.push(i);
+          if (collectDriveColIdx >= 0) {
+            const u = String(rows[i][collectDriveColIdx] ?? '').trim();
+            if (u) driveUrls.push(u);
+          }
         } else if (checkRemainingPeriode && k) {
           const rKelas = String(rows[i][3] ?? '').trim().toUpperCase();
           const rSem = String(rows[i][4] ?? '').trim();
@@ -1361,7 +1438,7 @@
       for (const idx of matchIndices) {
         await callSheetApi({ action: 'delete_rows', sheet_id: gid, start_index: idx, end_index: idx + 1 });
       }
-      return { deleted: matchIndices.length, remainingInPeriode };
+      return { deleted: matchIndices.length, remainingInPeriode, driveUrls };
     }
 
     async function deleteSantriNilai(item, kelas, sem, year){
@@ -1379,7 +1456,7 @@
         `Hapus seluruh data nilai santri berikut?\n\n` +
         `• Nama: ${nama} (NIS ${nis})\n` +
         `• Periode: Kelas ${kelas}, Semester ${semLabel}, Tahun ${year}\n\n` +
-        `Baris di Google Sheets (Nilai_${kelas}, Absensi, dan catatan Transkrip bila ada) akan dihapus permanen dan ranking kelas akan dihitung ulang.`
+        `Baris di Google Sheets (Nilai_${kelas}, Absensi, dan catatan Transkrip beserta file PDF-nya di Google Drive bila ada) akan dihapus dan ranking kelas akan dihitung ulang.`
       );
       if (!ok) return;
 
@@ -1398,7 +1475,11 @@
           deletedAbs = (await deleteRowsByKey('Absensi', gidMap['Absensi'], key)).deleted;
         }
         if (gidMap['Transkrip'] !== undefined) {
-          deletedTr = (await deleteRowsByKey('Transkrip', gidMap['Transkrip'], key)).deleted;
+          const resTr = await deleteRowsByKey('Transkrip', gidMap['Transkrip'], key, null, 6);
+          deletedTr = resTr.deleted;
+          for (const pdfUrl of (resTr.driveUrls || [])) {
+            await deleteDriveFileByUrl(pdfUrl).catch(() => {});
+          }
         }
 
         // Hitung ulang ranking di WF-02 jika masih ada santri tersisa di kelas & periode yang sama

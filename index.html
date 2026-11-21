@@ -134,11 +134,93 @@
     .jpg-preview-wrap{background:#e8efeb;border-radius:10px;padding:12px;overflow:auto;max-height:68vh;text-align:center}
     .jpg-preview-wrap img{width:auto;max-width:100%;max-height:64vh;height:auto;object-fit:contain;display:block;margin:0 auto;border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.15);background:#fff}
 
+    /* ===== TAB RINGKASAN & STATISTIK ===== */
+    .dash-scroll{flex:1;min-height:0;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:12px}
+    .kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+    .kpi-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 14px;display:flex;flex-direction:column;gap:6px;box-shadow:0 3px 10px rgba(19,57,46,.03)}
+    .kpi-top{display:flex;align-items:center;justify-content:space-between;gap:6px}
+    .kpi-label{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+    .kpi-icon{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:14px;background:var(--soft);color:var(--green)}
+    .kpi-icon.blue{background:var(--bluebg);color:var(--blue)}
+    .kpi-icon.gold{background:var(--goldbg);color:var(--gold)}
+    .kpi-val{font-size:22px;font-weight:850;color:#123b35;line-height:1.15;letter-spacing:-.4px}
+    .kpi-sub{font-size:11px;color:var(--muted);line-height:1.4}
+    .progress-track{height:6px;background:#e8f0ec;border-radius:99px;overflow:hidden;margin-top:2px}
+    .progress-fill{height:100%;background:linear-gradient(90deg,#1f6845,#2e9b6b);border-radius:99px;transition:width .3s ease}
+
+    .dash-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:12px;align-items:start}
+    .dash-col{display:flex;flex-direction:column;gap:12px;min-width:0}
+    .card{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 3px 10px rgba(19,57,46,.03)}
+    .card-head{padding:11px 14px;border-bottom:1px solid var(--line);background:#fafdfb;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .card-head h3{margin:0;font-size:13px;font-weight:800;color:#15362e;display:flex;align-items:center;gap:6px}
+    .card-body{padding:13px 14px}
+
+    .highlight-pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+    .hl-box{padding:9px 11px;border-radius:9px;border:1px solid #d5ebd9;background:#f3fbf5}
+    .hl-box.warn{border-color:#f5dfa6;background:#fffaf0}
+    .hl-box small{display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:2px}
+    .hl-box strong{display:block;font-size:12.5px;color:#123b35}
+    .hl-box span{font-size:11px;color:#2e6b4f;font-weight:750}
+    .hl-box.warn span{color:#9a5b00}
+
+    .bar-list{display:flex;flex-direction:column;gap:9px}
+    .bar-row{display:flex;flex-direction:column;gap:4px}
+    .bar-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11.5px}
+    .bar-name{font-weight:750;color:#1b3e35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .bar-stat{display:flex;align-items:center;gap:8px;white-space:nowrap;font-size:11px;color:var(--muted)}
+    .bar-stat b{font-size:12px;color:#123b35}
+    .bar-track{height:9px;background:#edf3ef;border-radius:99px;overflow:hidden}
+    .bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#17483f,#2d8a67);transition:width .35s ease}
+    .bar-fill.mid{background:linear-gradient(90deg,#0b5d8a,#2892c9)}
+    .bar-fill.low{background:linear-gradient(90deg,#b7791f,#e09f3e)}
+
+    .top3-list{display:flex;flex-direction:column;gap:8px}
+    .top3-item{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:10px;border:1px solid #e7efe9;background:#fafdfb}
+    .top3-info{flex:1;min-width:0}
+    .top3-name{font-weight:800;font-size:12.5px;color:#15362e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .top3-meta{font-size:10.5px;color:var(--muted);margin-top:2px}
+    .top3-score{text-align:right;white-space:nowrap}
+    .top3-score strong{display:block;font-size:15px;font-weight:850;color:var(--green)}
+    .top3-score small{font-size:10px;color:var(--muted)}
+
+    .missing-list{display:flex;flex-direction:column;gap:7px;max-height:260px;overflow:auto}
+    .missing-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;border-radius:9px;border:1px solid #f5dfa6;background:#fffcf4}
+    .missing-info{min-width:0;flex:1}
+    .missing-name{font-weight:800;font-size:12px;color:#15362e}
+    .missing-detail{font-size:10.5px;color:#8a5a12;margin-top:2px;line-height:1.35}
+
+    /* ===== TAB RIWAYAT FOTO & LOG AI ===== */
+    .photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:12px;padding:14px}
+    .photo-card{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:grid;grid-template-columns:150px 1fr;box-shadow:0 3px 10px rgba(19,57,46,.04);transition:border-color .15s}
+    .photo-card:hover{border-color:#a8cdb9}
+    .photo-thumb{position:relative;background:#e6eeea;min-height:165px;cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .photo-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s ease}
+    .photo-thumb:hover img{transform:scale(1.04)}
+    .photo-thumb-badge{position:absolute;bottom:7px;left:7px;background:rgba(18,59,53,.84);color:#fff;font-size:10px;font-weight:750;padding:3px 7px;border-radius:6px;backdrop-filter:blur(4px)}
+    .photo-body{padding:11px 13px;display:flex;flex-direction:column;gap:7px;min-width:0}
+    .photo-head{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
+    .photo-title{font-size:12px;font-weight:800;color:#15362e;line-height:1.35}
+    .photo-meta{font-size:11px;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .photo-chips{display:flex;flex-wrap:wrap;gap:4px}
+    .photo-chips .m-chip{font-size:10.5px;padding:2px 6px}
+    .photo-actions{margin-top:auto;padding-top:6px;border-top:1px solid #edf3ef;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+
+    .photo-modal-wrap{background:#10221e;border-radius:10px;padding:14px;overflow:auto;max-height:62vh;display:flex;align-items:center;justify-content:center;min-height:280px}
+    .photo-modal-wrap img{max-width:100%;max-height:58vh;width:auto;height:auto;object-fit:contain;border-radius:6px;transition:transform .2s ease;box-shadow:0 8px 28px rgba(0,0,0,.35)}
+    .photo-modal-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:11.5px;color:#2b4a40;background:#f5faf7;border:1px solid var(--line);border-radius:9px;padding:9px 12px}
+
+    @media(max-width:1100px){
+      .kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .dash-grid{grid-template-columns:1fr}
+    }
     @media(max-width:860px){
       .layout{flex-direction:column;height:auto;min-height:100vh;overflow:auto}
       .sidebar{width:100%;flex:0 0 auto}
       .main{height:auto;overflow:visible}
       .form-row{grid-template-columns:1fr 1fr}
+      .photo-grid{grid-template-columns:1fr}
+      .photo-card{grid-template-columns:1fr}
+      .photo-thumb{height:180px}
     }
   </style>
 </head>
@@ -161,9 +243,17 @@
 
     <div class="nav-label">MENU UTAMA</div>
     <nav class="nav">
-      <button type="button" class="nav-item active" id="navData" onclick="switchTab('data')">
+      <button type="button" class="nav-item active" id="navRingkasan" onclick="switchTab('ringkasan')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>
+        <span>Ringkasan & Statistik</span>
+      </button>
+      <button type="button" class="nav-item" id="navData" onclick="switchTab('data')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
         <span>Data & Koreksi Nilai</span>
+      </button>
+      <button type="button" class="nav-item" id="navRiwayat" onclick="switchTab('riwayat')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10.5" r="1.5"/><path d="M21 15l-5-5L5 19"/></svg>
+        <span>Riwayat Foto & Log AI</span>
       </button>
       <button type="button" class="nav-item" id="navArsip" onclick="switchTab('arsip')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -201,20 +291,133 @@
       </div>
     </div>
 
-    <!-- ================= TAB 1: DATA & KOREKSI NILAI ================= -->
-    <section class="page-view" id="viewData">
+    <!-- ================= TAB 0: RINGKASAN & STATISTIK KELAS ================= -->
+    <section class="page-view" id="viewRingkasan">
       <div class="panel">
         <div class="toolbar">
-          <select class="t-select" id="selKelas" onchange="switchKelas(this.value)">
+          <select class="t-select" id="selKelasRing" onchange="setPeriod(this.value, state.tahun_ajaran, state.semester)">
             <option value="A">Kelas A</option>
             <option value="B" selected>Kelas B</option>
           </select>
-          <select class="t-select" id="selTahun" onchange="loadData()">
+          <select class="t-select" id="selTahunRing" onchange="setPeriod(state.kelas, this.value, state.semester)">
             <option value="2024/2025">2024/2025</option>
             <option value="2025/2026" selected>2025/2026</option>
             <option value="2026/2027">2026/2027</option>
           </select>
-          <select class="t-select" id="selSemester" onchange="loadData()">
+          <select class="t-select" id="selSemesterRing" onchange="setPeriod(state.kelas, state.tahun_ajaran, this.value)">
+            <option value="Ganjil" selected>Semester Ganjil</option>
+            <option value="Genap">Semester Genap</option>
+          </select>
+          <button type="button" class="btn" onclick="loadRingkasan()">🔄 Muat Ulang</button>
+
+          <div class="toolbar-right">
+            <button type="button" class="btn" onclick="switchTab('riwayat')">📸 Lihat Bukti Foto AI</button>
+            <button type="button" class="btn btn-blue" onclick="switchTab('data')">✏️ Koreksi Data Nilai</button>
+            <button type="button" class="btn btn-primary" onclick="triggerCetak('semua')">🖨️ Cetak Semua (PDF & JPG)</button>
+          </div>
+        </div>
+
+        <div class="dash-scroll" id="ringkasanContent">
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Santri & Kelengkapan</span>
+                <span class="kpi-icon">👥</span>
+              </div>
+              <div class="kpi-val" id="kpiSantri">0 Santri</div>
+              <div class="kpi-sub" id="kpiSantriSub">Memuat data kelas...</div>
+              <div class="progress-track"><div class="progress-fill" id="kpiProgressBar" style="width:0%"></div></div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Rata-rata Nilai Kelas</span>
+                <span class="kpi-icon blue">📈</span>
+              </div>
+              <div class="kpi-val" id="kpiAvg">0.00</div>
+              <div class="kpi-sub" id="kpiAvgSub">Tertinggi: - · Terendah: -</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-label">Otomasi n8n & AI OCR</span>
+                <span class="kpi-icon gold">🤖</span>
+              </div>
+              <div class="kpi-val" id="kpiFoto">0 Foto</div>
+              <div class="kpi-sub" id="kpiFotoSub">0 mata pelajaran tersalin otomatis</div>
+            </div>
+
+            <div class="kpi-card" style="cursor:pointer" onclick="switchTab('arsip')" title="Klik untuk membuka Arsip Rapor">
+              <div class="kpi-top">
+                <span class="kpi-label">Arsip Rapor Terbit</span>
+                <span class="kpi-icon">📄</span>
+              </div>
+              <div class="kpi-val" id="kpiArsip">0 Dokumen</div>
+              <div class="kpi-sub" id="kpiArsipSub">Klik untuk buka PDF & JPG →</div>
+            </div>
+          </div>
+
+          <div class="dash-grid" id="ringkasanGrid">
+            <div class="card">
+              <div class="card-head">
+                <h3>📊 Grafik Rata-rata Nilai per Mata Pelajaran</h3>
+                <select class="t-select" id="selSortChart" onchange="renderRingkasan()" style="height:28px;font-size:11px;padding:0 8px">
+                  <option value="desc">Tertinggi → Terendah</option>
+                  <option value="asc">Terendah → Tertinggi</option>
+                  <option value="az">Abjad A–Z</option>
+                </select>
+              </div>
+              <div class="card-body">
+                <div class="highlight-pair" id="chartHighlights" hidden></div>
+                <div class="bar-list" id="mapelBarList"></div>
+              </div>
+            </div>
+
+            <div class="dash-col">
+              <div class="card">
+                <div class="card-head">
+                  <h3>🏆 Top 3 Peringkat Kelas</h3>
+                  <button type="button" class="btn btn-xs" onclick="switchTab('data')">Lihat Semua →</button>
+                </div>
+                <div class="card-body">
+                  <div class="top3-list" id="top3List"></div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-head">
+                  <h3>⚠️ Pantauan Kelengkapan Nilai</h3>
+                  <span class="chip chip-muted" id="missingCountBadge">0 santri</span>
+                </div>
+                <div class="card-body">
+                  <div class="missing-list" id="missingList"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="empty-center" id="ringkasanEmpty" hidden>
+            <h3>Belum ada data nilai pada periode ini</h3>
+            <p>Kirim foto lembar/buku nilai melalui Bot Telegram <b>@paudqu_nurulmubin_bot</b>, atau pilih periode lain di atas untuk melihat grafik statistik kelas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 1: DATA & KOREKSI NILAI ================= -->
+    <section class="page-view" id="viewData" hidden>
+      <div class="panel">
+        <div class="toolbar">
+          <select class="t-select" id="selKelas" onchange="setPeriod(this.value, state.tahun_ajaran, state.semester)">
+            <option value="A">Kelas A</option>
+            <option value="B" selected>Kelas B</option>
+          </select>
+          <select class="t-select" id="selTahun" onchange="setPeriod(state.kelas, this.value, state.semester)">
+            <option value="2024/2025">2024/2025</option>
+            <option value="2025/2026" selected>2025/2026</option>
+            <option value="2026/2027">2026/2027</option>
+          </select>
+          <select class="t-select" id="selSemester" onchange="setPeriod(state.kelas, state.tahun_ajaran, this.value)">
             <option value="Ganjil" selected>Semester Ganjil</option>
             <option value="Genap">Semester Genap</option>
           </select>
@@ -264,7 +467,53 @@
       </div>
     </section>
 
-    <!-- ================= TAB 2: ARSIP RAPOR (PDF & JPG) ================= -->
+    <!-- ================= TAB 2: RIWAYAT FOTO & LOG OTOMASI n8n ================= -->
+    <section class="page-view" id="viewRiwayat" hidden>
+      <div class="panel">
+        <div class="toolbar">
+          <div class="subtabs">
+            <button type="button" class="subtab-btn active" id="subRiwayatPeriode" onclick="switchRiwayatScope('periode')">📌 Periode Aktif</button>
+            <button type="button" class="subtab-btn" id="subRiwayatSemua" onclick="switchRiwayatScope('semua')">🗂️ Semua Kelas & Periode</button>
+          </div>
+          <select class="t-select" id="selKelasRiw" onchange="setPeriod(this.value, state.tahun_ajaran, state.semester)">
+            <option value="A">Kelas A</option>
+            <option value="B" selected>Kelas B</option>
+          </select>
+          <select class="t-select" id="selTahunRiw" onchange="setPeriod(state.kelas, this.value, state.semester)">
+            <option value="2024/2025">2024/2025</option>
+            <option value="2025/2026" selected>2025/2026</option>
+            <option value="2026/2027">2026/2027</option>
+          </select>
+          <select class="t-select" id="selSemesterRiw" onchange="setPeriod(state.kelas, state.tahun_ajaran, this.value)">
+            <option value="Ganjil" selected>Semester Ganjil</option>
+            <option value="Genap">Semester Genap</option>
+          </select>
+          <button type="button" class="btn" onclick="loadRiwayat()">🔄 Muat Ulang</button>
+
+          <div class="toolbar-right">
+            <a class="btn btn-blue" href="https://t.me/paudqu_nurulmubin_bot" target="_blank" rel="noopener">📸 Kirim Foto Baru via Telegram</a>
+          </div>
+        </div>
+
+        <div class="summary-strip">
+          <div class="summary-badges">
+            <span class="chip chip-green" id="statLogFotoCount">0 Foto Diproses</span>
+            <span class="chip chip-blue" id="statLogSantriTotal">0 Total Baris Santri Terbaca AI</span>
+          </div>
+          <small style="color:var(--muted)">Audit bukti foto asli dari Telegram yang diekstrak oleh <b>n8n + Gemini Vision AI</b> (klik foto untuk perbesar / putar).</small>
+        </div>
+
+        <div class="table-scroll">
+          <div class="photo-grid" id="riwayatGrid"></div>
+          <div class="empty-center" id="riwayatEmpty" hidden>
+            <h3>Belum ada riwayat foto pada filter ini</h3>
+            <p>Kirim foto lembar/buku nilai melalui Bot Telegram <b>@paudqu_nurulmubin_bot</b> atau klik <b>🗂️ Semua Kelas & Periode</b> untuk melihat seluruh bukti foto yang pernah diproses n8n.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 3: ARSIP RAPOR (PDF & JPG) ================= -->
     <section class="page-view" id="viewArsip" hidden>
       <div class="panel">
         <div class="toolbar">
@@ -272,7 +521,16 @@
             <button type="button" class="subtab-btn active" id="subRekap" onclick="switchArsipKind('rekap_peringkat')">🏆 Rekap Peringkat Kelas</button>
             <button type="button" class="subtab-btn" id="subTranskrip" onclick="switchArsipKind('transkrip')">📄 Transkrip per Santri</button>
           </div>
-          <input type="search" class="t-input" id="inpSearchArsip" placeholder="Cari nama file..." oninput="renderArsipTable()" style="width:200px">
+          <select class="t-select" id="selTahunArsip" onchange="setPeriod(state.kelas, this.value, state.semester)">
+            <option value="2024/2025">2024/2025</option>
+            <option value="2025/2026" selected>2025/2026</option>
+            <option value="2026/2027">2026/2027</option>
+          </select>
+          <select class="t-select" id="selSemesterArsip" onchange="setPeriod(state.kelas, state.tahun_ajaran, this.value)">
+            <option value="Ganjil" selected>Semester Ganjil</option>
+            <option value="Genap">Semester Genap</option>
+          </select>
+          <input type="search" class="t-input" id="inpSearchArsip" placeholder="Cari nama file..." oninput="renderArsipTable()" style="width:185px">
           <button type="button" class="btn" onclick="loadArsip()">🔄 Muat Ulang</button>
 
           <div class="toolbar-right">
@@ -393,6 +651,28 @@
   </div>
 </div>
 
+<!-- ================= MODAL 4: AUDIT FOTO BUKU NILAI ASLI ================= -->
+<div class="modal-backdrop" id="modalFotoLog" hidden>
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <h3 id="modalFotoTitle">📸 Bukti Foto Buku Nilai Asli</h3>
+      <button type="button" class="modal-close" onclick="closeFotoLogModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="photo-modal-meta" id="modalFotoMeta"></div>
+      <div class="photo-modal-wrap">
+        <img id="modalFotoImg" src="" alt="Foto Asli Buku Nilai">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn" onclick="rotateFotoModal(-90)">↺ Putar Kiri</button>
+      <button type="button" class="btn" onclick="rotateFotoModal(90)">↻ Putar Kanan</button>
+      <a class="btn btn-blue" id="btnOpenFotoRaw" href="#" target="_blank" rel="noopener">↗️ Buka Ukuran Penuh</a>
+      <button type="button" class="btn btn-primary" onclick="closeFotoLogModal()">Tutup</button>
+    </div>
+  </div>
+</div>
+
 <script>
   const SUPABASE_URL = 'https://nugrqgkphuocwbkzhptz.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_FInwzhJspfT4YIxSBpnfrQ_1BdFT_19';
@@ -422,12 +702,15 @@
 
   let customLabels = JSON.parse(localStorage.getItem('paudqu_mapel_labels') || '{}');
   let state = {
-    tab: 'data',
+    tab: 'ringkasan',
     kelas: 'B',
     tahun_ajaran: '2025/2026',
     semester: 'Ganjil',
     rows: [],
     classMapelKeys: [],
+    logFotoRows: [],
+    riwayatScope: 'periode',
+    fotoRotation: 0,
     arsipRows: [],
     arsipKind: 'rekap_peringkat',
     editingRow: null
@@ -478,47 +761,408 @@
     return ct.includes('application/json') ? res.json() : res.text();
   }
 
-  function switchTab(tab) {
-    state.tab = tab;
-    document.getElementById('navData').classList.toggle('active', tab === 'data');
-    document.getElementById('navArsip').classList.toggle('active', tab === 'arsip');
-    document.getElementById('viewData').hidden = tab !== 'data';
-    document.getElementById('viewArsip').hidden = tab !== 'arsip';
-    document.getElementById('pageTitle').textContent = tab === 'data'
-      ? 'Data & Koreksi Nilai Hasil Salinan Buku'
-      : 'Arsip Rapor Digital (Format PDF & Gambar JPG)';
-    if (tab === 'arsip') loadArsip();
-    else loadData();
+  function ensureYearOption(selId, val) {
+    const sel = document.getElementById(selId);
+    if (!sel || !val) return;
+    if (!Array.from(sel.options).some(o => o.value === val)) {
+      const opt = document.createElement('option');
+      opt.value = val;
+      opt.textContent = val;
+      sel.appendChild(opt);
+    }
+    sel.value = val;
   }
 
-  function switchKelas(k) {
-    state.kelas = k === 'A' ? 'A' : 'B';
-    document.getElementById('selKelas').value = state.kelas;
+  function syncPeriodControls() {
+    ['selKelas', 'selKelasRing', 'selKelasRiw'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = state.kelas;
+    });
+    ['selTahun', 'selTahunRing', 'selTahunRiw', 'selTahunArsip'].forEach(id => ensureYearOption(id, state.tahun_ajaran));
+    ['selSemester', 'selSemesterRing', 'selSemesterRiw', 'selSemesterArsip'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = state.semester;
+    });
     document.getElementById('btnSideKelasA').classList.toggle('active', state.kelas === 'A');
     document.getElementById('btnSideKelasB').classList.toggle('active', state.kelas === 'B');
     document.getElementById('activeClassBadge').textContent = 'KELAS ' + state.kelas;
-    if (state.tab === 'arsip') loadArsip();
-    else loadData();
+  }
+
+  function setPeriod(kelas, tahun, semester, reload = true) {
+    state.kelas = kelas === 'A' ? 'A' : 'B';
+    if (tahun) state.tahun_ajaran = tahun;
+    if (semester === 'Ganjil' || semester === 'Genap') state.semester = semester;
+    syncPeriodControls();
+    if (reload) reloadActiveTab();
+  }
+
+  function reloadActiveTab() {
+    if (state.tab === 'ringkasan') loadRingkasan();
+    else if (state.tab === 'data') loadData();
+    else if (state.tab === 'riwayat') loadRiwayat();
+    else if (state.tab === 'arsip') loadArsip();
+  }
+
+  function switchTab(tab) {
+    const allowed = ['ringkasan', 'data', 'riwayat', 'arsip'];
+    state.tab = allowed.includes(tab) ? tab : 'ringkasan';
+    document.getElementById('navRingkasan').classList.toggle('active', state.tab === 'ringkasan');
+    document.getElementById('navData').classList.toggle('active', state.tab === 'data');
+    document.getElementById('navRiwayat').classList.toggle('active', state.tab === 'riwayat');
+    document.getElementById('navArsip').classList.toggle('active', state.tab === 'arsip');
+
+    document.getElementById('viewRingkasan').hidden = state.tab !== 'ringkasan';
+    document.getElementById('viewData').hidden = state.tab !== 'data';
+    document.getElementById('viewRiwayat').hidden = state.tab !== 'riwayat';
+    document.getElementById('viewArsip').hidden = state.tab !== 'arsip';
+
+    const titles = {
+      ringkasan: 'Ringkasan & Statistik Capaian Kelas',
+      data: 'Data & Koreksi Nilai Hasil Salinan Buku',
+      riwayat: 'Riwayat Foto Buku Nilai & Log Otomasi n8n',
+      arsip: 'Arsip Rapor Digital (Format PDF & Gambar JPG)'
+    };
+    document.getElementById('pageTitle').textContent = titles[state.tab];
+    syncPeriodControls();
+    reloadActiveTab();
+  }
+
+  function switchKelas(k) {
+    setPeriod(k, state.tahun_ajaran, state.semester, true);
+  }
+
+  async function fetchClassRows() {
+    const q = `/rest/v1/nilai_rapor?select=*,santri(id,nama,no_urut,nama_normalisasi)&kelas=eq.${encodeURIComponent(state.kelas)}&tahun_ajaran=eq.${encodeURIComponent(state.tahun_ajaran)}&semester=eq.${encodeURIComponent(state.semester)}`;
+    const rows = await sbFetch(q);
+    state.rows = (Array.isArray(rows) ? rows : []).sort((a, b) =>
+      String(a.santri?.nama || '').localeCompare(String(b.santri?.nama || ''), 'id')
+    );
+    const keySet = new Set();
+    for (const r of state.rows) {
+      for (const [k, v] of Object.entries(r.nilai_mapel || {})) {
+        if (v !== null && v !== undefined && v !== '') keySet.add(k);
+      }
+    }
+    state.classMapelKeys = Array.from(keySet);
+  }
+
+  // ================= TAB 0: RINGKASAN & STATISTIK =================
+  async function loadRingkasan() {
+    try {
+      const qLog = `/rest/v1/log_foto?select=*&kelas=eq.${encodeURIComponent(state.kelas)}&tahun_ajaran=eq.${encodeURIComponent(state.tahun_ajaran)}&semester=eq.${encodeURIComponent(state.semester)}&order=created_at.desc`;
+      const qArsip = `/rest/v1/arsip_pdf?select=id,jenis,nama_file,updated_at&kelas=eq.${encodeURIComponent(state.kelas)}&tahun_ajaran=eq.${encodeURIComponent(state.tahun_ajaran)}&semester=eq.${encodeURIComponent(state.semester)}`;
+      const [, logRows, arsipRows] = await Promise.all([
+        fetchClassRows(),
+        sbFetch(qLog).catch(() => []),
+        sbFetch(qArsip).catch(() => [])
+      ]);
+      state.logFotoRows = Array.isArray(logRows) ? logRows : [];
+      state.arsipRows = Array.isArray(arsipRows) ? arsipRows : [];
+      renderRingkasan();
+    } catch (err) {
+      showToast('Gagal memuat ringkasan kelas: ' + err.message, 'error');
+    }
+  }
+
+  function renderRingkasan() {
+    const rows = state.rows;
+    const totalSantri = rows.length;
+    const totalMapel = state.classMapelKeys.length;
+
+    let lengkapCount = 0;
+    const missingStudents = [];
+    const avgs = [];
+
+    for (const r of rows) {
+      const nm = r.nilai_mapel || {};
+      const filled = Object.entries(nm).filter(([, v]) => v !== null && v !== undefined && v !== '');
+      const missingKeys = state.classMapelKeys.filter(k => nm[k] === undefined || nm[k] === null || nm[k] === '');
+      if (totalMapel > 0 && missingKeys.length === 0) lengkapCount++;
+      else if (totalMapel > 0) missingStudents.push({ row: r, filledCount: filled.length, missingKeys });
+      const avg = Number(r.rata_rata || 0);
+      if (avg > 0) avgs.push(avg);
+    }
+
+    const pctLengkap = totalSantri > 0 ? Math.round((lengkapCount / totalSantri) * 100) : 0;
+    const classAvg = avgs.length > 0 ? (avgs.reduce((a, b) => a + b, 0) / avgs.length) : 0;
+    const maxAvg = avgs.length > 0 ? Math.max(...avgs) : 0;
+    const minAvg = avgs.length > 0 ? Math.min(...avgs) : 0;
+
+    document.getElementById('kpiSantri').textContent = `${totalSantri} Santri`;
+    document.getElementById('kpiSantriSub').textContent = totalSantri > 0
+      ? `${lengkapCount} lengkap (${pctLengkap}%) · ${missingStudents.length} belum lengkap`
+      : 'Belum ada data santri di periode ini';
+    document.getElementById('kpiProgressBar').style.width = `${pctLengkap}%`;
+
+    document.getElementById('kpiAvg').textContent = avgs.length > 0 ? classAvg.toFixed(2) : '0.00';
+    document.getElementById('kpiAvgSub').textContent = avgs.length > 0
+      ? `Tertinggi: ${maxAvg.toFixed(2)} · Terendah: ${minAvg.toFixed(2)}`
+      : 'Belum ada perhitungan rata-rata';
+
+    const fotoCount = state.logFotoRows.length;
+    document.getElementById('kpiFoto').textContent = `${fotoCount} Foto`;
+    document.getElementById('kpiFotoSub').textContent = `${totalMapel} mata pelajaran tersalin otomatis`;
+
+    const arsipCount = state.arsipRows.length;
+    document.getElementById('kpiArsip').textContent = `${arsipCount} Dokumen`;
+    document.getElementById('kpiArsipSub').textContent = arsipCount > 0
+      ? 'Format PDF & JPG siap unduh →'
+      : 'Belum dicetak · Klik Cetak Semua';
+
+    const grid = document.getElementById('ringkasanGrid');
+    const empty = document.getElementById('ringkasanEmpty');
+    if (totalSantri === 0) {
+      grid.hidden = true;
+      empty.hidden = false;
+      return;
+    }
+    grid.hidden = false;
+    empty.hidden = true;
+
+    // 1. Grafik Rata-rata Nilai per Mata Pelajaran
+    const mapelStats = state.classMapelKeys.map(k => {
+      const vals = [];
+      for (const r of rows) {
+        const v = r.nilai_mapel?.[k];
+        if (v !== null && v !== undefined && v !== '' && !Number.isNaN(Number(v))) {
+          vals.push(Number(v));
+        }
+      }
+      const avg = vals.length > 0 ? (vals.reduce((a, b) => a + b, 0) / vals.length) : 0;
+      return { key: k, label: getMapelLabel(k), avg, count: vals.length };
+    });
+
+    const hlWrap = document.getElementById('chartHighlights');
+    if (mapelStats.length > 0) {
+      const byAvg = [...mapelStats].sort((a, b) => b.avg - a.avg);
+      const best = byAvg[0];
+      const worst = byAvg[byAvg.length - 1];
+      hlWrap.hidden = false;
+      hlWrap.innerHTML = `
+        <div class="hl-box">
+          <small>🌟 Mapel Rata-rata Tertinggi</small>
+          <strong>${esc(best.label)}</strong>
+          <span>Rata-rata ${best.avg.toFixed(1)} (${best.count}/${totalSantri} santri)</span>
+        </div>
+        <div class="hl-box warn">
+          <small>📌 Mapel Perlu Penguatan</small>
+          <strong>${esc(worst.label)}</strong>
+          <span>Rata-rata ${worst.avg.toFixed(1)} (${worst.count}/${totalSantri} santri)</span>
+        </div>
+      `;
+    } else {
+      hlWrap.hidden = true;
+    }
+
+    const sortMode = document.getElementById('selSortChart')?.value || 'desc';
+    const sortedMapel = [...mapelStats].sort((a, b) => {
+      if (sortMode === 'asc') return a.avg - b.avg;
+      if (sortMode === 'az') return a.label.localeCompare(b.label, 'id');
+      return b.avg - a.avg;
+    });
+
+    const barWrap = document.getElementById('mapelBarList');
+    barWrap.innerHTML = sortedMapel.length === 0
+      ? `<div style="color:var(--muted);font-size:12px;text-align:center;padding:18px">Belum ada mata pelajaran terisi.</div>`
+      : sortedMapel.map(m => {
+          const pct = Math.max(0, Math.min(100, m.avg));
+          const fillCls = m.avg >= 85 ? '' : (m.avg >= 75 ? 'mid' : 'low');
+          return `<div class="bar-row">
+            <div class="bar-meta">
+              <span class="bar-name" title="${esc(m.label)}">${esc(m.label)}</span>
+              <span class="bar-stat"><span>${m.count}/${totalSantri} santri</span><b>${m.avg.toFixed(1)}</b></span>
+            </div>
+            <div class="bar-track"><div class="bar-fill ${fillCls}" style="width:${pct.toFixed(1)}%"></div></div>
+          </div>`;
+        }).join('');
+
+    // 2. Top 3 Peringkat Kelas
+    const top3 = [...rows]
+      .filter(r => r.peringkat !== null && r.peringkat !== undefined)
+      .sort((a, b) => Number(a.peringkat) - Number(b.peringkat))
+      .slice(0, 3);
+    const top3Wrap = document.getElementById('top3List');
+    top3Wrap.innerHTML = top3.length === 0
+      ? `<div style="color:var(--muted);font-size:12px;text-align:center;padding:14px">Peringkat belum dihitung.</div>`
+      : top3.map(r => {
+          const rank = Number(r.peringkat);
+          const rankCls = rank === 1 ? 'rank-1' : (rank === 2 ? 'rank-2' : 'rank-3');
+          const medal = rank === 1 ? '🥇' : (rank === 2 ? '🥈' : '🥉');
+          const iqroVal = r.nilai_mapel?.iqro ?? '-';
+          return `<div class="top3-item">
+            <span class="rank-badge ${rankCls}">${medal} #${rank}</span>
+            <div class="top3-info">
+              <div class="top3-name">${esc(r.santri?.nama || '-')}</div>
+              <div class="top3-meta">Jumlah: ${Number(r.total_nilai || 0)} · Iqro: ${esc(iqroVal)} · Alpa: ${r.alpa || 0}</div>
+            </div>
+            <div class="top3-score">
+              <strong>${Number(r.rata_rata || 0).toFixed(2)}</strong>
+              <small>Rata-rata</small>
+            </div>
+          </div>`;
+        }).join('');
+
+    // 3. Pantauan Kelengkapan Nilai
+    const missBadge = document.getElementById('missingCountBadge');
+    const missWrap = document.getElementById('missingList');
+    missBadge.textContent = missingStudents.length === 0 ? 'Semua Lengkap' : `${missingStudents.length} belum lengkap`;
+    missBadge.className = missingStudents.length === 0 ? 'chip chip-green' : 'chip chip-muted';
+
+    if (missingStudents.length === 0) {
+      missWrap.innerHTML = `<div style="padding:14px;border-radius:9px;background:#edf8f1;border:1px solid #cdebd7;color:#1f6845;font-size:12px;font-weight:700;text-align:center">
+        ✅ Seluruh ${totalSantri} santri sudah lengkap di semua ${totalMapel} mata pelajaran!
+      </div>`;
+    } else {
+      missWrap.innerHTML = missingStudents.map(({ row, filledCount, missingKeys }) => {
+        const previewMiss = missingKeys.slice(0, 3).map(k => getMapelLabel(k)).join(', ')
+          + (missingKeys.length > 3 ? `, +${missingKeys.length - 3} lainnya` : '');
+        return `<div class="missing-item">
+          <div class="missing-info">
+            <div class="missing-name">${esc(row.santri?.nama || '-')} <span class="m-badge-warn" style="margin-left:4px">📚 ${filledCount} Mapel</span></div>
+            <div class="missing-detail">Belum terisi: ${esc(previewMiss)}</div>
+          </div>
+          <button type="button" class="btn btn-xs" onclick="openEditModal('${row.id}')">✏️ Lengkapi</button>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  // ================= TAB 2: RIWAYAT FOTO & LOG AI =================
+  function switchRiwayatScope(scope) {
+    state.riwayatScope = scope === 'semua' ? 'semua' : 'periode';
+    document.getElementById('subRiwayatPeriode').classList.toggle('active', state.riwayatScope === 'periode');
+    document.getElementById('subRiwayatSemua').classList.toggle('active', state.riwayatScope === 'semua');
+    ['selKelasRiw', 'selTahunRiw', 'selSemesterRiw'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.disabled = state.riwayatScope === 'semua';
+    });
+    loadRiwayat();
+  }
+
+  async function loadRiwayat() {
+    try {
+      let q = `/rest/v1/log_foto?select=*&order=created_at.desc&limit=50`;
+      if (state.riwayatScope === 'periode') {
+        q += `&kelas=eq.${encodeURIComponent(state.kelas)}&tahun_ajaran=eq.${encodeURIComponent(state.tahun_ajaran)}&semester=eq.${encodeURIComponent(state.semester)}`;
+      }
+      const rows = await sbFetch(q);
+      state.logFotoRows = Array.isArray(rows) ? rows : [];
+      renderRiwayat();
+    } catch (err) {
+      showToast('Gagal memuat riwayat foto: ' + err.message, 'error');
+    }
+  }
+
+  function renderRiwayat() {
+    const grid = document.getElementById('riwayatGrid');
+    const empty = document.getElementById('riwayatEmpty');
+    const list = state.logFotoRows;
+
+    const totalRowsRead = list.reduce((sum, r) => sum + Number(r.jumlah_santri_terbaca || 0), 0);
+    document.getElementById('statLogFotoCount').textContent = `${list.length} Foto Diproses`;
+    document.getElementById('statLogSantriTotal').textContent = `${totalRowsRead} Total Baris Santri Terbaca AI`;
+
+    if (list.length === 0) {
+      grid.innerHTML = '';
+      empty.hidden = false;
+      return;
+    }
+    empty.hidden = true;
+
+    grid.innerHTML = list.map(r => {
+      const dt = r.created_at ? new Date(r.created_at).toLocaleString('id-ID', {
+        day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+      }) : '-';
+      const okStatus = String(r.status_ocr || '').toLowerCase().includes('berhasil');
+      const mapelArr = Array.isArray(r.mapel_terdeteksi) ? r.mapel_terdeteksi : [];
+      const chipsHtml = mapelArr.length > 0
+        ? mapelArr.map(m => `<span class="m-chip">${esc(getMapelLabel(m))}</span>`).join('')
+        : `<span style="font-size:11px;color:var(--muted)">Tidak ada kolom mapel terdeteksi</span>`;
+      const catatan = r.catatan || 'Foto salinan nilai buku';
+
+      return `<article class="photo-card">
+        <div class="photo-thumb" onclick="openFotoLogModal('${r.id}')" title="Klik untuk memperbesar foto asli">
+          <img src="${esc(r.foto_url || '')}" alt="Foto buku nilai" loading="lazy" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<span style=\\'color:#5e746b;font-size:11px;padding:12px;text-align:center\\'>Gambar tidak tersedia</span>')">
+          <span class="photo-thumb-badge">🔍 Perbesar</span>
+        </div>
+        <div class="photo-body">
+          <div class="photo-head">
+            <span class="${okStatus ? 'm-badge-ok' : 'm-badge-warn'}">${okStatus ? '✅' : '⚠️'} ${esc(r.status_ocr || 'Diproses')}</span>
+            <span class="chip chip-muted" style="padding:2px 8px;font-size:10.5px">Kelas ${esc(r.kelas)} · ${esc(r.semester)} ${esc(r.tahun_ajaran)}</span>
+          </div>
+          <div class="photo-title">${esc(catatan)}</div>
+          <div class="photo-meta">
+            <span>👤 ${esc(r.telegram_user || 'Guru Telegram')}</span>
+            <span>👥 <b>${Number(r.jumlah_santri_terbaca || 0)}</b> santri</span>
+            <span>🕒 ${esc(dt)}</span>
+          </div>
+          <div class="photo-chips">${chipsHtml}</div>
+          <div class="photo-actions">
+            <button type="button" class="btn btn-xs btn-blue" onclick="openFotoLogModal('${r.id}')">🔍 Lihat Foto Asli</button>
+            <button type="button" class="btn btn-xs" onclick="jumpToPeriodData('${esc(r.kelas)}', '${esc(r.tahun_ajaran)}', '${esc(r.semester)}')">📋 Buka Data Kelas</button>
+            <button type="button" class="btn btn-xs btn-danger" style="margin-left:auto" onclick="deleteFotoLog('${r.id}', '${esc(r.storage_path || '')}')">🗑️</button>
+          </div>
+        </div>
+      </article>`;
+    }).join('');
+  }
+
+  function openFotoLogModal(id) {
+    const r = state.logFotoRows.find(x => x.id === id);
+    if (!r) return;
+    state.fotoRotation = 0;
+    const img = document.getElementById('modalFotoImg');
+    img.style.transform = 'rotate(0deg)';
+    img.src = r.foto_url || '';
+    document.getElementById('btnOpenFotoRaw').href = r.foto_url || '#';
+    document.getElementById('modalFotoTitle').textContent = `📸 Bukti Foto Asli — Kelas ${r.kelas} (${r.semester} ${r.tahun_ajaran})`;
+    const dt = r.created_at ? new Date(r.created_at).toLocaleString('id-ID') : '-';
+    const mapelList = (Array.isArray(r.mapel_terdeteksi) ? r.mapel_terdeteksi : []).map(m => getMapelLabel(m)).join(', ');
+    document.getElementById('modalFotoMeta').innerHTML = `
+      <span><b>Pengirim:</b> ${esc(r.telegram_user || 'Guru Telegram')}</span>
+      <span>· <b>Waktu:</b> ${esc(dt)}</span>
+      <span>· <b>Terbaca:</b> ${Number(r.jumlah_santri_terbaca || 0)} santri</span>
+      ${mapelList ? `<div style="width:100%"><b>Mapel Terdeteksi AI:</b> ${esc(mapelList)}</div>` : ''}
+      ${r.catatan ? `<div style="width:100%"><b>Catatan n8n:</b> ${esc(r.catatan)}</div>` : ''}
+    `;
+    document.getElementById('modalFotoLog').hidden = false;
+  }
+
+  function rotateFotoModal(deg) {
+    state.fotoRotation = (state.fotoRotation + deg) % 360;
+    document.getElementById('modalFotoImg').style.transform = `rotate(${state.fotoRotation}deg)`;
+  }
+
+  function closeFotoLogModal() {
+    document.getElementById('modalFotoLog').hidden = true;
+    document.getElementById('modalFotoImg').src = '';
+  }
+
+  function jumpToPeriodData(kelas, tahun, semester) {
+    setPeriod(kelas, tahun, semester, false);
+    switchTab('data');
+  }
+
+  async function deleteFotoLog(id, storagePath) {
+    if (!confirm('Hapus riwayat log foto ini dari arsip bukti AI? (Data nilai santri yang sudah tersimpan tidak ikut terhapus)')) return;
+    try {
+      if (storagePath) {
+        await fetch(`${SUPABASE_URL}/storage/v1/object/foto-nilai/${storagePath}`, {
+          method: 'DELETE',
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+        }).catch(() => {});
+      }
+      await sbFetch(`/rest/v1/log_foto?id=eq.${id}`, { method: 'DELETE' });
+      await loadRiwayat();
+      showToast('Riwayat log foto berhasil dihapus.', 'ok');
+    } catch (err) {
+      showToast('Gagal menghapus log foto: ' + err.message, 'error');
+    }
   }
 
   async function loadData() {
-    state.kelas = document.getElementById('selKelas').value;
-    state.tahun_ajaran = document.getElementById('selTahun').value;
-    state.semester = document.getElementById('selSemester').value;
     try {
-      const q = `/rest/v1/nilai_rapor?select=*,santri(id,nama,no_urut,nama_normalisasi)&kelas=eq.${encodeURIComponent(state.kelas)}&tahun_ajaran=eq.${encodeURIComponent(state.tahun_ajaran)}&semester=eq.${encodeURIComponent(state.semester)}`;
-      const rows = await sbFetch(q);
-      state.rows = (Array.isArray(rows) ? rows : []).sort((a, b) =>
-        String(a.santri?.nama || '').localeCompare(String(b.santri?.nama || ''), 'id')
-      );
-
-      const keySet = new Set();
-      for (const r of state.rows) {
-        for (const [k, v] of Object.entries(r.nilai_mapel || {})) {
-          if (v !== null && v !== undefined && v !== '') keySet.add(k);
-        }
-      }
-      state.classMapelKeys = Array.from(keySet);
+      await fetchClassRows();
       renderDataTable();
     } catch (err) {
       showToast('Gagal memuat data: ' + err.message, 'error');
@@ -765,7 +1409,7 @@
 
       await recalculateAndSyncClass();
       closeEditModal();
-      await loadData();
+      await reloadActiveTab();
       showToast('Data santri & peringkat berhasil diperbarui!', 'ok');
     } catch (err) {
       showToast('Gagal menyimpan: ' + err.message, 'error');
@@ -933,9 +1577,6 @@
   }
 
   async function loadArsip() {
-    state.kelas = document.getElementById('selKelas').value;
-    state.tahun_ajaran = document.getElementById('selTahun').value;
-    state.semester = document.getElementById('selSemester').value;
     try {
       const q = `/rest/v1/arsip_pdf?select=*,santri(nama,no_urut)&kelas=eq.${encodeURIComponent(state.kelas)}&tahun_ajaran=eq.${encodeURIComponent(state.tahun_ajaran)}&semester=eq.${encodeURIComponent(state.semester)}&order=nama_file.asc`;
       const rows = await sbFetch(q);
@@ -1029,31 +1670,18 @@
     const sem = (params.get('semester') || '').trim();
     const tab = (params.get('tab') || '').trim().toLowerCase();
 
-    if (k === 'A' || k === 'B') {
-      state.kelas = k;
-      document.getElementById('selKelas').value = k;
-      document.getElementById('btnSideKelasA').classList.toggle('active', k === 'A');
-      document.getElementById('btnSideKelasB').classList.toggle('active', k === 'B');
-      document.getElementById('activeClassBadge').textContent = 'KELAS ' + k;
-    }
-    if (th) {
-      const selTh = document.getElementById('selTahun');
-      if (!Array.from(selTh.options).some(o => o.value === th)) {
-        const opt = document.createElement('option');
-        opt.value = th; opt.textContent = th;
-        selTh.appendChild(opt);
-      }
-      selTh.value = th;
-      state.tahun_ajaran = th;
-    }
-    if (sem === 'Ganjil' || sem === 'Genap') {
-      document.getElementById('selSemester').value = sem;
-      state.semester = sem;
-    }
-    if (tab === 'arsip') {
-      switchTab('arsip');
+    if (k === 'A' || k === 'B') state.kelas = k;
+    if (th) state.tahun_ajaran = th;
+    if (sem === 'Ganjil' || sem === 'Genap') state.semester = sem;
+
+    syncPeriodControls();
+
+    if (['ringkasan', 'data', 'riwayat', 'arsip'].includes(tab)) {
+      switchTab(tab);
+    } else if (k === 'A' || k === 'B') {
+      switchTab('data');
     } else {
-      loadData();
+      switchTab('ringkasan');
     }
   }
 

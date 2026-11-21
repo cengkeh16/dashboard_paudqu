@@ -950,7 +950,9 @@
       const pdfUrl = r.file_url + bust;
       const jpgUrl = r.file_url.replace(/\.pdf$/i, '.jpg') + bust;
       const title = r.jenis === 'rekap_peringkat'
-        ? `Rekapitulasi Peringkat Kelas ${r.kelas}`
+        ? (String(r.nama_file || '').startsWith('Leger_')
+            ? `Leger Nilai Lengkap Kelas ${r.kelas} (Semua Mapel)`
+            : `Rekapitulasi Peringkat Kelas ${r.kelas}`)
         : (r.santri?.nama || r.nama_file);
       const dt = r.updated_at ? new Date(r.updated_at).toLocaleString('id-ID') : '-';
 

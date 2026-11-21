@@ -502,9 +502,11 @@
     state.tahun_ajaran = document.getElementById('selTahun').value;
     state.semester = document.getElementById('selSemester').value;
     try {
-      const q = `/rest/v1/nilai_rapor?select=*,santri(id,nama,no_urut,nama_normalisasi)&kelas=eq.${encodeURIComponent(state.kelas)}&tahun_ajaran=eq.${encodeURIComponent(state.tahun_ajaran)}&semester=eq.${encodeURIComponent(state.semester)}&order=peringkat.asc.nullslast`;
+      const q = `/rest/v1/nilai_rapor?select=*,santri(id,nama,no_urut,nama_normalisasi)&kelas=eq.${encodeURIComponent(state.kelas)}&tahun_ajaran=eq.${encodeURIComponent(state.tahun_ajaran)}&semester=eq.${encodeURIComponent(state.semester)}`;
       const rows = await sbFetch(q);
-      state.rows = Array.isArray(rows) ? rows : [];
+      state.rows = (Array.isArray(rows) ? rows : []).sort((a, b) =>
+        String(a.santri?.nama || '').localeCompare(String(b.santri?.nama || ''), 'id')
+      );
 
       const keySet = new Set();
       for (const r of state.rows) {

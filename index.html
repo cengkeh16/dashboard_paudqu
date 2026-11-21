@@ -1005,7 +1005,42 @@
     }
   }
 
-  loadData();
+  function initFromUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    const k = (params.get('kelas') || '').toUpperCase();
+    const th = (params.get('tahun') || '').trim();
+    const sem = (params.get('semester') || '').trim();
+    const tab = (params.get('tab') || '').trim().toLowerCase();
+
+    if (k === 'A' || k === 'B') {
+      state.kelas = k;
+      document.getElementById('selKelas').value = k;
+      document.getElementById('btnSideKelasA').classList.toggle('active', k === 'A');
+      document.getElementById('btnSideKelasB').classList.toggle('active', k === 'B');
+      document.getElementById('activeClassBadge').textContent = 'KELAS ' + k;
+    }
+    if (th) {
+      const selTh = document.getElementById('selTahun');
+      if (!Array.from(selTh.options).some(o => o.value === th)) {
+        const opt = document.createElement('option');
+        opt.value = th; opt.textContent = th;
+        selTh.appendChild(opt);
+      }
+      selTh.value = th;
+      state.tahun_ajaran = th;
+    }
+    if (sem === 'Ganjil' || sem === 'Genap') {
+      document.getElementById('selSemester').value = sem;
+      state.semester = sem;
+    }
+    if (tab === 'arsip') {
+      switchTab('arsip');
+    } else {
+      loadData();
+    }
+  }
+
+  initFromUrlParams();
 </script>
 </body>
 </html>

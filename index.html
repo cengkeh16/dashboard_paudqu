@@ -552,13 +552,9 @@
       const missingCount = missingKeys.length;
 
       let statusRowHtml = '';
-      if (totalClassMapel > 0) {
-        if (missingCount === 0) {
-          statusRowHtml = `<div class="m-status-row"><span class="m-badge-ok">✅ ${entries.length}/${totalClassMapel} mapel terisi</span></div>`;
-        } else {
-          const previewMissing = missingKeys.slice(0, 4).map(k => getMapelLabel(k)).join(', ') + (missingCount > 4 ? `, +${missingCount - 4} lainnya` : '');
-          statusRowHtml = `<div class="m-status-row"><span class="m-badge-warn">⚠️ ${entries.length}/${totalClassMapel} mapel (${missingCount} kosong)</span><span class="m-missing-text">Kosong: ${esc(previewMissing)}</span></div>`;
-        }
+      if (entries.length > 0) {
+        const clsBadge = (totalClassMapel > 0 && entries.length < totalClassMapel) ? 'm-badge-warn' : 'm-badge-ok';
+        statusRowHtml = `<div class="m-status-row"><span class="${clsBadge}">📚 ${entries.length} Mapel</span></div>`;
       }
 
       const chipsHtml = entries.length > 0

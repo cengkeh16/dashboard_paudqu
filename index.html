@@ -878,8 +878,24 @@
       });
       const out = await res.json();
       if (!out.ok) throw new Error(out.message || 'Gagal mencetak dokumen');
-      showToast(`Selesai! ${out.total_pdf} dokumen (format PDF & JPG) siap di tab Arsip Rapor.`, 'ok');
-      if (state.tab === 'arsip') await loadArsip();
+
+      if (mode === 'santri' && santriId) {
+        const q = `/rest/v1/arsip_pdf?select=*,santri(nama)&santri_id=eq.${encodeURIComponent(santriId)}&kelas=eq.${encodeURIComponent(state.kelas)}&tahun_ajaran=eq.${encodeURIComponent(state.tahun_ajaran)}&semester=eq.${encodeURIComponent(state.semester)}&limit=1`;
+        const found = await sbFetch(q);
+        if (Array.isArray(found) && found[0]?.file_url) {
+          const bust = '?t=' + Date.now();
+          const pdfUrl = found[0].file_url + bust;
+          const jpgUrl = found[0].file_url.replace(/\.pdf$/i, '.jpg') + bust;
+          const nama = found[0].santri?.nama || found[0].nama_file || 'Transkrip Santri';
+          openJpgPreview(nama, jpgUrl, pdfUrl);
+          showToast(`Transkrip "${nama}" siap! Silakan lihat atau unduh JPG / PDF.`, 'ok');
+          return;
+        }
+      }
+
+      switchTab('arsip');
+      switchArsipKind(mode === 'santri' ? 'transkrip' : 'rekap_peringkat');
+      showToast(`Selesai! ${out.total_pdf} dokumen (format PDF & JPG) siap di Arsip Rapor.`, 'ok');
     } catch (err) {
       showToast('Gagal mencetak: ' + err.message, 'error');
     } finally {

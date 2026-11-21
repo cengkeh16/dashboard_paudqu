@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#123b35">
-  <title>Dashboard PAUDQu Nurul Mubin</title>
+  <title>Portal Nilai & Rapor — PAUDQu Nurul Mubin</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=3">
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png?v=3">
   <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png?v=3">
@@ -15,16 +15,15 @@
     :root{
       --ink:#18352f;--muted:#687b74;--line:#e2ebe6;--paper:#ffffff;--canvas:#f4f8f5;
       --green:#17483f;--green2:#246b5c;--soft:#e9f5ee;--gold:#8a5a12;--goldbg:#fff7e7;
-      --red:#a53e3e;--redbg:#fff1f0;--blue:#18537a;--bluebg:#edf6fd;
+      --red:#a53e3e;--redbg:#fff1f0;--blue:#0b5d8a;--bluebg:#e6f4fb;
       --shadow:0 8px 24px rgba(19,57,46,.06);--radius:14px;
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;background:var(--canvas);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);font-size:13px}
     button,input,select{font:inherit}button{cursor:pointer}a{color:inherit}
 
-    /* ===== Single-Viewport Layout (100vh, no page scroll) ===== */
     .layout{display:flex;height:100vh;overflow:hidden}
-    .sidebar{width:232px;flex:0 0 232px;background:#123b35;color:#e9f5ef;padding:18px 14px;display:flex;flex-direction:column;gap:12px;z-index:4}
+    .sidebar{width:236px;flex:0 0 236px;background:#123b35;color:#e9f5ef;padding:18px 14px;display:flex;flex-direction:column;gap:12px;z-index:4}
     .brand{display:flex;align-items:center;gap:10px;padding:0 4px 14px;border-bottom:1px solid #ffffff20}
     .logo{height:40px;width:40px;flex:0 0 40px;display:grid;place-items:center}
     .logo img{width:100%;height:100%;object-fit:contain;display:block}
@@ -50,22 +49,14 @@
     .topbar h1{font-size:16px;margin:0;letter-spacing:-.3px}
     .topbar-right{display:flex;align-items:center;gap:8px}
     .tag{padding:5px 10px;border-radius:99px;background:var(--soft);color:var(--green);font-weight:800;font-size:10px;white-space:nowrap}
-    .tg-link-btn{height:30px;padding:0 11px;border-radius:8px;background:#e6f4fb;color:#0b5d8a;border:1px solid #bce0f5;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
+    .tg-link-btn{height:32px;padding:0 12px;border-radius:8px;background:var(--bluebg);color:var(--blue);border:1px solid #bce0f5;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
     .tg-link-btn:hover{background:#d4ecfa}
 
     .global-strip{padding:0 16px;flex:0 0 auto}
-    .alert-banner{margin-top:8px;padding:8px 12px;border-radius:10px;background:#edf6fd;border:1px solid #c9e3f5;color:#18537a;font-size:11.5px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .alert-banner.ok{background:#edf8f1;border-color:#c6e8d2;color:#1d6442}
-    .alert-banner.error{background:var(--redbg);border-color:#f0cdca;color:var(--red)}
-    .alert-banner.warn{background:var(--goldbg);border-color:#fae1a2;color:var(--gold)}
-    .banner-progress{margin-top:5px;height:4px;border-radius:99px;background:#d6eaf8;overflow:hidden;width:220px}
-    .banner-progress .bar{display:block;height:100%;width:40%;background:#2b8cc4;border-radius:99px;animation:slideBar 1.2s ease-in-out infinite}
-    @keyframes slideBar{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
-    .toast-bar{margin-top:8px;padding:8px 12px;border-radius:10px;border:1px solid #f0dfb9;background:var(--goldbg);color:var(--gold);font-size:11.5px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .toast-bar{margin-top:8px;padding:9px 14px;border-radius:10px;border:1px solid #f0dfb9;background:var(--goldbg);color:var(--gold);font-size:12px;font-weight:650;display:flex;align-items:center;justify-content:space-between;gap:10px}
     .toast-bar.ok{border-color:#c6e8d2;background:#eff8f1;color:#226646}
     .toast-bar.error{border-color:#f0cdca;background:var(--redbg);color:var(--red)}
     .toast-close{border:0;background:transparent;font-size:16px;line-height:1;color:inherit;opacity:.7;padding:0 4px}
-    .toast-close:hover{opacity:1}
 
     .page-view{flex:1;min-height:0;padding:12px 16px 14px;display:flex;flex-direction:column;gap:10px;overflow:hidden}
     .panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden}
@@ -76,869 +67,924 @@
     .btn{height:34px;padding:0 12px;border:1px solid #d7e3dc;background:#fff;border-radius:9px;color:var(--green);font-size:11.5px;font-weight:750;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;text-decoration:none;transition:background .15s}
     .btn:hover{background:#f3f9f5}
     .btn:disabled{opacity:.5;cursor:not-allowed}
-    .btn svg{width:14px;height:14px}
     .btn-primary{background:var(--green);border-color:var(--green);color:#fff}
     .btn-primary:hover{background:var(--green2)}
+    .btn-blue{background:var(--bluebg);border-color:#bce0f5;color:var(--blue)}
+    .btn-blue:hover{background:#d4ecfa}
     .btn-danger{background:#fff;border-color:#ecc8c5;color:var(--red)}
     .btn-danger:hover{background:var(--redbg)}
-    .btn-xs{height:28px;padding:0 9px;border-radius:7px;font-size:10.5px;font-weight:750}
-    .chip{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:99px;font-size:10.5px;font-weight:800;white-space:nowrap}
+    .btn-xs{height:28px;padding:0 9px;border-radius:7px;font-size:11px;font-weight:750}
+
+    .summary-strip{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 14px;border-bottom:1px solid var(--line);background:#f8fbf9;font-size:11.5px;color:#2c4a41;flex-wrap:wrap}
+    .summary-badges{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:750;white-space:nowrap}
     .chip-green{background:#edf8f1;color:#1f6845;border:1px solid #cdebd7}
-    .chip-warn{background:#fff8e6;color:#8a5300;border:1px solid #f7dc94}
+    .chip-blue{background:#edf6fd;color:#0b5d8a;border:1px solid #c5e2f6}
     .chip-muted{background:#f1f5f3;color:#556b63;border:1px solid #dfe8e3}
 
-    .pane-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line);background:#f8fbf9;flex:0 0 auto;font-size:11.5px;font-weight:750;color:#2c4a41}
-    .pane-head small{font-weight:600;color:var(--muted);font-size:10.5px}
     .table-scroll{flex:1;min-height:0;overflow:auto}
     table{border-collapse:collapse;width:100%}
-    thead th{position:sticky;top:0;z-index:2;text-align:left;padding:10px 12px;background:#f5faf7;color:#5e746b;font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:800;border-bottom:1px solid var(--line);white-space:nowrap}
-    tbody td{padding:9px 12px;border-bottom:1px solid #edf2ee;font-size:12px;vertical-align:middle}
+    thead th{position:sticky;top:0;z-index:2;text-align:left;padding:10px 12px;background:#f5faf7;color:#5e746b;font-size:10px;text-transform:uppercase;letter-spacing:.6px;font-weight:800;border-bottom:1px solid var(--line);white-space:nowrap}
+    tbody td{padding:10px 12px;border-bottom:1px solid #edf2ee;font-size:12.5px;vertical-align:middle}
     tbody tr:hover{background:#f9fcfa}
-    .empty-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;gap:8px;color:var(--muted)}
+
+    .rank-badge{display:inline-grid;place-items:center;min-width:28px;height:26px;padding:0 7px;border-radius:8px;font-weight:850;font-size:11.5px;background:#f1f5f3;color:#465e56}
+    .rank-1{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+    .rank-2{background:#e2e8f0;color:#1e293b;border:1px solid #cbd5e1}
+    .rank-3{background:#ffedd5;color:#9a3412;border:1px solid #fed7aa}
+
+    .mapel-chips{display:flex;flex-wrap:wrap;gap:5px;max-width:540px}
+    .m-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;background:#f4f8f6;border:1px solid #dce7e1;font-size:11px;color:#26453c}
+    .m-chip b{color:#123b35;font-weight:800}
+
+    .subtabs{display:inline-flex;background:#eef4f0;padding:3px;border-radius:9px;border:1px solid #dce7e0}
+    .subtab-btn{border:0;background:transparent;padding:6px 12px;border-radius:7px;font-size:11.5px;font-weight:750;color:#536b62}
+    .subtab-btn.active{background:#fff;color:var(--green);box-shadow:0 2px 6px rgba(0,0,0,.05)}
+
+    .empty-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:36px;gap:8px;color:var(--muted)}
     .empty-center h3{margin:0;font-size:15px;color:var(--ink)}
     .empty-center p{margin:0;max-width:440px;font-size:12px;line-height:1.6}
 
-    /* Tab 1: Progres Kelas */
-    .prog-bar-row{display:flex;align-items:center;gap:12px;padding:9px 14px;border-bottom:1px solid var(--line);background:#f8fbf9;flex:0 0 auto;font-size:11.5px;font-weight:750}
-    .prog-track{flex:1;height:8px;border-radius:99px;background:#e3ece7;overflow:hidden}
-    .prog-fill{height:100%;background:linear-gradient(90deg,#17483f,#2ea07b);border-radius:99px;transition:width .25s ease}
-    .prog-cols{display:grid;grid-template-columns:1.45fr .55fr;flex:1;min-height:0;overflow:hidden}
-    .prog-col{display:flex;flex-direction:column;min-height:0;overflow:hidden}
-    .prog-col:first-child{border-right:1px solid var(--line)}
-    .prog-list{flex:1;min-height:0;overflow:auto;padding:8px 12px;display:flex;flex-direction:column;gap:6px}
-    .prog-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid #e7efe9;border-radius:10px;background:#fff}
-    .prog-row:hover{border-color:#c6dfd1;background:#fbfefc}
-    .initial{width:32px;height:32px;flex:0 0 32px;border-radius:9px;background:#eaf5ee;color:#27674f;display:grid;place-items:center;font-size:11px;font-weight:850}
-    .initial svg{width:100%;height:100%;display:block;border-radius:inherit}
-    .student-name{font-weight:750;font-size:12px;color:#1a362e}
-    .subtext{font-size:10px;color:var(--muted);margin-top:2px}
-    .prog-row-right{margin-left:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-    .todo-wrap{flex:1;min-height:0;overflow:auto;padding:10px 12px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:6px}
-    .todo-chip{padding:6px 10px;border-radius:8px;border:1px solid #dce7e0;background:#fff;color:var(--ink);font-size:11px;font-weight:700}
-    .todo-chip:hover{background:#edf8f1;border-color:#93c8ad;color:var(--green)}
-
-    /* Tab 2: Arsip PDF */
-    .seg-toggle{display:inline-flex;background:#eaf1ed;padding:3px;border-radius:10px;gap:3px}
-    .seg-btn{height:28px;padding:0 12px;border:0;border-radius:7px;background:transparent;color:#4f665e;font-size:11.5px;font-weight:750}
-    .seg-btn.active{background:#fff;color:var(--green);box-shadow:0 2px 6px rgba(18,59,53,.1)}
-    .action-group{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
-    .status{display:inline-flex;align-items:center;gap:5px;border-radius:99px;padding:3px 8px;font-size:10px;font-weight:800;white-space:nowrap}
-    .status:before{content:"";width:6px;height:6px;border-radius:50%}
-    .status-ok{color:#26704f;background:#edf8f1;border:1px solid #d8efdf}.status-ok:before{background:#36a46d}
-    .status-warn{color:#8a5300;background:#fff8e6;border:1px solid #fae1a2}.status-warn:before{background:#e09312}
-    .status-postponed{color:#7a4422;background:#fef3eb;border:1px solid #f6d1bc}.status-postponed:before{background:#c86932}
-
     /* Modals */
-    .modal-backdrop{position:fixed;inset:0;z-index:100;background:rgba(13,37,32,.52);backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px}
-    .modal-card{width:100%;max-width:780px;max-height:90vh;background:#fff;border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,.28);display:flex;flex-direction:column;overflow:hidden}
-    .modal-head{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;background:#f8fbf9}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(12,32,27,.48);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
+    .modal{background:#fff;border-radius:16px;width:100%;max-width:640px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 48px rgba(0,0,0,.18);overflow:hidden}
+    .modal-lg{max-width:780px}
+    .modal-head{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fafdfb}
     .modal-head h3{margin:0;font-size:15px}
-    .modal-head p{margin:2px 0 0;font-size:11px;color:var(--muted)}
-    .modal-close{width:32px;height:32px;border:1px solid var(--line);background:#fff;border-radius:9px;font-size:18px;line-height:1;color:var(--ink)}
-    .modal-body{padding:14px 18px;overflow:auto;display:flex;flex-direction:column;gap:12px}
-    .modal-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-    .modal-stat{background:#f7fbf8;border:1px solid var(--line);border-radius:10px;padding:9px 11px}
-    .modal-stat small{display:block;font-size:9.5px;color:var(--muted);font-weight:700}
-    .modal-stat strong{display:block;font-size:16px;color:var(--green);margin:2px 0}
-    .modal-stat span{font-size:10px;color:#5a7269}
-    .modal-tables{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .modal-table-box{border:1px solid var(--line);border-radius:10px;overflow:hidden}
-    .modal-table-box h4{margin:0;padding:8px 10px;font-size:11px;background:#f4f9f6;border-bottom:1px solid var(--line);color:var(--green)}
-    .modal-table-box table td,.modal-table-box table th{padding:5px 8px;font-size:11px}
-    .modal-foot{padding:11px 18px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:flex-end;gap:8px;background:#fafdfb}
-    .edit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-    .edit-item{display:flex;flex-direction:column;gap:3px}
-    .edit-item label{font-size:10.5px;font-weight:700;color:#415c53}
-    .edit-item input{height:32px;border:1px solid #d5e2db;border-radius:8px;padding:0 8px;font-size:12px}
-    .edit-abs-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-top:8px;border-top:1px dashed var(--line)}
+    .modal-close{border:0;background:transparent;font-size:20px;color:var(--muted);line-height:1;padding:2px 6px}
+    .modal-body{padding:16px 18px;overflow:auto;display:flex;flex-direction:column;gap:14px}
+    .modal-foot{padding:12px 18px;border-top:1px solid var(--line);background:#fafdfb;display:flex;align-items:center;justify-content:flex-end;gap:8px}
+
+    .form-row{display:grid;grid-template-columns:1fr 110px 110px 110px;gap:10px}
+    .field label{display:block;font-size:11px;font-weight:750;color:#49635a;margin-bottom:4px}
+    .field input{width:100%;height:34px;border:1px solid #d5e2da;border-radius:8px;padding:0 10px;font-size:12.5px}
+    .score-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:9px;padding:12px;border:1px solid var(--line);border-radius:11px;background:#f9fcfa}
+    .score-item{display:flex;flex-direction:column;gap:3px}
+    .score-item label{font-size:11px;font-weight:700;color:#2b4a40;display:flex;justify-content:space-between}
+    .score-item input{height:32px;border:1px solid #d5e2da;border-radius:7px;padding:0 9px;font-size:12.5px;font-weight:700}
+
+    .mapel-manage-list{display:flex;flex-direction:column;gap:8px}
+    .mapel-manage-row{display:grid;grid-template-columns:140px 1fr auto;gap:8px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#f9fcfa}
+    .mapel-key-tag{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--muted);background:#eef3f0;padding:4px 8px;border-radius:6px;overflow:hidden;text-overflow:ellipsis}
+
+    .jpg-preview-wrap{background:#e8efeb;border-radius:10px;padding:12px;display:flex;justify-content:center;overflow:auto;max-height:68vh}
+    .jpg-preview-wrap img{max-width:100%;height:auto;border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.15);background:#fff}
 
     @media(max-width:860px){
-      .layout{flex-direction:column;height:auto;min-height:100vh;overflow:visible}
-      .sidebar{width:100%;flex:0 0 auto;padding:12px 14px}
-      .nav{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-      .nav-item{justify-content:center;padding:9px 8px;font-size:11.5px}
-      .sidebar-note,.nav-label{display:none}
+      .layout{flex-direction:column;height:auto;min-height:100vh;overflow:auto}
+      .sidebar{width:100%;flex:0 0 auto}
       .main{height:auto;overflow:visible}
-      .page-view{overflow:visible;min-height:70vh}
-      .prog-cols,.modal-tables,.modal-stats,.edit-grid{grid-template-columns:1fr}
-      .prog-col:first-child{border-right:0;border-bottom:1px solid var(--line)}
+      .form-row{grid-template-columns:1fr 1fr}
     }
   </style>
 </head>
 <body>
-  <div class="layout" id="appLayout">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="logo"><img src="logo-paudqu-removebg-preview.png" alt="Logo PAUDQu"></div>
-        <div><strong>PAUDQu Nurul Mubin</strong><small>Cibinong · Layanan Rapor</small></div>
-      </div>
-      <div class="sidebar-class-switch" role="group" aria-label="Pilih kelas aktif">
-        <button type="button" class="class-sw-btn" data-sw-kelas="A">Kelas A</button>
-        <button type="button" class="class-sw-btn active" data-sw-kelas="B">Kelas B</button>
-      </div>
-      <div class="nav-label">MENU UTAMA</div>
-      <nav class="nav" aria-label="Menu utama">
-        <button class="nav-item active" type="button" data-page="progres" aria-current="page">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 3v18h18"/><path d="M7 15v3M12 10v8M17 6v12"/></svg>
-          <span>Progres Kelas</span>
-        </button>
-        <button class="nav-item" type="button" data-page="arsip" aria-current="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M6 3h8l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M14 3v5h5M8 13h8M8 17h6"/></svg>
-          <span>Arsip PDF</span>
-        </button>
-      </nav>
-      <div class="sidebar-note">
-        <strong>Input Nilai via Telegram:</strong><br>
-        Kirim foto lembar nilai ke <a href="https://t.me/paudqu_nurulmubin_bot" target="_blank" rel="noopener noreferrer">@paudqu_nurulmubin_bot</a>. n8n + Gemini AI otomatis membaca, menggabungkan lintas lembar, menghitung ranking &amp; menerbitkan PDF ke Drive.
-      </div>
-    </aside>
-
-    <main class="main">
-      <header class="topbar">
-        <div>
-          <div class="eyebrow" id="topEyebrow">PAUDQu Nurul Mubin · Monitoring Penilaian</div>
-          <h1 id="topTitle">Progres Kelengkapan Nilai</h1>
-        </div>
-        <div class="topbar-right">
-          <a class="tg-link-btn" href="https://t.me/paudqu_nurulmubin_bot" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-            Kirim Foto via Telegram
-          </a>
-          <span class="tag" id="topClassTag">KELAS B</span>
-        </div>
-      </header>
-
-      <div class="global-strip">
-        <div id="bannerProcess" class="alert-banner" hidden>
-          <div>
-            <strong id="processTitle">Sedang memproses...</strong>
-            <span id="processDetail"></span>
-            <div class="banner-progress" id="processBarWrap"><span class="bar"></span></div>
-          </div>
-        </div>
-        <div id="message" class="toast-bar" role="status" hidden>
-          <span id="messageText"></span>
-          <button type="button" class="toast-close" id="btnCloseMsg" aria-label="Tutup">&times;</button>
-        </div>
-      </div>
-
-      <!-- TAB 1: PROGRES KELAS (HALAMAN UTAMA, 1 LAYAR PENUH) -->
-      <section class="page-view" id="page-progres">
-        <div class="panel">
-          <div class="toolbar">
-            <select id="progClass" class="t-select" style="width:105px"><option value="A">Kelas A</option><option value="B" selected>Kelas B</option></select>
-            <select id="progYear" class="t-select" style="width:118px"><option value="2026/2027" selected>2026/2027</option><option value="2025/2026">2025/2026</option><option value="2024/2025">2024/2025</option></select>
-            <select id="progSemester" class="t-select" style="width:105px"><option value="1">Ganjil</option><option value="2">Genap</option></select>
-            <button type="button" class="btn" id="refreshProgres">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 17 5.8L20 12M4 12l3 6.2A7 7 0 0 0 18.5 15"/></svg>
-              Perbarui
-            </button>
-            <div class="toolbar-right">
-              <span class="chip chip-muted" id="progStatusChip">Status: Sementara</span>
-              <span class="chip chip-green" id="progCount">0 / 0 lengkap</span>
-            </div>
-          </div>
-          <div class="prog-bar-row">
-            <span id="progSummaryText">Memuat progres...</span>
-            <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
-            <span id="progPct">0%</span>
-          </div>
-          <div class="prog-cols">
-            <div class="prog-col">
-              <div class="pane-head"><span>✓ Sudah Ada Nilai (Hasil Foto Telegram &amp; Koreksi)</span><small id="progDoneCount">0 santri</small></div>
-              <div class="prog-list" id="progDoneList"></div>
-            </div>
-            <div class="prog-col">
-              <div class="pane-head"><span>⏳ Belum Ada Nilai <small>(klik untuk input manual)</small></span><small id="progTodoCount">0 santri</small></div>
-              <div class="todo-wrap" id="progTodoList"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- TAB 2: ARSIP PDF (TRANSKRIP & REKAP DALAM 1 LAYAR) -->
-      <section class="page-view" id="page-arsip" hidden>
-        <div class="panel">
-          <div class="toolbar">
-            <div class="seg-toggle" role="tablist">
-              <button type="button" class="seg-btn active" id="segTranskrip">Transkrip Santri</button>
-              <button type="button" class="seg-btn" id="segRekap">Rekap Peringkat</button>
-            </div>
-            <input id="arsipSearch" class="t-input" type="search" placeholder="Cari nama / NIS santri..." style="width:190px">
-            <select id="arsipClass" class="t-select" style="width:105px"><option value="A">Kelas A</option><option value="B" selected>Kelas B</option></select>
-            <select id="arsipYear" class="t-select" style="width:118px"><option value="2026/2027" selected>2026/2027</option><option value="2025/2026">2025/2026</option><option value="2024/2025">2024/2025</option></select>
-            <select id="arsipSemester" class="t-select" style="width:105px"><option value="1">Ganjil</option><option value="2">Genap</option></select>
-            <button type="button" class="btn" id="btnRefreshArsip">Muat Ulang</button>
-            <div class="toolbar-right">
-              <span class="chip chip-muted" id="arsipCount">0 dokumen</span>
-              <button type="button" class="btn btn-primary" id="btnUpdateAllTr" hidden>Perbarui Semua</button>
-              <button type="button" class="btn btn-primary" id="btnUpdateRekapPdf" hidden>Perbarui Rekap PDF</button>
-            </div>
-          </div>
-          <div class="table-scroll" id="arsipTranskripWrap">
-            <table>
-              <thead><tr><th>No</th><th>Santri</th><th>Kelas</th><th>Semester</th><th>Tahun</th><th>Status</th><th>Aksi Dokumen</th></tr></thead>
-              <tbody id="transcriptRows"></tbody>
-            </table>
-            <div class="empty-center" id="transcriptEmpty" hidden>
-              <h3>Belum ada arsip transkrip PDF</h3>
-              <p>PDF transkrip dibuat otomatis oleh WF-03 saat seluruh santri kelas selesai dinilai (Final) atau saat diperbarui manual.</p>
-            </div>
-          </div>
-          <div class="table-scroll" id="arsipRekapWrap" hidden>
-            <table>
-              <thead><tr><th>No</th><th>Dokumen Rekap</th><th>Kelas</th><th>Semester</th><th>Tahun</th><th>Status</th><th>Aksi</th></tr></thead>
-              <tbody id="rankingRows"></tbody>
-            </table>
-            <div class="empty-center" id="rankingEmpty" hidden>
-              <h3>Belum ada PDF rekap peringkat</h3>
-              <p>Klik tombol <strong>Perbarui Rekap PDF</strong> di kanan atas untuk membuat dokumen rekap peringkat kelas dengan template resmi PAUDQu.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <!-- Modal Pratinjau Nilai Digital -->
-  <div id="nilaiModal" class="modal-backdrop" role="dialog" aria-modal="true" hidden>
-    <div class="modal-card">
-      <div class="modal-head">
-        <div>
-          <h3 id="modalSantriName">Rincian Nilai Santri</h3>
-          <p id="modalSantriSub"></p>
-        </div>
-        <button type="button" class="modal-close" id="btnCloseModal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="modal-stats">
-          <div class="modal-stat"><small>Jumlah Nilai</small><strong id="mTotal">-</strong><span id="mMapelCount">0/18 mapel</span></div>
-          <div class="modal-stat"><small>Rata-rata</small><strong id="mAvg">-</strong><span id="mStatus">Sementara</span></div>
-          <div class="modal-stat"><small>Peringkat</small><strong id="mRank">-</strong><span id="mRankOf">-</span></div>
-          <div class="modal-stat"><small>Ketidakhadiran</small><strong id="mAbsenTotal">0 hari</strong><span id="mAbsenDetail">S:0 · I:0 · A:0</span></div>
-        </div>
-        <div class="modal-tables">
-          <div class="modal-table-box">
-            <h4>I. Kemampuan Pokok (9 Mapel)</h4>
-            <table><thead><tr><th>No</th><th>Mata Pelajaran</th><th>Nilai</th></tr></thead><tbody id="mPokokRows"></tbody></table>
-          </div>
-          <div class="modal-table-box">
-            <h4 id="mPenunjangTitle">II. Kemampuan Penunjang</h4>
-            <table><thead><tr><th>No</th><th>Mata Pelajaran</th><th>Nilai</th></tr></thead><tbody id="mPenunjangRows"></tbody></table>
-          </div>
-        </div>
-      </div>
-      <div class="modal-foot">
-        <button type="button" class="btn btn-danger" id="btnDeleteFromModal">Hapus Nilai</button>
-        <button type="button" class="btn" id="btnCloseModalFoot">Tutup</button>
-        <button type="button" class="btn btn-primary" id="btnEditFromModal">Edit Nilai / Absensi</button>
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo"><img src="logo-paudqu-removebg-preview.png" alt="Logo PAUDQu"></div>
+      <div>
+        <strong>PAUDQu Nurul Mubin</strong>
+        <small>Cibinong · Portal Nilai & Rapor</small>
       </div>
     </div>
-  </div>
 
-  <!-- Modal Edit / Koreksi Nilai & Absensi Cepat -->
-  <div id="editModal" class="modal-backdrop" role="dialog" aria-modal="true" hidden>
-    <form id="editForm" class="modal-card" novalidate>
-      <div class="modal-head">
-        <div>
-          <h3 id="editModalTitle">Edit Nilai &amp; Absensi Santri</h3>
-          <p id="editModalSub"></p>
+    <div class="sidebar-class-switch" role="group" aria-label="Pilih Kelas">
+      <button type="button" class="class-sw-btn" id="btnSideKelasA" onclick="switchKelas('A')">Kelas A</button>
+      <button type="button" class="class-sw-btn active" id="btnSideKelasB" onclick="switchKelas('B')">Kelas B</button>
+    </div>
+
+    <div class="nav-label">MENU UTAMA</div>
+    <nav class="nav">
+      <button type="button" class="nav-item active" id="navData" onclick="switchTab('data')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        <span>Data & Koreksi Nilai</span>
+      </button>
+      <button type="button" class="nav-item" id="navArsip" onclick="switchTab('arsip')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span>Arsip Rapor (PDF & JPG)</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-note">
+      <strong>Alur Otomasi:</strong><br>
+      1. Foto lembar/buku nilai lewat Bot Telegram <a href="https://t.me/paudqu_nurulmubin_bot" target="_blank" rel="noopener">@paudqu_nurulmubin_bot</a>.<br>
+      2. Cek atau koreksi nama, mapel & angka di portal ini.<br>
+      3. Klik <b>Cetak Semua (PDF & JPG)</b>.
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">PAUDQu Nurul Mubin · Terhubung Langsung ke Database Supabase</div>
+        <h1 id="pageTitle">Data & Koreksi Nilai Hasil Salinan Buku</h1>
+      </div>
+      <div class="topbar-right">
+        <a class="tg-link-btn" href="https://t.me/paudqu_nurulmubin_bot" target="_blank" rel="noopener">
+          📸 Kirim Foto via Telegram
+        </a>
+        <span class="tag" id="activeClassBadge">KELAS B</span>
+      </div>
+    </header>
+
+    <div class="global-strip">
+      <div class="toast-bar" id="toastBar" hidden>
+        <span id="toastText"></span>
+        <button type="button" class="toast-close" onclick="hideToast()">×</button>
+      </div>
+    </div>
+
+    <!-- ================= TAB 1: DATA & KOREKSI NILAI ================= -->
+    <section class="page-view" id="viewData">
+      <div class="panel">
+        <div class="toolbar">
+          <select class="t-select" id="selKelas" onchange="switchKelas(this.value)">
+            <option value="A">Kelas A</option>
+            <option value="B" selected>Kelas B</option>
+          </select>
+          <select class="t-select" id="selTahun" onchange="loadData()">
+            <option value="2024/2025">2024/2025</option>
+            <option value="2025/2026" selected>2025/2026</option>
+            <option value="2026/2027">2026/2027</option>
+          </select>
+          <select class="t-select" id="selSemester" onchange="loadData()">
+            <option value="Ganjil" selected>Semester Ganjil</option>
+            <option value="Genap">Semester Genap</option>
+          </select>
+          <input type="search" class="t-input" id="inpSearch" placeholder="Cari nama santri..." oninput="renderDataTable()" style="width:190px">
+          <button type="button" class="btn" onclick="loadData()">🔄 Muat Ulang</button>
+
+          <div class="toolbar-right">
+            <button type="button" class="btn" onclick="openManageMapelModal()" title="Ganti nama mata pelajaran atau hapus kolom mapel yang keliru">
+              📚 Kelola / Edit Nama Mapel
+            </button>
+            <button type="button" class="btn" onclick="openAddSantriModal()">
+              ➕ Tambah Santri
+            </button>
+            <button type="button" class="btn btn-primary" id="btnCetakSemua" onclick="triggerCetak('semua')">
+              🖨️ Cetak Semua (PDF & JPG)
+            </button>
+          </div>
         </div>
-        <button type="button" class="modal-close" id="btnCloseEditModal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="edit-grid" id="editMapelGrid"></div>
-        <div class="edit-abs-row">
-          <div class="edit-item"><label for="edSakit">Sakit (hari)</label><input id="edSakit" type="number" min="0" step="1" value="0"></div>
-          <div class="edit-item"><label for="edIzin">Izin (hari)</label><input id="edIzin" type="number" min="0" step="1" value="0"></div>
-          <div class="edit-item"><label for="edAlpa">Alpa (hari)</label><input id="edAlpa" type="number" min="0" step="1" value="0"></div>
+
+        <div class="summary-strip">
+          <div class="summary-badges">
+            <span class="chip chip-green" id="statSantriCount">0 Santri</span>
+            <span class="chip chip-blue" id="statMapelCount">0 Mata Pelajaran Tersalin</span>
+          </div>
+          <small style="color:var(--muted)">Klik <b>✏️ Edit</b> pada santri untuk memperbaiki ejaan nama, nilai, atau absensi.</small>
+        </div>
+
+        <div class="table-scroll" id="dataTableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:74px">Peringkat</th>
+                <th style="width:220px">Nama Santri</th>
+                <th>Rincian Nilai Mata Pelajaran (Salinan Buku)</th>
+                <th style="width:90px;text-align:right">Jumlah</th>
+                <th style="width:95px;text-align:right">Rata-rata</th>
+                <th style="width:210px;text-align:right">Aksi Koreksi & Cetak</th>
+              </tr>
+            </thead>
+            <tbody id="dataTbody"></tbody>
+          </table>
+          <div class="empty-center" id="dataEmpty" hidden>
+            <h3>Belum ada data nilai pada periode ini</h3>
+            <p>Kirim foto lembar/buku nilai melalui Bot Telegram <b>@paudqu_nurulmubin_bot</b> atau klik tombol <b>➕ Tambah Santri</b> di kanan atas.</p>
+          </div>
         </div>
       </div>
-      <div class="modal-foot">
-        <button type="button" class="btn" id="btnCancelEditModal">Batal</button>
-        <button type="submit" class="btn btn-primary" id="btnSaveEditModal">Simpan Perubahan</button>
+    </section>
+
+    <!-- ================= TAB 2: ARSIP RAPOR (PDF & JPG) ================= -->
+    <section class="page-view" id="viewArsip" hidden>
+      <div class="panel">
+        <div class="toolbar">
+          <div class="subtabs">
+            <button type="button" class="subtab-btn active" id="subRekap" onclick="switchArsipKind('rekap_peringkat')">🏆 Rekap Peringkat Kelas</button>
+            <button type="button" class="subtab-btn" id="subTranskrip" onclick="switchArsipKind('transkrip')">📄 Transkrip per Santri</button>
+          </div>
+          <input type="search" class="t-input" id="inpSearchArsip" placeholder="Cari nama file..." oninput="renderArsipTable()" style="width:200px">
+          <button type="button" class="btn" onclick="loadArsip()">🔄 Muat Ulang</button>
+
+          <div class="toolbar-right">
+            <button type="button" class="btn btn-primary" onclick="triggerCetak('semua')">
+              🖨️ Perbarui Semua PDF & JPG
+            </button>
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:52px">No</th>
+                <th>Nama Dokumen</th>
+                <th style="width:140px">Periode</th>
+                <th style="width:160px">Terakhir Diperbarui</th>
+                <th style="width:310px;text-align:right">Lihat / Unduh (JPG & PDF)</th>
+              </tr>
+            </thead>
+            <tbody id="arsipTbody"></tbody>
+          </table>
+          <div class="empty-center" id="arsipEmpty" hidden>
+            <h3>Belum ada arsip PDF & JPG diterbitkan</h3>
+            <p>Klik tombol <b>🖨️ Cetak Semua (PDF & JPG)</b> untuk menerbitkan Transkrip Santri dan Rekap Peringkat Kelas.</p>
+          </div>
+        </div>
       </div>
-    </form>
+    </section>
   </div>
+</div>
 
-  <script>
-    const INPUT_API_URL    = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/input-nilai";
-    const CALC_API_URL     = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/hitung-paud";
-    const TRANSKRIP_URL    = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/dashboard_paudqu_transkrip";
-    const ACTION_API_URL   = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/dashboard_paudqu_action";
-    const RANKING_API_URL  = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/dashboard_paudqu_peringkat";
-    const PROGRESS_API_URL = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/dashboard_paudqu_progress";
-    const SHEET_API_URL    = "https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/sheet_api";
-    const SHEET_API_TOKEN  = "paudqu-sheet-2026";
+<!-- ================= MODAL 1: EDIT SANTRI & NILAI ================= -->
+<div class="modal-backdrop" id="modalEdit" hidden>
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <h3 id="modalEditTitle">✏️ Koreksi Nama & Nilai Santri</h3>
+      <button type="button" class="modal-close" onclick="closeEditModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="field">
+          <label>Nama Lengkap Santri (bisa dikoreksi jika salah eja)</label>
+          <input type="text" id="editNama" placeholder="Nama lengkap santri">
+        </div>
+        <div class="field">
+          <label>Sakit (hari)</label>
+          <input type="number" id="editSakit" min="0" value="0">
+        </div>
+        <div class="field">
+          <label>Izin (hari)</label>
+          <input type="number" id="editIzin" min="0" value="0">
+        </div>
+        <div class="field">
+          <label>Alpa (hari)</label>
+          <input type="number" id="editAlpa" min="0" value="0">
+        </div>
+      </div>
 
-    const MAPEL_POKOK = [
-      ['iqro', 'Iqro'], ['s_pendek', 'Surat Pendek'], ['sholat', 'Sholat'],
-      ['doa', 'Doa Harian'], ['ayat_pilihan', 'Ayat Pilihan'], ['m_hijaiyah', 'Hijaiyah'],
-      ['hadist', 'Hadist'], ['sejarah_islam', 'Sejarah Islam'], ['praktek_wudhu', 'P. Wudhu']
-    ];
-    const MAPEL_PENUNJANG_A = [
-      ['membaca', 'Membaca'], ['menulis', 'Menulis'], ['mewarnai', 'Mewarnai'],
-      ['berhitung', 'Berhitung'], ['bahasa_arab', 'B. Arab'], ['bahasa_inggris', 'B. Inggris'],
-      ['keterampilan', 'Keterampilan'], ['olahraga', 'Olahraga'], ['aqidah', 'Aqidah']
-    ];
-    const MAPEL_PENUNJANG_B = [
-      ['membaca', 'Membaca'], ['menulis', 'Menulis'], ['tegak_bersambung', 'Tegak B.'],
-      ['mewarnai', 'Mewarnai'], ['berhitung', 'Berhitung'], ['bahasa_arab', 'B. Arab'],
-      ['bahasa_inggris', 'B. Inggris'], ['keterampilan', 'Keterampilan'], ['olahraga', 'Olahraga'], ['aqidah', 'Aqidah']
-    ];
-    const activeMapelList = (k) => k === 'B' ? [...MAPEL_POKOK, ...MAPEL_PENUNJANG_B] : [...MAPEL_POKOK, ...MAPEL_PENUNJANG_A];
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <label style="font-size:11.5px;font-weight:800;color:#18352f">Nilai Mata Pelajaran (0–100 · kosongkan jika tidak ada)</label>
+          <button type="button" class="btn btn-xs" onclick="promptAddCustomMapelInEdit()">➕ Tambah Kolom Mapel</button>
+        </div>
+        <div class="score-grid" id="editScoreGrid"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn" onclick="closeEditModal()">Batal</button>
+      <button type="button" class="btn btn-primary" id="btnSaveEdit" onclick="saveEditSantri()">💾 Simpan & Hitung Ulang Peringkat</button>
+    </div>
+  </div>
+</div>
 
-    const $ = (id) => document.getElementById(id);
-    const esc = (v) => String(v ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-    const normSem = (v) => { const s = String(v ?? '').trim().toLowerCase(); return (s === '2' || s === 'genap') ? 'Genap' : 'Ganjil'; };
-    const semToNum = (v) => (normSem(v) === 'Genap') ? '2' : '1';
-    const validDriveUrl = (v) => { try { const u = new URL(v); return u.protocol === 'https:' && u.hostname === 'drive.google.com'; } catch { return false; } };
-    function extractDriveFileId(url){
-      const s = String(url || '').trim();
-      const m1 = s.match(/\/file\/d\/([A-Za-z0-9_-]{10,})/);
-      if (m1) return m1[1];
-      const m2 = s.match(/[?&]id=([A-Za-z0-9_-]{10,})/);
-      return m2 ? m2[1] : '';
-    }
+<!-- ================= MODAL 2: KELOLA / GANTI NAMA MATA PELAJARAN ================= -->
+<div class="modal-backdrop" id="modalMapel" hidden>
+  <div class="modal">
+    <div class="modal-head">
+      <h3>📚 Kelola / Koreksi Nama Mata Pelajaran</h3>
+      <button type="button" class="modal-close" onclick="closeManageMapelModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="margin:0;font-size:12px;color:var(--muted);line-height:1.5">
+        Jika ada nama mata pelajaran dari buku tulis yang salah terbaca oleh AI, Anda dapat <b>mengganti namanya</b> atau <b>menghapus kolom mapel</b> tersebut untuk seluruh santri di kelas ini sekaligus.
+      </p>
+      <div class="mapel-manage-list" id="manageMapelList"></div>
+      <div style="display:flex;gap:8px;padding-top:6px;border-top:1px solid var(--line)">
+        <input type="text" class="t-input" id="inpNewMapelName" placeholder="Nama mata pelajaran baru (misal: Kaligrafi)" style="flex:1">
+        <button type="button" class="btn btn-primary" onclick="addNewMapelToClass()">➕ Tambah Mapel</button>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn" onclick="closeManageMapelModal()">Tutup</button>
+    </div>
+  </div>
+</div>
 
-    let bannerHideTimer = null;
-    function showProcessBanner(title, detail = '', mode = 'processing') {
-      clearTimeout(bannerHideTimer);
-      const el = $('bannerProcess');
-      el.className = 'alert-banner' + (mode === 'ok' ? ' ok' : mode === 'error' ? ' error' : mode === 'warn' ? ' warn' : '');
-      $('processTitle').textContent = title;
-      $('processDetail').textContent = detail ? ' — ' + detail : '';
-      $('processBarWrap').hidden = mode !== 'processing';
-      el.hidden = false;
-      if (mode !== 'processing') bannerHideTimer = setTimeout(() => { el.hidden = true; }, 6500);
-    }
-    function showMessage(text, type = '') {
-      const box = $('message');
-      if (!text) { box.hidden = true; return; }
-      box.className = 'toast-bar' + (type ? ' ' + type : '');
-      $('messageText').textContent = text;
-      box.hidden = false;
-    }
-    $('btnCloseMsg').addEventListener('click', () => { $('message').hidden = true; });
+<!-- ================= MODAL 3: PREVIEW GAMBAR JPG ================= -->
+<div class="modal-backdrop" id="modalJpg" hidden>
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <h3 id="modalJpgTitle">🖼️ Preview Gambar Rapor (.JPG)</h3>
+      <button type="button" class="modal-close" onclick="closeJpgModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="jpg-preview-wrap">
+        <img id="modalJpgImg" src="" alt="Preview Rapor JPG">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <a class="btn btn-blue" id="btnDownloadJpg" href="#" target="_blank" download>⬇️ Buka / Unduh Gambar (.JPG)</a>
+      <a class="btn btn-primary" id="btnDownloadPdfFromModal" href="#" target="_blank">📄 Buka / Unduh File (.PDF)</a>
+      <button type="button" class="btn" onclick="closeJpgModal()">Tutup</button>
+    </div>
+  </div>
+</div>
 
-    let sheetGidMapCache = null;
-    const santriCacheByYear = {};
-    async function callSheetApi(payload) {
-      const r = await fetch(SHEET_API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ token: SHEET_API_TOKEN, ...payload })
-      });
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      const j = await r.json();
-      if (j && j.success === false) throw new Error(j.error || j.message || 'Gagal akses Google Sheets');
-      return j;
-    }
-    async function getSheetGidMap() {
-      if (sheetGidMapCache) return sheetGidMapCache;
-      const res = await callSheetApi({ action: 'list_tabs' });
-      const map = {};
-      (Array.isArray(res.result) ? res.result : []).forEach(t => { if (t.tab && t.gid !== undefined) map[t.tab] = Number(t.gid); });
-      sheetGidMapCache = map;
-      return map;
-    }
-    async function deleteDriveFileById(fileId) {
-      if (!fileId) return;
-      await fetch(ACTION_API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'delete_drive_file', file_id: fileId })
-      }).catch(() => {});
-    }
-    async function deleteRowsByKey(tabName, gid, targetKey, collectColIdx = -1) {
-      const range = collectColIdx >= 6 ? 'A1:N600' : 'A1:F600';
-      const res = await callSheetApi({ action: 'read', tab: tabName, range });
-      const rows = (res.result && res.result.values) || [];
-      const idxs = [], urls = [];
-      for (let i = 1; i < rows.length; i++) {
-        if (String(rows[i][0] ?? '').trim() === targetKey) {
-          idxs.push(i);
-          if (collectColIdx >= 0 && rows[i][collectColIdx]) urls.push(String(rows[i][collectColIdx]).trim());
-        }
-      }
-      idxs.sort((a, b) => b - a);
-      for (const idx of idxs) {
-        await callSheetApi({ action: 'delete_rows', sheet_id: gid, start_index: idx, end_index: idx + 1 });
-      }
-      return { deleted: idxs.length, urls };
-    }
-    async function loadMasterSantri(year) {
-      if (santriCacheByYear[year]) return santriCacheByYear[year];
-      try {
-        const res = await callSheetApi({ action: 'read', tab: 'Santri_' + year.replace('/', '_'), range: 'A1:I200' });
-        const rows = (res.result && res.result.values) || [];
-        if (rows.length <= 1) { santriCacheByYear[year] = []; return []; }
-        const h = rows[0].map(x => String(x || '').trim().toLowerCase());
-        const iNis = h.indexOf('nis') >= 0 ? h.indexOf('nis') : h.indexOf('id_santri');
-        const iNama = h.indexOf('nama_santri');
-        const iJk = h.indexOf('jenis_kelamin');
-        santriCacheByYear[year] = rows.slice(1).map(r => ({
-          nis: String(r[iNis] ?? '').trim(),
-          nama_santri: String(r[iNama] ?? '').trim(),
-          jk: iJk >= 0 && String(r[iJk] ?? '').trim().toUpperCase().startsWith('P') ? 'P' : 'L'
-        })).filter(s => s.nis);
-      } catch {
-        santriCacheByYear[year] = [];
-      }
-      return santriCacheByYear[year];
-    }
-    function avatarSvg(jk, initials) {
-      if (jk === 'L') return '<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#e9f5ee"/><path d="M6.5 37c1.6-6.2 7.2-9.4 13.5-9.4S31.9 30.8 33.5 37z" fill="#2e7d5b"/><circle cx="20" cy="22.5" r="8.2" fill="#f1c39b"/><path d="M10.8 18.2c.4-4.6 4.2-7.6 9.2-7.6s8.8 3 9.2 7.6c-2.6-1.6-5.7-2.4-9.2-2.4s-6.6.8-9.2 2.4z" fill="#1c4a3e"/><rect x="10.8" y="16.9" width="18.4" height="2.7" rx="1.35" fill="#1c4a3e"/></svg>';
-      if (jk === 'P') return '<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#f4eef7"/><path d="M20 7.6c6.9 0 11.3 4.9 11.3 11.2 0 4.2-1.6 8-4.2 11H12.9c-2.6-3-4.2-6.8-4.2-11C8.7 12.5 13.1 7.6 20 7.6z" fill="#8e5a8f"/><ellipse cx="20" cy="21.4" rx="6" ry="6.9" fill="#f6cfa4"/><path d="M14.2 23.8c1.3 3.9 3.5 5.9 5.8 5.9s4.5-2 5.8-5.9c2.4 1.5 3.9 3.8 4.6 6.9H9.6c.7-3.1 2.2-5.4 4.6-6.9z" fill="#8e5a8f"/></svg>';
-      return esc(initials);
-    }
+<script>
+  const SUPABASE_URL = 'https://nugrqgkphuocwbkzhptz.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_FInwzhJspfT4YIxSBpnfrQ_1BdFT_19';
+  const WF2_CETAK_URL = 'https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/wf2-cetak-pdf';
 
-    // ===== Navigation (2 Simple Tabs) =====
-    const pageMeta = {
-      progres: { title: 'Progres Kelengkapan Nilai', eyebrow: 'PAUDQu Nurul Mubin · Hasil Otomasi Telegram + n8n' },
-      arsip:   { title: 'Arsip PDF Transkrip & Rekap', eyebrow: 'PAUDQu Nurul Mubin · Google Drive Terpusat' }
+  const DEFAULT_MAPEL_LABELS = {
+    iqro: "Iqro / Tadarus Al-Qur'an",
+    s_pendek: "Hafalan Surat-surat Pendek",
+    sholat: "Hafalan Bacaan Sholat",
+    doa: "Hafalan Do'a Sehari-hari",
+    ayat_pilihan: "Hafalan Ayat Pilihan",
+    m_hijaiyah: "Menulis Huruf Hijaiyah",
+    hadist: "Hafalan Hadits",
+    sejarah_islam: "Sejarah Islam",
+    praktek_wudhu: "Praktek Sholat / Ibadah",
+    membaca: "Membaca",
+    menulis: "Menulis Abjad / Dikte",
+    tegak_bersambung: "Menulis Tegak Bersambung",
+    mewarnai: "Mewarnai",
+    berhitung: "Berhitung / Matematika",
+    bahasa_arab: "Bahasa Arab",
+    bahasa_inggris: "Bahasa Inggris",
+    keterampilan: "Desain / Keterampilan",
+    olahraga: "Olahraga",
+    aqidah: "Akidah Akhlak"
+  };
+
+  let customLabels = JSON.parse(localStorage.getItem('paudqu_mapel_labels') || '{}');
+  let state = {
+    tab: 'data',
+    kelas: 'B',
+    tahun_ajaran: '2025/2026',
+    semester: 'Ganjil',
+    rows: [],
+    classMapelKeys: [],
+    arsipRows: [],
+    arsipKind: 'rekap_peringkat',
+    editingRow: null
+  };
+
+  function getMapelLabel(key) {
+    if (customLabels[key]) return customLabels[key];
+    if (DEFAULT_MAPEL_LABELS[key]) return DEFAULT_MAPEL_LABELS[key];
+    return String(key || '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  function normKey(s) {
+    return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  }
+
+  function normName(s) {
+    return String(s || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  function esc(s) {
+    return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function showToast(msg, type = 'ok') {
+    const bar = document.getElementById('toastBar');
+    const txt = document.getElementById('toastText');
+    bar.className = 'toast-bar ' + type;
+    txt.textContent = msg;
+    bar.hidden = false;
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(() => { bar.hidden = true; }, 5500);
+  }
+  function hideToast() { document.getElementById('toastBar').hidden = true; }
+
+  async function sbFetch(path, options = {}) {
+    const headers = {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      ...(options.body && !(options.body instanceof Blob) ? { 'Content-Type': 'application/json' } : {}),
+      ...(options.headers || {})
     };
-    let currentPage = 'progres';
-    let activeKelas = 'B';
-
-    function showPage(name) {
-      currentPage = name;
-      document.querySelectorAll('.page-view').forEach(el => { el.hidden = el.id !== `page-${name}`; });
-      document.querySelectorAll('.nav-item[data-page]').forEach(el => {
-        const act = el.dataset.page === name;
-        el.classList.toggle('active', act);
-        el.setAttribute('aria-current', act ? 'page' : 'false');
-      });
-      $('topTitle').textContent = pageMeta[name].title;
-      $('topEyebrow').textContent = pageMeta[name].eyebrow;
-      if (name === 'progres') loadProgres();
-      if (name === 'arsip') loadArsip();
+    const res = await fetch(SUPABASE_URL + path, { ...options, headers });
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(errText || ('HTTP ' + res.status));
     }
-    document.querySelectorAll('.nav-item[data-page]').forEach(el => el.addEventListener('click', () => showPage(el.dataset.page)));
+    const ct = res.headers.get('content-type') || '';
+    return ct.includes('application/json') ? res.json() : res.text();
+  }
 
-    function applyActiveKelas(kelas, reload = true) {
-      activeKelas = kelas === 'A' ? 'A' : 'B';
-      $('topClassTag').textContent = `KELAS ${activeKelas}`;
-      document.querySelectorAll('button[data-sw-kelas]').forEach(b => b.classList.toggle('active', b.dataset.swKelas === activeKelas));
-      $('progClass').value = activeKelas;
-      $('arsipClass').value = activeKelas;
-      if (reload) {
-        if (currentPage === 'progres') loadProgres();
-        else loadArsip();
-      }
-    }
-    document.querySelectorAll('button[data-sw-kelas]').forEach(btn => btn.addEventListener('click', () => applyActiveKelas(btn.dataset.swKelas, true)));
-    ['progClass', 'arsipClass'].forEach(id => $(id).addEventListener('change', () => applyActiveKelas($(id).value, true)));
+  function switchTab(tab) {
+    state.tab = tab;
+    document.getElementById('navData').classList.toggle('active', tab === 'data');
+    document.getElementById('navArsip').classList.toggle('active', tab === 'arsip');
+    document.getElementById('viewData').hidden = tab !== 'data';
+    document.getElementById('viewArsip').hidden = tab !== 'arsip';
+    document.getElementById('pageTitle').textContent = tab === 'data'
+      ? 'Data & Koreksi Nilai Hasil Salinan Buku'
+      : 'Arsip Rapor Digital (Format PDF & Gambar JPG)';
+    if (tab === 'arsip') loadArsip();
+    else loadData();
+  }
 
-    // ===== TAB 1: PROGRES KELAS =====
-    let lastProgresCtx = { kelas: 'B', sem: '1', year: '2026/2027', total: 0, status_ranking: 'Sementara', sudah: [] };
-    let activeModalSantri = null;
-    let editModalTarget = null;
+  function switchKelas(k) {
+    state.kelas = k === 'A' ? 'A' : 'B';
+    document.getElementById('selKelas').value = state.kelas;
+    document.getElementById('btnSideKelasA').classList.toggle('active', state.kelas === 'A');
+    document.getElementById('btnSideKelasB').classList.toggle('active', state.kelas === 'B');
+    document.getElementById('activeClassBadge').textContent = 'KELAS ' + state.kelas;
+    if (state.tab === 'arsip') loadArsip();
+    else loadData();
+  }
 
-    async function loadProgres() {
-      const btn = $('refreshProgres');
-      btn.disabled = true;
-      try {
-        const kelas = $('progClass').value;
-        const year = $('progYear').value;
-        const sem = $('progSemester').value;
-        const u = new URL(PROGRESS_API_URL);
-        u.searchParams.set('kelas', kelas);
-        u.searchParams.set('semester', sem);
-        u.searchParams.set('tahun_pelajaran', year);
-        u.searchParams.set('_t', Date.now());
-        const r = await fetch(u.toString(), { headers: { Accept: 'application/json' }, cache: 'no-store' });
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        const j = await r.json();
-        if (j.success !== true) throw new Error('Respons tidak sesuai');
+  async function loadData() {
+    state.kelas = document.getElementById('selKelas').value;
+    state.tahun_ajaran = document.getElementById('selTahun').value;
+    state.semester = document.getElementById('selSemester').value;
+    try {
+      const q = `/rest/v1/nilai_rapor?select=*,santri(id,nama,no_urut,nama_normalisasi)&kelas=eq.${encodeURIComponent(state.kelas)}&tahun_ajaran=eq.${encodeURIComponent(state.tahun_ajaran)}&semester=eq.${encodeURIComponent(state.semester)}&order=peringkat.asc.nullslast`;
+      const rows = await sbFetch(q);
+      state.rows = Array.isArray(rows) ? rows : [];
 
-        const master = await loadMasterSantri(year);
-        const jkByNis = Object.fromEntries(master.map(m => [m.nis, m.jk]));
-        const total = j.total_santri ?? 0;
-        const done = j.sudah_dinilai ?? 0;
-        const lengkap = j.sudah_lengkap ?? done;
-        const todo = j.belum_dinilai ?? 0;
-        const pct = total > 0 ? Math.round((lengkap / total) * 100) : 0;
-        const isFinal = String(j.status_ranking || '').toLowerCase() === 'final';
-
-        $('progCount').textContent = `${lengkap} / ${total} lengkap`;
-        $('progStatusChip').textContent = `Status: ${j.status_ranking || 'Sementara'}`;
-        $('progStatusChip').className = 'chip ' + (isFinal ? 'chip-green' : 'chip-warn');
-        $('progSummaryText').textContent = `${done} santri sudah ada nilai · ${lengkap}/${total} lengkap semua mapel`;
-        $('progFill').style.width = pct + '%';
-        $('progPct').textContent = pct + '%';
-        $('progDoneCount').textContent = `${done} santri`;
-        $('progTodoCount').textContent = `${todo} santri`;
-
-        lastProgresCtx = { kelas, sem, year, total, status_ranking: j.status_ranking || 'Sementara', sudah: j.sudah || [] };
-
-        $('progDoneList').innerHTML = (j.sudah || []).map((x, idx) => {
-          const initials = String(x.name || 'S').split(/\s+/).slice(0, 2).map(s => s[0]).join('').toUpperCase();
-          const mTerisi = x.mapel_terisi ?? activeMapelList(kelas).length;
-          const mTot = x.total_mapel ?? activeMapelList(kelas).length;
-          const mChipCls = mTerisi >= mTot ? 'chip-green' : 'chip-warn';
-          const itemFinal = isFinal || String(x.status_ranking || '').toLowerCase() === 'final';
-          const delBtn = itemFinal ? '' : `<button type="button" class="btn btn-xs btn-danger" data-del-idx="${idx}">Hapus</button>`;
-          return `<div class="prog-row">
-            <div class="initial">${avatarSvg(jkByNis[x.nis] || '', initials)}</div>
-            <div style="min-width:0">
-              <div class="student-name">${esc(x.name)}</div>
-              <div class="subtext">Rata-rata <strong>${esc(x.nilai_akhir ?? '-')}</strong> · Rank #${esc(x.ranking)} · Absen ${esc(x.absensi?.total_tidak_hadir ?? 0)} hr</div>
-            </div>
-            <div class="prog-row-right">
-              <span class="chip ${mChipCls}">${mTerisi}/${mTot} mapel</span>
-              <button type="button" class="btn btn-xs" data-view-idx="${idx}">Lihat</button>
-              <button type="button" class="btn btn-xs btn-primary" data-edit-idx="${idx}">Edit</button>
-              ${delBtn}
-            </div>
-          </div>`;
-        }).join('') || '<div class="empty-center"><h3>Belum ada nilai masuk</h3><p>Kirim foto lembar nilai lewat Bot Telegram <strong>@paudqu_nurulmubin_bot</strong>, lalu klik Perbarui.</p></div>';
-
-        $('progDoneList').querySelectorAll('button[data-view-idx]').forEach(b => b.addEventListener('click', () => openNilaiModal(Number(b.dataset.viewIdx))));
-        $('progDoneList').querySelectorAll('button[data-edit-idx]').forEach(b => b.addEventListener('click', () => {
-          const item = lastProgresCtx.sudah[Number(b.dataset.editIdx)];
-          if (item) openEditModal(item, false);
-        }));
-        $('progDoneList').querySelectorAll('button[data-del-idx]').forEach(b => b.addEventListener('click', () => {
-          const item = lastProgresCtx.sudah[Number(b.dataset.delIdx)];
-          if (item) deleteSantriNilai(item, kelas, sem, year);
-        }));
-
-        $('progTodoList').innerHTML = (j.belum || []).map(x => `<button type="button" class="todo-chip" data-todo-nis="${esc(x.nis)}" data-todo-nama="${esc(x.name)}">${esc(x.name)}</button>`).join('')
-          || (total > 0 ? '<div class="empty-center"><p>Semua santri sudah memiliki nilai! 🎉</p></div>' : '<div class="empty-center"><p>Tidak ada santri aktif.</p></div>');
-
-        $('progTodoList').querySelectorAll('button[data-todo-nis]').forEach(b => b.addEventListener('click', () => {
-          openEditModal({ nis: b.dataset.todoNis, name: b.dataset.todoNama, nilai: {}, absensi: { sakit: 0, izin: 0, alpa: 0 } }, true);
-        }));
-      } catch (err) {
-        showMessage('Gagal memuat progres kelas: ' + err.message, 'error');
-      } finally {
-        btn.disabled = false;
-      }
-    }
-    ['progYear', 'progSemester'].forEach(id => $(id).addEventListener('change', loadProgres));
-    $('refreshProgres').addEventListener('click', loadProgres);
-
-    function openNilaiModal(idx) {
-      const x = lastProgresCtx.sudah[idx];
-      if (!x) return;
-      activeModalSantri = x;
-      const { kelas, sem, year, total } = lastProgresCtx;
-      const penunjang = kelas === 'B' ? MAPEL_PENUNJANG_B : MAPEL_PENUNJANG_A;
-      const nObj = x.nilai || {};
-      const abs = x.absensi || { sakit: 0, izin: 0, alpa: 0, total_tidak_hadir: 0 };
-      $('modalSantriName').textContent = x.name;
-      $('modalSantriSub').textContent = `NIS ${x.nis} · Kelas ${kelas} · Semester ${sem === '2' ? 'Genap' : 'Ganjil'} · ${year}`;
-      $('mTotal').textContent = x.total_nilai ?? '-';
-      $('mMapelCount').textContent = `${x.mapel_terisi ?? 0}/${x.total_mapel ?? (9 + penunjang.length)} mapel`;
-      $('mAvg').textContent = x.rata_rata ?? x.nilai_akhir ?? '-';
-      $('mStatus').textContent = x.status_ranking || 'Sementara';
-      $('mRank').textContent = x.ranking !== '-' ? `#${x.ranking}` : '-';
-      $('mRankOf').textContent = `dari ${total} santri`;
-      $('mAbsenTotal').textContent = `${abs.total_tidak_hadir ?? 0} hari`;
-      $('mAbsenDetail').textContent = `S:${abs.sakit ?? 0} · I:${abs.izin ?? 0} · A:${abs.alpa ?? 0}`;
-      $('mPenunjangTitle').textContent = `II. Kemampuan Penunjang (${penunjang.length} Mapel)`;
-      const mk = (arr) => arr.map(([k, lbl], i) => `<tr><td>${i + 1}</td><td>${esc(lbl)}</td><td><strong>${nObj[k] === '' || nObj[k] === undefined ? '—' : esc(nObj[k])}</strong></td></tr>`).join('');
-      $('mPokokRows').innerHTML = mk(MAPEL_POKOK);
-      $('mPenunjangRows').innerHTML = mk(penunjang);
-      const isFinal = String(lastProgresCtx.status_ranking || '').toLowerCase() === 'final' || String(x.status_ranking || '').toLowerCase() === 'final';
-      $('btnDeleteFromModal').hidden = isFinal;
-      $('nilaiModal').hidden = false;
-    }
-    function closeNilaiModal() { $('nilaiModal').hidden = true; activeModalSantri = null; }
-    $('btnCloseModal').addEventListener('click', closeNilaiModal);
-    $('btnCloseModalFoot').addEventListener('click', closeNilaiModal);
-    $('nilaiModal').addEventListener('click', e => { if (e.target === $('nilaiModal')) closeNilaiModal(); });
-    $('btnEditFromModal').addEventListener('click', () => { if (activeModalSantri) { const s = activeModalSantri; closeNilaiModal(); openEditModal(s, false); } });
-    $('btnDeleteFromModal').addEventListener('click', () => { if (activeModalSantri) { const s = activeModalSantri; closeNilaiModal(); deleteSantriNilai(s, lastProgresCtx.kelas, lastProgresCtx.sem, lastProgresCtx.year); } });
-
-    function openEditModal(item, isNew) {
-      editModalTarget = { ...item, kelas: lastProgresCtx.kelas, sem: lastProgresCtx.sem, year: lastProgresCtx.year };
-      $('editModalTitle').textContent = `${isNew ? 'Input' : 'Edit'} Nilai & Absensi — ${item.name}`;
-      $('editModalSub').textContent = `NIS ${item.nis} · Kelas ${lastProgresCtx.kelas} · Semester ${lastProgresCtx.sem === '2' ? 'Genap' : 'Ganjil'} · ${lastProgresCtx.year}`;
-      const mapels = activeMapelList(lastProgresCtx.kelas);
-      const nObj = item.nilai || {};
-      $('editMapelGrid').innerHTML = mapels.map(([k, lbl]) => {
-        const v = (nObj[k] !== undefined && nObj[k] !== null && nObj[k] !== '') ? nObj[k] : '';
-        return `<div class="edit-item"><label for="ed_${k}">${esc(lbl)}</label><input id="ed_${k}" data-ed-mapel="${k}" type="number" min="0" max="100" step="0.5" placeholder="0–100" value="${esc(v)}"></div>`;
-      }).join('');
-      const abs = item.absensi || {};
-      $('edSakit').value = String(abs.sakit ?? 0);
-      $('edIzin').value = String(abs.izin ?? 0);
-      $('edAlpa').value = String(abs.alpa ?? 0);
-      $('editModal').hidden = false;
-    }
-    function closeEditModal() { $('editModal').hidden = true; editModalTarget = null; }
-    $('btnCloseEditModal').addEventListener('click', closeEditModal);
-    $('btnCancelEditModal').addEventListener('click', closeEditModal);
-    $('editModal').addEventListener('click', e => { if (e.target === $('editModal')) closeEditModal(); });
-
-    $('editForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!editModalTarget) return;
-      const { nis, name, kelas, sem, year } = editModalTarget;
-      const mapels = activeMapelList(kelas);
-      const nilai = {};
-      let filled = 0;
-      for (const [k, lbl] of mapels) {
-        const raw = $('ed_' + k).value.trim();
-        if (raw === '') continue;
-        const num = Number(raw);
-        if (Number.isNaN(num) || num < 0 || num > 100) { showMessage(`Nilai ${lbl} harus antara 0–100.`, 'error'); return; }
-        nilai[k] = num;
-        filled++;
-      }
-      if (filled === 0) { showMessage('Isi minimal 1 nilai mata pelajaran.', 'error'); return; }
-      const absensi = {
-        sakit: Math.max(0, parseInt($('edSakit').value || '0', 10) || 0),
-        izin: Math.max(0, parseInt($('edIzin').value || '0', 10) || 0),
-        alpa: Math.max(0, parseInt($('edAlpa').value || '0', 10) || 0)
-      };
-
-      const btn = $('btnSaveEditModal');
-      btn.disabled = true;
-      showProcessBanner(`⏳ Menyimpan nilai ${name}...`, '', 'processing');
-      try {
-        if (filled === mapels.length) {
-          const r = await fetch(INPUT_API_URL, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nis, nama_santri: name, kelas, semester: sem, tahun_pelajaran: year, nilai, absensi })
-          });
-          const j = await r.json().catch(() => ({}));
-          if (!r.ok || j.status === 'error') throw new Error(Array.isArray(j.errors) ? j.errors.join('; ') : (j.message || 'HTTP ' + r.status));
-        } else {
-          const r = await fetch(INPUT_API_URL, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ mode: 'merge_batch', batch_id: '', kelas, semester: sem, tahun_pelajaran: year, santri: [{ nis, nama_santri: name, nilai }] })
-          });
-          const j = await r.json().catch(() => ({}));
-          if (!r.ok || j.status === 'error') throw new Error(j.message || 'HTTP ' + r.status);
+      const keySet = new Set();
+      for (const r of state.rows) {
+        for (const [k, v] of Object.entries(r.nilai_mapel || {})) {
+          if (v !== null && v !== undefined && v !== '') keySet.add(k);
         }
-        closeEditModal();
-        showProcessBanner(`✅ Nilai ${name} tersimpan!`, 'Ranking kelas diperbarui otomatis.', 'ok');
-        await loadProgres();
-      } catch (err) {
-        showProcessBanner('❌ Gagal menyimpan', err.message, 'error');
-      } finally {
-        btn.disabled = false;
       }
+      state.classMapelKeys = Array.from(keySet);
+      renderDataTable();
+    } catch (err) {
+      showToast('Gagal memuat data: ' + err.message, 'error');
+    }
+  }
+
+  function renderDataTable() {
+    const q = (document.getElementById('inpSearch').value || '').toLowerCase().trim();
+    const filtered = state.rows.filter(r => !q || String(r.santri?.nama || '').toLowerCase().includes(q));
+    const tbody = document.getElementById('dataTbody');
+    const empty = document.getElementById('dataEmpty');
+
+    document.getElementById('statSantriCount').textContent = `${state.rows.length} Santri`;
+    document.getElementById('statMapelCount').textContent = `${state.classMapelKeys.length} Mata Pelajaran Tersalin`;
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '';
+      empty.hidden = false;
+      return;
+    }
+    empty.hidden = true;
+
+    tbody.innerHTML = filtered.map(r => {
+      const rank = r.peringkat;
+      const rankCls = rank === 1 ? 'rank-1' : (rank === 2 ? 'rank-2' : (rank === 3 ? 'rank-3' : ''));
+      const nama = r.santri?.nama || '-';
+      const entries = Object.entries(r.nilai_mapel || {}).filter(([, v]) => v !== null && v !== undefined && v !== '');
+      const chipsHtml = entries.length > 0
+        ? entries.map(([k, v]) => `<span class="m-chip">${esc(getMapelLabel(k))}: <b>${esc(v)}</b></span>`).join('')
+        : `<span style="color:var(--muted);font-size:11.5px">Belum ada nilai mapel</span>`;
+
+      return `<tr>
+        <td><span class="rank-badge ${rankCls}">${rank ? ('#' + rank) : '-'}</span></td>
+        <td>
+          <div style="font-weight:800;color:#15362e">${esc(nama)}</div>
+          <div style="font-size:10.5px;color:var(--muted);margin-top:2px">Sakit: ${r.sakit || 0} · Izin: ${r.izin || 0} · Alpa: ${r.alpa || 0}</div>
+        </td>
+        <td><div class="mapel-chips">${chipsHtml}</div></td>
+        <td style="text-align:right;font-weight:800;font-size:13px">${Number(r.total_nilai || 0)}</td>
+        <td style="text-align:right;font-weight:800;color:var(--green);font-size:13px">${Number(r.rata_rata || 0).toFixed(2)}</td>
+        <td style="text-align:right;white-space:nowrap">
+          <button type="button" class="btn btn-xs" onclick="openEditModal('${r.id}')">✏️ Edit</button>
+          <button type="button" class="btn btn-xs btn-blue" onclick="triggerCetak('santri', '${r.santri_id}')">🖨️ Cetak</button>
+          <button type="button" class="btn btn-xs btn-danger" onclick="deleteSantri('${r.santri_id}', '${esc(nama)}')">🗑️ Hapus</button>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ================= MODAL EDIT / TAMBAH SANTRI =================
+  function openEditModal(nilaiId) {
+    const row = state.rows.find(r => r.id === nilaiId);
+    if (!row) return;
+    state.editingRow = JSON.parse(JSON.stringify(row));
+    document.getElementById('modalEditTitle').textContent = '✏️ Koreksi Nama & Nilai — ' + (row.santri?.nama || '');
+    document.getElementById('editNama').value = row.santri?.nama || '';
+    document.getElementById('editSakit').value = row.sakit || 0;
+    document.getElementById('editIzin').value = row.izin || 0;
+    document.getElementById('editAlpa').value = row.alpa || 0;
+    renderEditScoreInputs();
+    document.getElementById('modalEdit').hidden = false;
+  }
+
+  function openAddSantriModal() {
+    state.editingRow = {
+      id: null,
+      santri_id: null,
+      santri: { id: null, nama: '', no_urut: state.rows.length + 1 },
+      nilai_mapel: {},
+      sakit: 0, izin: 0, alpa: 0
+    };
+    document.getElementById('modalEditTitle').textContent = '➕ Tambah Santri & Nilai Baru';
+    document.getElementById('editNama').value = '';
+    document.getElementById('editSakit').value = 0;
+    document.getElementById('editIzin').value = 0;
+    document.getElementById('editAlpa').value = 0;
+    renderEditScoreInputs();
+    document.getElementById('modalEdit').hidden = false;
+  }
+
+  function renderEditScoreInputs() {
+    const grid = document.getElementById('editScoreGrid');
+    const currentMapel = state.editingRow?.nilai_mapel || {};
+    const allKeys = Array.from(new Set([
+      ...state.classMapelKeys,
+      ...Object.keys(currentMapel),
+      ...(state.classMapelKeys.length === 0 ? Object.keys(DEFAULT_MAPEL_LABELS) : [])
+    ]));
+
+    grid.innerHTML = allKeys.map(k => {
+      const val = currentMapel[k] !== undefined && currentMapel[k] !== null ? currentMapel[k] : '';
+      return `<div class="score-item">
+        <label><span>${esc(getMapelLabel(k))}</span></label>
+        <input type="number" min="0" max="100" step="0.1" data-mapel-key="${esc(k)}" value="${esc(val)}" placeholder="-">
+      </div>`;
+    }).join('');
+  }
+
+  function promptAddCustomMapelInEdit() {
+    const name = prompt('Masukkan nama mata pelajaran baru (contoh: Kaligrafi / Praktek Ibadah):');
+    if (!name || !name.trim()) return;
+    const key = normKey(name);
+    if (!key) return;
+    customLabels[key] = name.trim();
+    localStorage.setItem('paudqu_mapel_labels', JSON.stringify(customLabels));
+    if (!state.classMapelKeys.includes(key)) state.classMapelKeys.push(key);
+    document.querySelectorAll('#editScoreGrid input[data-mapel-key]').forEach(inp => {
+      const k = inp.getAttribute('data-mapel-key');
+      if (inp.value !== '') state.editingRow.nilai_mapel[k] = Number(inp.value);
+    });
+    renderEditScoreInputs();
+  }
+
+  function closeEditModal() {
+    document.getElementById('modalEdit').hidden = true;
+    state.editingRow = null;
+  }
+
+  async function recalculateAndSyncClass() {
+    // Reload latest rows of this class, normalize divisor across all subjects present in class, update & call RPC
+    const q = `/rest/v1/nilai_rapor?select=*&kelas=eq.${encodeURIComponent(state.kelas)}&tahun_ajaran=eq.${encodeURIComponent(state.tahun_ajaran)}&semester=eq.${encodeURIComponent(state.semester)}`;
+    const allRows = await sbFetch(q);
+    const mapelSet = new Set();
+    for (const r of allRows) {
+      for (const [k, v] of Object.entries(r.nilai_mapel || {})) {
+        if (v !== null && v !== undefined && v !== '') mapelSet.add(k);
+      }
+    }
+    const totalMapelKelas = Math.max(1, mapelSet.size);
+    const batch = allRows.map(r => {
+      const vals = Object.values(r.nilai_mapel || {}).map(Number).filter(v => !Number.isNaN(v) && v >= 0 && v <= 100);
+      const totalNilai = Math.round(vals.reduce((a, b) => a + b, 0) * 100) / 100;
+      const rataRata = totalNilai > 0 ? Math.round((totalNilai / totalMapelKelas) * 100) / 100 : 0;
+      return {
+        id: r.id,
+        santri_id: r.santri_id,
+        kelas: r.kelas,
+        tahun_ajaran: r.tahun_ajaran,
+        semester: r.semester,
+        nilai_mapel: r.nilai_mapel || {},
+        sakit: Number(r.sakit || 0),
+        izin: Number(r.izin || 0),
+        alpa: Number(r.alpa || 0),
+        mapel_terisi: vals.length,
+        total_mapel: totalMapelKelas,
+        total_nilai: totalNilai,
+        rata_rata: rataRata,
+        nilai_iqro: Number(r.nilai_mapel?.iqro || 0),
+        status: r.status || 'Draft',
+        updated_at: new Date().toISOString()
+      };
+    });
+    if (batch.length > 0) {
+      await sbFetch('/rest/v1/nilai_rapor?on_conflict=santri_id,semester', {
+        method: 'POST',
+        headers: { 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+        body: JSON.stringify(batch)
+      });
+    }
+    await sbFetch('/rest/v1/rpc/hitung_ulang_peringkat', {
+      method: 'POST',
+      body: JSON.stringify({
+        p_kelas: state.kelas,
+        p_tahun_ajaran: state.tahun_ajaran,
+        p_semester: state.semester
+      })
+    });
+  }
+
+  async function saveEditSantri() {
+    const nama = (document.getElementById('editNama').value || '').trim();
+    if (!nama) {
+      showToast('Nama santri tidak boleh kosong.', 'error');
+      return;
+    }
+    const sakit = Math.max(0, Number(document.getElementById('editSakit').value || 0));
+    const izin = Math.max(0, Number(document.getElementById('editIzin').value || 0));
+    const alpa = Math.max(0, Number(document.getElementById('editAlpa').value || 0));
+
+    const newMapel = {};
+    document.querySelectorAll('#editScoreGrid input[data-mapel-key]').forEach(inp => {
+      const k = inp.getAttribute('data-mapel-key');
+      const raw = String(inp.value || '').trim();
+      if (raw === '') return;
+      let num = Number(raw.replace(',', '.'));
+      if (Number.isNaN(num)) return;
+      if (num > 0 && num <= 10) num = Math.round(num * 10 * 10) / 10;
+      if (num >= 0 && num <= 100) newMapel[k] = num;
     });
 
-    async function deleteSantriNilai(item, kelas, sem, year) {
-      const key = `${item.nis}|${sem}|${year}`;
-      if (!confirm(`Hapus nilai ${item.name} (Kelas ${kelas}, S${sem}, ${year})?\nBaris Nilai_${kelas}, Absensi, dan Transkrip (serta PDF-nya di Drive bila ada) akan dihapus.`)) return;
-      showProcessBanner(`⏳ Menghapus nilai ${item.name}...`, '', 'processing');
-      try {
-        const gidMap = await getSheetGidMap();
-        await deleteRowsByKey(`Nilai_${kelas}`, gidMap[`Nilai_${kelas}`], key);
-        if (gidMap['Absensi'] !== undefined) await deleteRowsByKey('Absensi', gidMap['Absensi'], key);
-        if (gidMap['Transkrip'] !== undefined) {
-          const resTr = await deleteRowsByKey('Transkrip', gidMap['Transkrip'], key, 6);
-          for (const u of resTr.urls) { const fid = extractDriveFileId(u); if (fid) await deleteDriveFileById(fid); }
-        }
-        await fetch(CALC_API_URL, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ kelas, semester: String(sem), tahun_pelajaran: year, nis: item.nis })
-        }).catch(() => {});
-        showProcessBanner(`✅ Nilai ${item.name} berhasil dihapus`, '', 'ok');
-        await loadProgres();
-      } catch (err) {
-        showProcessBanner('❌ Gagal menghapus', err.message, 'error');
-      }
-    }
-
-    // ===== TAB 2: ARSIP PDF =====
-    let arsipMode = 'transkrip';
-    let allTranscripts = [];
-    let rankingData = [];
-
-    function setArsipMode(mode) {
-      arsipMode = mode;
-      $('segTranskrip').classList.toggle('active', mode === 'transkrip');
-      $('segRekap').classList.toggle('active', mode === 'rekap');
-      $('arsipTranskripWrap').hidden = mode !== 'transkrip';
-      $('arsipRekapWrap').hidden = mode !== 'rekap';
-      $('arsipSearch').hidden = mode !== 'transkrip';
-      $('btnUpdateRekapPdf').hidden = mode !== 'rekap';
-      loadArsip();
-    }
-    $('segTranskrip').addEventListener('click', () => setArsipMode('transkrip'));
-    $('segRekap').addEventListener('click', () => setArsipMode('rekap'));
-    ['arsipYear', 'arsipSemester'].forEach(id => $(id).addEventListener('change', loadArsip));
-    $('arsipSearch').addEventListener('input', () => { if (arsipMode === 'transkrip') renderTranscripts(); });
-    $('btnRefreshArsip').addEventListener('click', loadArsip);
-
-    async function loadArsip() {
-      if (arsipMode === 'transkrip') await loadTranscripts();
-      else await loadRanking();
-    }
-
-    async function loadTranscripts() {
-      $('btnRefreshArsip').disabled = true;
-      try {
-        const u = new URL(TRANSKRIP_URL);
-        u.searchParams.set('kelas', activeKelas);
-        u.searchParams.set('_t', Date.now());
-        const r = await fetch(u.toString(), { headers: { Accept: 'application/json' }, cache: 'no-store' });
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        const j = await r.json();
-        allTranscripts = (Array.isArray(j.data) ? j.data : []).map(x => ({
-          key: String(x.key ?? ''), id_santri: String(x.id_santri ?? ''), name: String(x.name ?? ''),
-          kelas: String(x.kelas ?? '').toUpperCase().replace(/^KELAS\s*/, ''),
-          semester: normSem(x.semester), year: String(x.year ?? ''),
-          status: String(x.status ?? 'Tersedia'),
-          rawStatus: String(x.rawStatus ?? 'TERBUAT').toUpperCase(),
-          pdf: String(x.pdf ?? '').trim()
-        })).filter(x => x.name);
-        renderTranscripts();
-      } catch (err) {
-        showMessage('Gagal memuat arsip transkrip: ' + err.message, 'error');
-      } finally {
-        $('btnRefreshArsip').disabled = false;
-      }
-    }
-
-    function renderTranscripts() {
-      const q = $('arsipSearch').value.trim().toLowerCase();
-      const y = $('arsipYear').value;
-      const sem = $('arsipSemester').value === '2' ? 'Genap' : 'Ganjil';
-      const rows = allTranscripts.filter(x => x.kelas === activeKelas && (!y || x.year === y) && x.semester === sem && (!q || x.name.toLowerCase().includes(q) || x.id_santri.includes(q)));
-      const needsCount = rows.filter(x => x.rawStatus === 'PERLU_DIPERBARUI').length;
-      $('btnUpdateAllTr').hidden = needsCount === 0;
-      $('btnUpdateAllTr').textContent = `Perbarui Semua (${needsCount})`;
-      $('arsipCount').textContent = `${rows.length} dokumen`;
-
-      $('transcriptRows').innerHTML = rows.map((x, i) => {
-        const badgeCls = x.rawStatus === 'PERLU_DIPERBARUI' ? 'status-warn' : x.rawStatus === 'DITUNDA' ? 'status-postponed' : 'status-ok';
-        const hasPdf = validDriveUrl(x.pdf);
-        return `<tr>
-          <td>${i + 1}</td>
-          <td><div class="student-name">${esc(x.name)}</div><div class="subtext">NIS ${esc(x.id_santri)}</div></td>
-          <td><span class="chip chip-muted">Kelas ${esc(x.kelas)}</span></td>
-          <td>${esc(x.semester)}</td>
-          <td>${esc(x.year)}</td>
-          <td><span class="status ${badgeCls}">${esc(x.status)}</span></td>
-          <td><div class="action-group">${hasPdf ? `<a class="btn btn-xs btn-primary" href="${esc(x.pdf)}" target="_blank" rel="noopener noreferrer">Buka PDF</a>` : ''}<button type="button" class="btn btn-xs" data-regen-tr="${i}">Perbarui</button></div></td>
-        </tr>`;
-      }).join('');
-      $('transcriptRows').querySelectorAll('button[data-regen-tr]').forEach(b => b.addEventListener('click', () => {
-        const x = rows[Number(b.dataset.regenTr)];
-        if (x) triggerGeneratePdf('generate', x);
-      }));
-      $('transcriptEmpty').hidden = rows.length > 0;
-    }
-
-    async function loadRanking() {
-      $('btnRefreshArsip').disabled = true;
-      try {
-        const u = new URL(RANKING_API_URL);
-        u.searchParams.set('kelas', activeKelas);
-        u.searchParams.set('tahun_pelajaran', $('arsipYear').value);
-        u.searchParams.set('semester', $('arsipSemester').value);
-        u.searchParams.set('_t', Date.now());
-        const r = await fetch(u.toString(), { headers: { Accept: 'application/json' }, cache: 'no-store' });
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        const j = await r.json();
-        rankingData = (Array.isArray(j.data) ? j.data : []).map(x => ({
-          name: String(x.name ?? 'Rekap Peringkat'), fileName: String(x.fileName ?? ''),
-          kelas: String(x.kelas ?? '').replace(/^Kelas\s*/i, ''),
-          year: String(x.year ?? ''), semester: normSem(x.semester),
-          status: String(x.status ?? 'PDF tersedia'), pdf: String(x.pdf ?? '').trim()
-        })).filter(x => validDriveUrl(x.pdf));
-        renderRanking();
-      } catch (err) {
-        showMessage('Gagal memuat rekap peringkat: ' + err.message, 'error');
-      } finally {
-        $('btnRefreshArsip').disabled = false;
-      }
-    }
-
-    function renderRanking() {
-      $('arsipCount').textContent = `${rankingData.length} dokumen`;
-      $('rankingRows').innerHTML = rankingData.map((x, i) => `<tr>
-        <td>${i + 1}</td>
-        <td><div class="student-name">${esc(x.name)}</div><div class="subtext">${esc(x.fileName)}</div></td>
-        <td><span class="chip chip-muted">Kelas ${esc(x.kelas)}</span></td>
-        <td>${esc(x.semester)}</td>
-        <td>${esc(x.year)}</td>
-        <td><span class="status status-ok">${esc(x.status)}</span></td>
-        <td><div class="action-group"><a class="btn btn-xs btn-primary" href="${esc(x.pdf)}" target="_blank" rel="noopener noreferrer">Buka PDF</a><button type="button" class="btn btn-xs btn-danger" data-del-rekap="${i}">Hapus</button></div></td>
-      </tr>`).join('');
-      $('rankingRows').querySelectorAll('button[data-del-rekap]').forEach(b => b.addEventListener('click', () => {
-        const x = rankingData[Number(b.dataset.delRekap)];
-        if (x) deleteRekapPdf(x);
-      }));
-      $('rankingEmpty').hidden = rankingData.length > 0;
-    }
-
-    async function triggerGeneratePdf(action, item) {
-      showProcessBanner(action === 'generate_rekap' ? '⏳ Membuat ulang PDF Rekap Peringkat...' : `⏳ Memperbarui PDF Transkrip ${item.name}...`, 'WF-03 merender template resmi & mengganti file lama di Drive.', 'processing');
-      try {
-        const r = await fetch(ACTION_API_URL, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
+    const btn = document.getElementById('btnSaveEdit');
+    btn.disabled = true;
+    btn.textContent = '⏳ Menyimpan...';
+    try {
+      let santriId = state.editingRow?.santri_id;
+      if (santriId) {
+        await sbFetch(`/rest/v1/santri?id=eq.${santriId}`, {
+          method: 'PATCH',
           body: JSON.stringify({
-            action, key: item.key || '', id_santri: item.id_santri || '',
-            kelas: item.kelas || activeKelas,
-            semester: semToNum(item.semester || $('arsipSemester').value),
-            tahun_pelajaran: item.year || $('arsipYear').value
+            nama,
+            nama_normalisasi: normName(nama),
+            updated_at: new Date().toISOString()
           })
         });
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        const oldSig = rankingData.map(x => `${x.name}::${x.pdf}`).join('|');
-        if (action === 'generate_rekap') {
-          for (let i = 0; i < 12; i++) {
-            await new Promise(res => setTimeout(res, 6000));
-            await loadRanking();
-            const newSig = rankingData.map(x => `${x.name}::${x.pdf}`).join('|');
-            if (newSig && newSig !== oldSig) break;
-          }
-          showProcessBanner('✅ PDF Rekap Peringkat berhasil diperbarui!', 'Versi lama di Drive otomatis dipindahkan ke Sampah.', 'ok');
-        } else {
-          setTimeout(async () => { await loadTranscripts(); showProcessBanner(`✅ Transkrip ${item.name} diperbarui!`, '', 'ok'); }, 9000);
+      } else {
+        const created = await sbFetch('/rest/v1/santri?on_conflict=kelas,tahun_ajaran,nama_normalisasi', {
+          method: 'POST',
+          headers: { 'Prefer': 'resolution=merge-duplicates,return=representation' },
+          body: JSON.stringify([{
+            nama,
+            nama_normalisasi: normName(nama),
+            kelas: state.kelas,
+            tahun_ajaran: state.tahun_ajaran,
+            no_urut: state.rows.length + 1
+          }])
+        });
+        santriId = created[0]?.id;
+      }
+
+      await sbFetch('/rest/v1/nilai_rapor?on_conflict=santri_id,semester', {
+        method: 'POST',
+        headers: { 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+        body: JSON.stringify([{
+          santri_id: santriId,
+          kelas: state.kelas,
+          tahun_ajaran: state.tahun_ajaran,
+          semester: state.semester,
+          nilai_mapel: newMapel,
+          sakit, izin, alpa,
+          updated_at: new Date().toISOString()
+        }])
+      });
+
+      await recalculateAndSyncClass();
+      closeEditModal();
+      await loadData();
+      showToast('Data santri & peringkat berhasil diperbarui!', 'ok');
+    } catch (err) {
+      showToast('Gagal menyimpan: ' + err.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '💾 Simpan & Hitung Ulang Peringkat';
+    }
+  }
+
+  async function deleteSantri(santriId, nama) {
+    if (!confirm(`Hapus santri "${nama}" beserta data nilainya?`)) return;
+    try {
+      await sbFetch(`/rest/v1/santri?id=eq.${santriId}`, { method: 'DELETE' });
+      await recalculateAndSyncClass();
+      await loadData();
+      showToast(`Data "${nama}" berhasil dihapus.`, 'ok');
+    } catch (err) {
+      showToast('Gagal menghapus: ' + err.message, 'error');
+    }
+  }
+
+  // ================= MODAL KELOLA / GANTI NAMA MAPEL =================
+  function openManageMapelModal() {
+    renderManageMapelList();
+    document.getElementById('modalMapel').hidden = false;
+  }
+  function closeManageMapelModal() {
+    document.getElementById('modalMapel').hidden = true;
+  }
+
+  function renderManageMapelList() {
+    const wrap = document.getElementById('manageMapelList');
+    if (state.classMapelKeys.length === 0) {
+      wrap.innerHTML = `<div style="padding:14px;text-align:center;color:var(--muted)">Belum ada mata pelajaran di periode ini.</div>`;
+      return;
+    }
+    wrap.innerHTML = state.classMapelKeys.map(k => `
+      <div class="mapel-manage-row">
+        <span class="mapel-key-tag">${esc(k)}</span>
+        <input type="text" class="t-input" id="lbl_${esc(k)}" value="${esc(getMapelLabel(k))}">
+        <div style="display:flex;gap:5px">
+          <button type="button" class="btn btn-xs btn-primary" onclick="renameMapelInClass('${esc(k)}')">💾 Ubah Nama</button>
+          <button type="button" class="btn btn-xs btn-danger" onclick="removeMapelFromClass('${esc(k)}')">🗑️ Hapus</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  async function renameMapelInClass(oldKey) {
+    const inp = document.getElementById('lbl_' + oldKey);
+    const newLabel = (inp?.value || '').trim();
+    if (!newLabel) return;
+    const newKey = DEFAULT_MAPEL_LABELS[oldKey] ? oldKey : normKey(newLabel);
+    customLabels[newKey] = newLabel;
+    customLabels[oldKey] = newLabel;
+    localStorage.setItem('paudqu_mapel_labels', JSON.stringify(customLabels));
+
+    if (newKey !== oldKey) {
+      for (const r of state.rows) {
+        if (r.nilai_mapel && r.nilai_mapel[oldKey] !== undefined) {
+          r.nilai_mapel[newKey] = r.nilai_mapel[oldKey];
+          delete r.nilai_mapel[oldKey];
+          await sbFetch(`/rest/v1/nilai_rapor?id=eq.${r.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ nilai_mapel: r.nilai_mapel })
+          });
         }
-      } catch (err) {
-        showProcessBanner('❌ Gagal memproses PDF', err.message, 'error');
       }
+      await recalculateAndSyncClass();
     }
+    await loadData();
+    renderManageMapelList();
+    showToast(`Nama mata pelajaran berhasil diubah menjadi "${newLabel}".`, 'ok');
+  }
 
-    $('btnUpdateRekapPdf').addEventListener('click', () => triggerGeneratePdf('generate_rekap', { kelas: activeKelas, semester: $('arsipSemester').value, year: $('arsipYear').value }));
-    $('btnUpdateAllTr').addEventListener('click', async () => {
-      const y = $('arsipYear').value;
-      const sem = $('arsipSemester').value === '2' ? 'Genap' : 'Ganjil';
-      const list = allTranscripts.filter(x => x.kelas === activeKelas && x.year === y && x.semester === sem && x.rawStatus === 'PERLU_DIPERBARUI');
-      if (!list.length) return;
-      for (let i = 0; i < list.length; i++) {
-        showProcessBanner(`⏳ Memperbarui ${i + 1}/${list.length}: ${list[i].name}...`, '', 'processing');
-        await fetch(ACTION_API_URL, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'generate', key: list[i].key, id_santri: list[i].id_santri, kelas: list[i].kelas, semester: semToNum(list[i].semester), tahun_pelajaran: list[i].year })
-        }).catch(() => {});
-        if (i < list.length - 1) await new Promise(res => setTimeout(res, 12000));
+  async function removeMapelFromClass(targetKey) {
+    const label = getMapelLabel(targetKey);
+    if (!confirm(`Hapus kolom mata pelajaran "${label}" dari seluruh santri di kelas ini?`)) return;
+    try {
+      for (const r of state.rows) {
+        if (r.nilai_mapel && r.nilai_mapel[targetKey] !== undefined) {
+          delete r.nilai_mapel[targetKey];
+          await sbFetch(`/rest/v1/nilai_rapor?id=eq.${r.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ nilai_mapel: r.nilai_mapel })
+          });
+        }
       }
-      await loadTranscripts();
-      showProcessBanner(`✅ ${list.length} transkrip selesai diperbarui!`, '', 'ok');
-    });
-
-    async function deleteRekapPdf(item) {
-      const semNum = semToNum(item.semester);
-      const key = `${item.kelas}|${semNum}|${item.year}`;
-      if (!confirm(`Hapus PDF Rekap ${item.fileName || item.name}?\n\nFile di Google Drive dipindahkan ke Sampah dan riwayat Rekap dihapus.`)) return;
-      showProcessBanner('⏳ Menghapus PDF Rekap...', '', 'processing');
-      try {
-        const fid = extractDriveFileId(item.pdf);
-        if (fid) await deleteDriveFileById(fid);
-        const gidMap = await getSheetGidMap();
-        if (gidMap['Rekap'] !== undefined) await deleteRowsByKey('Rekap', gidMap['Rekap'], key);
-        await loadRanking();
-        showProcessBanner('✅ PDF Rekap berhasil dihapus dari Drive & Sheets', '', 'ok');
-      } catch (err) {
-        showProcessBanner('❌ Gagal menghapus rekap', err.message, 'error');
-      }
+      await recalculateAndSyncClass();
+      await loadData();
+      renderManageMapelList();
+      showToast(`Mata pelajaran "${label}" dihapus & peringkat dihitung ulang.`, 'ok');
+    } catch (err) {
+      showToast('Gagal menghapus mapel: ' + err.message, 'error');
     }
+  }
 
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeNilaiModal(); closeEditModal(); } });
-    applyActiveKelas('B', false);
-    showPage('progres');
-  </script>
+  function addNewMapelToClass() {
+    const inp = document.getElementById('inpNewMapelName');
+    const name = (inp.value || '').trim();
+    if (!name) return;
+    const key = normKey(name);
+    customLabels[key] = name;
+    localStorage.setItem('paudqu_mapel_labels', JSON.stringify(customLabels));
+    if (!state.classMapelKeys.includes(key)) state.classMapelKeys.push(key);
+    inp.value = '';
+    renderManageMapelList();
+    renderDataTable();
+    showToast(`Kolom mapel "${name}" ditambahkan. Klik Edit pada santri untuk mengisi nilainya.`, 'ok');
+  }
+
+  // ================= CETAK PDF & JPG (WF-2) =================
+  async function triggerCetak(mode = 'semua', santriId = '') {
+    const btn = document.getElementById('btnCetakSemua');
+    const origText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '⏳ Mencetak PDF & JPG...';
+    showToast('Sedang menerbitkan file PDF & Gambar JPG ke Supabase Storage...', 'ok');
+    try {
+      const res = await fetch(WF2_CETAK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          kelas: state.kelas,
+          tahun_ajaran: state.tahun_ajaran,
+          semester: state.semester,
+          mode,
+          santri_id: santriId
+        })
+      });
+      const out = await res.json();
+      if (!out.ok) throw new Error(out.message || 'Gagal mencetak dokumen');
+      showToast(`Selesai! ${out.total_pdf} dokumen (format PDF & JPG) siap di tab Arsip Rapor.`, 'ok');
+      if (state.tab === 'arsip') await loadArsip();
+    } catch (err) {
+      showToast('Gagal mencetak: ' + err.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = origText;
+    }
+  }
+
+  // ================= TAB 2: ARSIP PDF & JPG =================
+  function switchArsipKind(kind) {
+    state.arsipKind = kind;
+    document.getElementById('subRekap').classList.toggle('active', kind === 'rekap_peringkat');
+    document.getElementById('subTranskrip').classList.toggle('active', kind === 'transkrip');
+    renderArsipTable();
+  }
+
+  async function loadArsip() {
+    state.kelas = document.getElementById('selKelas').value;
+    state.tahun_ajaran = document.getElementById('selTahun').value;
+    state.semester = document.getElementById('selSemester').value;
+    try {
+      const q = `/rest/v1/arsip_pdf?select=*,santri(nama,no_urut)&kelas=eq.${encodeURIComponent(state.kelas)}&tahun_ajaran=eq.${encodeURIComponent(state.tahun_ajaran)}&semester=eq.${encodeURIComponent(state.semester)}&order=nama_file.asc`;
+      const rows = await sbFetch(q);
+      state.arsipRows = Array.isArray(rows) ? rows : [];
+      renderArsipTable();
+    } catch (err) {
+      showToast('Gagal memuat arsip: ' + err.message, 'error');
+    }
+  }
+
+  function renderArsipTable() {
+    const q = (document.getElementById('inpSearchArsip').value || '').toLowerCase().trim();
+    const list = state.arsipRows.filter(r =>
+      r.jenis === state.arsipKind &&
+      (!q || String(r.nama_file || '').toLowerCase().includes(q) || String(r.santri?.nama || '').toLowerCase().includes(q))
+    );
+    const tbody = document.getElementById('arsipTbody');
+    const empty = document.getElementById('arsipEmpty');
+
+    if (list.length === 0) {
+      tbody.innerHTML = '';
+      empty.hidden = false;
+      return;
+    }
+    empty.hidden = true;
+
+    const bust = '?t=' + Date.now();
+    tbody.innerHTML = list.map((r, idx) => {
+      const pdfUrl = r.file_url + bust;
+      const jpgUrl = r.file_url.replace(/\.pdf$/i, '.jpg') + bust;
+      const title = r.jenis === 'rekap_peringkat'
+        ? `Rekapitulasi Peringkat Kelas ${r.kelas}`
+        : (r.santri?.nama || r.nama_file);
+      const dt = r.updated_at ? new Date(r.updated_at).toLocaleString('id-ID') : '-';
+
+      return `<tr>
+        <td>${idx + 1}</td>
+        <td>
+          <div style="font-weight:800;color:#15362e">${esc(title)}</div>
+          <div style="font-size:11px;color:var(--muted)">${esc(r.nama_file)}</div>
+        </td>
+        <td><span class="chip chip-muted">Kelas ${esc(r.kelas)} · ${esc(r.semester)} ${esc(r.tahun_ajaran)}</span></td>
+        <td style="font-size:11.5px;color:var(--muted)">${esc(dt)}</td>
+        <td style="text-align:right;white-space:nowrap">
+          <button type="button" class="btn btn-xs btn-blue" onclick="openJpgPreview('${esc(title)}', '${esc(jpgUrl)}', '${esc(pdfUrl)}')">🖼️ Lihat / Unduh JPG</button>
+          <a class="btn btn-xs btn-primary" href="${esc(pdfUrl)}" target="_blank" rel="noopener">📄 Buka PDF</a>
+          <button type="button" class="btn btn-xs btn-danger" onclick="deleteArsipFile('${r.id}', '${esc(r.storage_path)}', '${esc(title)}')">🗑️ Hapus</button>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  function openJpgPreview(title, jpgUrl, pdfUrl) {
+    document.getElementById('modalJpgTitle').textContent = '🖼️ ' + title;
+    document.getElementById('modalJpgImg').src = jpgUrl;
+    document.getElementById('btnDownloadJpg').href = jpgUrl;
+    document.getElementById('btnDownloadPdfFromModal').href = pdfUrl;
+    document.getElementById('modalJpg').hidden = false;
+  }
+  function closeJpgModal() {
+    document.getElementById('modalJpg').hidden = true;
+    document.getElementById('modalJpgImg').src = '';
+  }
+
+  async function deleteArsipFile(id, storagePath, title) {
+    if (!confirm(`Hapus arsip PDF & JPG "${title}"?`)) return;
+    try {
+      const jpgPath = storagePath.replace(/\.pdf$/i, '.jpg');
+      await fetch(`${SUPABASE_URL}/storage/v1/object/arsip-pdf/${storagePath}`, {
+        method: 'DELETE',
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+      });
+      await fetch(`${SUPABASE_URL}/storage/v1/object/arsip-pdf/${jpgPath}`, {
+        method: 'DELETE',
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+      });
+      await sbFetch(`/rest/v1/arsip_pdf?id=eq.${id}`, { method: 'DELETE' });
+      await loadArsip();
+      showToast(`Arsip "${title}" berhasil dihapus dari Storage & Database.`, 'ok');
+    } catch (err) {
+      showToast('Gagal menghapus arsip: ' + err.message, 'error');
+    }
+  }
+
+  loadData();
+</script>
 </body>
 </html>

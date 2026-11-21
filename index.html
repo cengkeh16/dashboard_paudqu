@@ -421,7 +421,13 @@
             <option value="Ganjil" selected>Semester Ganjil</option>
             <option value="Genap">Semester Genap</option>
           </select>
-          <input type="search" class="t-input" id="inpSearch" placeholder="Cari nama santri..." oninput="renderDataTable()" style="width:190px">
+          <input type="search" class="t-input" id="inpSearch" placeholder="Cari nama santri..." oninput="renderDataTable()" style="width:165px">
+          <select class="t-select" id="selSortData" onchange="renderDataTable()" title="Urutkan daftar santri">
+            <option value="az" selected>Urutkan: Nama A–Z</option>
+            <option value="za">Urutkan: Nama Z–A</option>
+            <option value="rank_asc">Peringkat: Tertinggi (#1)</option>
+            <option value="rank_desc">Peringkat: Terendah</option>
+          </select>
           <button type="button" class="btn" onclick="loadData()">🔄 Muat Ulang</button>
 
           <div class="toolbar-right">
@@ -1171,7 +1177,25 @@
 
   function renderDataTable() {
     const q = (document.getElementById('inpSearch').value || '').toLowerCase().trim();
-    const filtered = state.rows.filter(r => !q || String(r.santri?.nama || '').toLowerCase().includes(q));
+    const sortMode = document.getElementById('selSortData')?.value || 'az';
+    const filtered = state.rows
+      .filter(r => !q || String(r.santri?.nama || '').toLowerCase().includes(q))
+      .sort((a, b) => {
+        const na = String(a.santri?.nama || '');
+        const nb = String(b.santri?.nama || '');
+        if (sortMode === 'za') return nb.localeCompare(na, 'id');
+        if (sortMode === 'rank_asc') {
+          const ra = a.peringkat ?? 999999;
+          const rb = b.peringkat ?? 999999;
+          return ra !== rb ? ra - rb : na.localeCompare(nb, 'id');
+        }
+        if (sortMode === 'rank_desc') {
+          const ra = a.peringkat ?? -1;
+          const rb = b.peringkat ?? -1;
+          return ra !== rb ? rb - ra : na.localeCompare(nb, 'id');
+        }
+        return na.localeCompare(nb, 'id');
+      });
     const tbody = document.getElementById('dataTbody');
     const empty = document.getElementById('dataEmpty');
 

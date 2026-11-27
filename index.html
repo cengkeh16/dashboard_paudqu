@@ -213,6 +213,40 @@
       .kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .dash-grid{grid-template-columns:1fr}
     }
+    /* ===== HALAMAN LOGIN & KARTU PENGGUNA ===== */
+    .login-screen{min-height:100vh;width:100%;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at 15% 15%,#1d584d 0%,#123b35 52%,#0c2824 100%)}
+    .login-card{width:100%;max-width:400px;background:#fff;border-radius:18px;padding:28px 26px 24px;box-shadow:0 24px 60px rgba(0,0,0,.28);border:1px solid #ffffff30;display:flex;flex-direction:column;gap:16px}
+    .login-brand{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+    .login-brand img{width:62px;height:62px;object-fit:contain}
+    .login-brand h2{margin:0;font-size:17px;color:#123b35;letter-spacing:-.3px}
+    .login-brand p{margin:0;font-size:11.5px;color:var(--muted);line-height:1.45}
+    .login-form{display:flex;flex-direction:column;gap:12px}
+    .login-field label{display:block;font-size:11.5px;font-weight:750;color:#2c4a41;margin-bottom:5px}
+    .login-input-wrap{position:relative;display:flex;align-items:center}
+    .login-input{width:100%;height:40px;border:1px solid #cfe0d7;border-radius:10px;padding:0 12px;font-size:13px;color:var(--ink);background:#fbfdfc;outline:none;transition:border-color .15s,box-shadow .15s}
+    .login-input:focus{border-color:#246b5c;background:#fff;box-shadow:0 0 0 3px #e1f2e8}
+    .pw-toggle{position:absolute;right:8px;border:0;background:transparent;color:var(--muted);font-size:12px;font-weight:700;padding:4px 7px;border-radius:6px}
+    .pw-toggle:hover{background:#eef4f0;color:var(--ink)}
+    .login-error{padding:9px 12px;border-radius:9px;background:var(--redbg);border:1px solid #f0cdca;color:var(--red);font-size:11.5px;font-weight:650;line-height:1.45}
+    .login-submit{height:42px;border:0;border-radius:10px;background:linear-gradient(135deg,#17483f,#246b5c);color:#fff;font-size:13px;font-weight:800;letter-spacing:.1px;box-shadow:0 6px 16px rgba(23,72,63,.24);transition:opacity .15s,transform .1s}
+    .login-submit:hover{opacity:.95}
+    .login-submit:active{transform:translateY(1px)}
+    .login-submit:disabled{opacity:.6;cursor:not-allowed}
+    .login-foot{text-align:center;font-size:11px;color:var(--muted);line-height:1.5;padding-top:4px}
+
+    .sidebar-user{margin-top:auto;border:1px solid #ffffff24;background:#ffffff12;border-radius:11px;padding:10px 11px;display:flex;flex-direction:column;gap:8px}
+    .sidebar-user-top{display:flex;align-items:center;gap:9px;min-width:0}
+    .user-avatar{width:32px;height:32px;flex:0 0 32px;border-radius:9px;background:#e7f4ed;color:#123b35;font-weight:850;font-size:12px;display:grid;place-items:center}
+    .user-meta{min-width:0;flex:1}
+    .user-meta strong{display:block;font-size:11.5px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .user-meta small{display:block;font-size:10px;color:#a8cbbd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+    .sidebar-user-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+    .side-u-btn{height:27px;border:1px solid #ffffff26;border-radius:7px;background:#ffffff0f;color:#e4f3ec;font-size:10.5px;font-weight:750;display:inline-flex;align-items:center;justify-content:center;gap:4px;transition:background .15s}
+    .side-u-btn:hover{background:#ffffff22;color:#fff}
+    .side-u-btn.logout{border-color:#f5b5b045;color:#ffd4d1}
+    .side-u-btn.logout:hover{background:#a53e3e90;color:#fff}
+    .sidebar-note{margin-top:0;border:1px solid #ffffff20;background:#ffffff0b;border-radius:11px;padding:11px;color:#b7d0c5;font-size:10.5px;line-height:1.5}
+
     @media(max-width:860px){
       .layout{flex-direction:column;height:auto;min-height:100vh;overflow:auto}
       .sidebar{width:100%;flex:0 0 auto}
@@ -225,7 +259,44 @@
   </style>
 </head>
 <body>
-<div class="layout">
+<!-- ================= HALAMAN LOGIN PORTAL ================= -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-brand">
+      <img src="logo-paudqu-removebg-preview.png" alt="Logo PAUDQu Nurul Mubin">
+      <div>
+        <h2>Portal Nilai & Rapor</h2>
+        <p>PAUDQu Nurul Mubin Cibinong<br>Silakan masuk menggunakan akun guru atau pengelola</p>
+      </div>
+    </div>
+
+    <form class="login-form" id="loginForm" onsubmit="handleLoginSubmit(event)">
+      <div class="login-error" id="loginError" hidden></div>
+
+      <div class="login-field">
+        <label for="loginUsername">Username</label>
+        <input class="login-input" id="loginUsername" type="text" autocomplete="username" placeholder="Masukkan username" required>
+      </div>
+
+      <div class="login-field">
+        <label for="loginPassword">Kata Sandi</label>
+        <div class="login-input-wrap">
+          <input class="login-input" id="loginPassword" type="password" autocomplete="current-password" placeholder="Masukkan kata sandi" style="padding-right:64px" required>
+          <button type="button" class="pw-toggle" id="btnTogglePw" onclick="toggleLoginPassword()">Lihat</button>
+        </div>
+      </div>
+
+      <button type="submit" class="login-submit" id="btnLoginSubmit">Masuk ke Portal</button>
+    </form>
+
+    <div class="login-foot">
+      Sistem Pengolahan Nilai Rapor & Transkrip Otomatis<br>
+      Terhubung ke Basis Data Supabase &amp; Otomasi n8n
+    </div>
+  </div>
+</div>
+
+<div class="layout" id="appLayout" hidden>
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="brand">
@@ -260,6 +331,20 @@
         <span>Arsip Rapor (PDF & JPG)</span>
       </button>
     </nav>
+
+    <div class="sidebar-user" id="sidebarUserCard">
+      <div class="sidebar-user-top">
+        <div class="user-avatar" id="sideUserInitial">KP</div>
+        <div class="user-meta">
+          <strong id="sideUserName">Pengelola PAUDQu</strong>
+          <small id="sideUserRole">Kepala Sekolah</small>
+        </div>
+      </div>
+      <div class="sidebar-user-actions">
+        <button type="button" class="side-u-btn" onclick="openPasswordModal()">🔑 Sandi</button>
+        <button type="button" class="side-u-btn logout" onclick="logoutPortal()">🚪 Keluar</button>
+      </div>
+    </div>
 
     <div class="sidebar-note">
       <strong>Alur Otomasi:</strong><br>
@@ -679,10 +764,44 @@
   </div>
 </div>
 
+<!-- ================= MODAL 5: GANTI KATA SANDI AKUN ================= -->
+<div class="modal-backdrop" id="modalPassword" hidden>
+  <div class="modal" style="max-width:420px">
+    <div class="modal-head">
+      <h3>🔑 Ganti Kata Sandi Akun</h3>
+      <button type="button" class="modal-close" onclick="closePasswordModal()">×</button>
+    </div>
+    <form onsubmit="submitChangePassword(event)">
+      <div class="modal-body">
+        <div class="login-error" id="pwModalMsg" hidden></div>
+        <div class="field">
+          <label>Username Aktif</label>
+          <input type="text" id="pwModalUser" disabled style="background:#f1f5f3;color:var(--muted)">
+        </div>
+        <div class="field">
+          <label for="pwOld">Kata Sandi Lama</label>
+          <input type="password" id="pwOld" placeholder="Masukkan kata sandi saat ini" required>
+        </div>
+        <div class="field">
+          <label for="pwNew">Kata Sandi Baru (Min. 6 Karakter)</label>
+          <input type="password" id="pwNew" minlength="6" placeholder="Masukkan kata sandi baru" required>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn" onclick="closePasswordModal()">Batal</button>
+        <button type="submit" class="btn btn-primary" id="btnSavePw">Simpan Sandi Baru</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script>
   const SUPABASE_URL = 'https://nugrqgkphuocwbkzhptz.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_FInwzhJspfT4YIxSBpnfrQ_1BdFT_19';
   const WF2_CETAK_URL = 'https://n8n-7eaj5qxrpy4m.eu1.sumopod.my.id/webhook/wf2-cetak-pdf';
+  const AUTH_STORAGE_KEY = 'paudqu_portal_session_v1';
+  const AUTH_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+  let currentUser = null;
 
   const DEFAULT_MAPEL_LABELS = {
     iqro: "Iqro / Tadarus Al-Qur'an",
@@ -1687,6 +1806,188 @@
     }
   }
 
+  function getSavedSession() {
+    try {
+      const raw = localStorage.getItem(AUTH_STORAGE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (!parsed || !parsed.user || !parsed.user.username) return null;
+      if (parsed.loginAt && (Date.now() - parsed.loginAt > AUTH_MAX_AGE_MS)) {
+        localStorage.removeItem(AUTH_STORAGE_KEY);
+        return null;
+      }
+      return parsed.user;
+    } catch {
+      return null;
+    }
+  }
+
+  function saveUserSession(user) {
+    currentUser = user;
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({
+      user,
+      loginAt: Date.now()
+    }));
+  }
+
+  function getInitials(name) {
+    const clean = String(name || '').replace(/^(ibu|bapak|ustadzah|ustadz)\s+/i, '').trim();
+    const parts = clean.split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return 'PQ';
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+
+  function renderUserSidebar(user) {
+    if (!user) return;
+    document.getElementById('sideUserInitial').textContent = getInitials(user.nama_lengkap || user.username);
+    document.getElementById('sideUserName').textContent = user.nama_lengkap || user.username;
+    document.getElementById('sideUserRole').textContent = user.jabatan || (user.peran === 'admin' ? 'Administrator' : 'Guru');
+  }
+
+  function toggleLoginPassword() {
+    const inp = document.getElementById('loginPassword');
+    const btn = document.getElementById('btnTogglePw');
+    if (inp.type === 'password') {
+      inp.type = 'text';
+      btn.textContent = 'Tutup';
+    } else {
+      inp.type = 'password';
+      btn.textContent = 'Lihat';
+    }
+  }
+
+  function showLoginError(msg) {
+    const box = document.getElementById('loginError');
+    box.textContent = msg;
+    box.hidden = false;
+  }
+
+  async function handleLoginSubmit(ev) {
+    ev.preventDefault();
+    const errBox = document.getElementById('loginError');
+    const btn = document.getElementById('btnLoginSubmit');
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value;
+
+    errBox.hidden = true;
+    if (!username || !password) {
+      showLoginError('Mohon isi username dan kata sandi terlebih dahulu.');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Memeriksa akun...';
+    try {
+      const res = await sbFetch('/rest/v1/rpc/login_portal', {
+        method: 'POST',
+        body: JSON.stringify({
+          p_username: username,
+          p_password: password
+        })
+      });
+
+      if (!res || !res.ok || !res.user) {
+        showLoginError(res?.pesan || 'Username atau kata sandi tidak sesuai.');
+        return;
+      }
+
+      saveUserSession(res.user);
+      document.getElementById('loginPassword').value = '';
+      enterAuthenticatedPortal(res.user, true);
+      showToast(`Selamat datang, ${res.user.nama_lengkap || res.user.username}!`, 'ok');
+    } catch (err) {
+      const msg = String(err.message || '');
+      if (msg.includes('login_portal') || msg.includes('PGRST202')) {
+        showLoginError('Tabel pengguna belum diaktifkan di Supabase. Jalankan file setup_pengguna_login.sql di SQL Editor Supabase terlebih dahulu.');
+      } else {
+        showLoginError('Gagal menghubungi server autentikasi: ' + msg);
+      }
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Masuk ke Portal';
+    }
+  }
+
+  function enterAuthenticatedPortal(user, isFreshLogin = false) {
+    currentUser = user;
+    renderUserSidebar(user);
+    document.getElementById('loginScreen').hidden = true;
+    document.getElementById('appLayout').hidden = false;
+
+    const params = new URLSearchParams(window.location.search);
+    const urlKelas = (params.get('kelas') || '').toUpperCase();
+    if (urlKelas !== 'A' && urlKelas !== 'B') {
+      if (user.kelas_default === 'A' || user.kelas_default === 'B') {
+        state.kelas = user.kelas_default;
+      } else if (isFreshLogin) {
+        state.kelas = 'B';
+      }
+    }
+    initFromUrlParams();
+  }
+
+  function logoutPortal() {
+    if (!confirm('Keluar dari akun Portal Nilai & Rapor?')) return;
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+    currentUser = null;
+    document.getElementById('appLayout').hidden = true;
+    document.getElementById('loginScreen').hidden = false;
+    document.getElementById('loginError').hidden = true;
+    document.getElementById('loginPassword').value = '';
+    document.getElementById('loginUsername').focus();
+  }
+
+  function openPasswordModal() {
+    if (!currentUser) return;
+    const msg = document.getElementById('pwModalMsg');
+    msg.hidden = true;
+    document.getElementById('pwModalUser').value = `${currentUser.username} (${currentUser.nama_lengkap})`;
+    document.getElementById('pwOld').value = '';
+    document.getElementById('pwNew').value = '';
+    document.getElementById('modalPassword').hidden = false;
+  }
+
+  function closePasswordModal() {
+    document.getElementById('modalPassword').hidden = true;
+  }
+
+  async function submitChangePassword(ev) {
+    ev.preventDefault();
+    if (!currentUser) return;
+    const msgBox = document.getElementById('pwModalMsg');
+    const btn = document.getElementById('btnSavePw');
+    const oldPw = document.getElementById('pwOld').value;
+    const newPw = document.getElementById('pwNew').value;
+
+    msgBox.hidden = true;
+    btn.disabled = true;
+    btn.textContent = 'Menyimpan...';
+    try {
+      const res = await sbFetch('/rest/v1/rpc/ganti_password_portal', {
+        method: 'POST',
+        body: JSON.stringify({
+          p_username: currentUser.username,
+          p_password_lama: oldPw,
+          p_password_baru: newPw
+        })
+      });
+      if (!res || !res.ok) {
+        msgBox.textContent = res?.pesan || 'Gagal memperbarui kata sandi.';
+        msgBox.hidden = false;
+        return;
+      }
+      closePasswordModal();
+      showToast('Kata sandi akun berhasil diperbarui.', 'ok');
+    } catch (err) {
+      msgBox.textContent = 'Terjadi kesalahan: ' + err.message;
+      msgBox.hidden = false;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Simpan Sandi Baru';
+    }
+  }
+
   function initFromUrlParams() {
     const params = new URLSearchParams(window.location.search);
     const k = (params.get('kelas') || '').toUpperCase();
@@ -1709,7 +2010,17 @@
     }
   }
 
-  initFromUrlParams();
+  function bootPortal() {
+    const saved = getSavedSession();
+    if (saved) {
+      enterAuthenticatedPortal(saved, false);
+    } else {
+      document.getElementById('appLayout').hidden = true;
+      document.getElementById('loginScreen').hidden = false;
+    }
+  }
+
+  bootPortal();
 </script>
 </body>
 </html>
